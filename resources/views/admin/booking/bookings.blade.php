@@ -32,18 +32,42 @@
           <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <h5 class="card-title">Buses</h5>
-                    {{-- <a class="ms-auto" href="{{ route('booking.create') }}">
+                    <h5 class="card-title">Bookings</h5>
+                    <a class="ms-2" href="{{ route('booking.table') }}">
                       <button class="btn btn-primary rounded-pill ">
-                          <i class="bi bi-plus-circle"></i>
-                          Add Bus
+                          <i class="bi bi-info-circle"></i>
+                          All Type Bookings
                       </button>
-                    </a> --}}
+                    </a>
+                    <a class="ms-2" href="{{ route('booking.pending') }}">
+                      <button class="btn btn-warning rounded-pill ">
+                          <i class="bi bi-exclamation-triangle"></i>
+                          Pending
+                      </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('booking.active') }}">
+                      <button class="btn btn-success rounded-pill ">
+                          <i class="bi bi-check-circle"></i>
+                          Active
+                      </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('booking.rejected') }}">
+                      <button class="btn btn-danger rounded-pill ">
+                          <i class="bi bi-exclamation-octagon"></i>
+                          Rejected
+                      </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('booking.expired') }}">
+                      <button class="btn btn-danger rounded-pill ">
+                          <i class="bi bi-exclamation-octagon"></i>
+                          Expired
+                      </button>
+                    </a>
                 </div>
               <!-- Table with stripped rows -->
               <table
                id="multi-filter-select"
-               class="table datatable table-striped table-hover">
+               class="table display nowrap datatable table-striped table-hover">
                 <thead>
                   <tr>
                     <th>Student PRN</th>

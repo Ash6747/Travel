@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('reciept_file');
             $table->enum('pay_type', ['dd', 'cash', 'cheque', 'bank transfer', 'nft', 'upi']);
             $table->enum('paid_status', ['full', 'partial']);
+
             $table->tinyInteger('payment_date_check')->default(0);
             $table->tinyInteger('reciept_token_check')->default(0);
             $table->tinyInteger('paid_amount_check')->default(0);
@@ -29,7 +30,7 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('booking_id');
             $table->unsignedBigInteger('verified_by')->nullable()->comment('admin id');
-            $table->text('comment', 200);
+            $table->text('comment', 200)->nullable();
             $table->enum('status', ['pending', 'accepted', 'rejected']);
 
             $table->foreign('student_id')->references('id')->on('students');

@@ -19,15 +19,16 @@ return new class extends Migration
             $table->string('prn', 20)->unique();
             $table->string('contact', 15);
             $table->string('whatsup_no', 15)->nullable();
-            $table->unsignedBigInteger('course_id');
             $table->string('admission_year', 4);
             $table->string('guardian_name');
             $table->string('guardian_email', 30)->nullable();
             $table->string('guardian_contact', 15);
             $table->text('address');
             $table->string('pincode', 6);
+            $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('user_id')->unique();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('course_id')->references('id')->on('courses');
             $table->timestamps();
         });
     }

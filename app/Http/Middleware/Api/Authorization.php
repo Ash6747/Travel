@@ -35,6 +35,7 @@ class Authorization
         if ($userRole !== $routePrefix) {
             return response()->json(['error' => 'Unauthorized'],400);
         }
+        $request->merge(['user_id' => $user->id]);
         return $next($request);
     }
 }

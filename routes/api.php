@@ -5,7 +5,9 @@ use App\Http\Controllers\Api\BusController;
 use App\Http\Controllers\Api\CoursesController;
 use App\Http\Controllers\Api\RoutesController;
 use App\Http\Controllers\Api\StopsController;
+use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\UserController;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,10 +32,13 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
         Route::get('{id}/stop-buses', [BusController::class, 'show'] );//active with constrain
     });
 
+    // admin
     Route::prefix('admin')->middleware('authorized')->group(function(){
         Route::get('users', [UserController::class, 'getUser'] );
     });
-    Route::prefix('student')->middleware('authorized')->group(function(){
+
+    // student
+    Route::prefix('student')->middleware(['authorized', 'check.api.student.profile'])->group(function(){
 
         Route::get('users', [UserController::class, 'getUser'] );
         // Route::get('class', [CoursesController::class, 'index'] );
@@ -42,10 +47,17 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
         // Route::post('book', [BookingController::class, 'store'] );
         Route::post('booking', [BookingController::class, 'createOrUpdateBooking'] )->middleware('booking.constraint');
 
+        // transaction
+        Route::post('transaction', [TransactionController::class, 'store'] )->middleware('booking.exist');
+
     });
+
+    // driver
     Route::prefix('driver')->middleware('authorized')->group(function(){
         Route::get('users', [UserController::class, 'getUser'] );
     });
+
+    // guardian
     Route::prefix('guardian')->middleware('authorized')->group(function(){
         Route::get('users', [UserController::class, 'getUser'] );
     });

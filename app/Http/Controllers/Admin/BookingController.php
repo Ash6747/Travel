@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -17,6 +19,69 @@ class BookingController extends Controller
         $bookings = Booking::with(['student', 'bus'=> function($query){
             $query->with('route');
         }, 'stop'])->get();
+        // dd($bookings);
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // echo "</pre>";
+        $data = compact('bookings');
+        return view('admin.booking.bookings')->with($data);
+    }
+
+    public function pending()
+    {
+        //
+        $bookings = Booking::with(['student', 'bus'=> function($query){
+            $query->with('route');
+        }, 'stop'])->where('status', 'pending')->get();
+        // dd($bookings);
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // echo "</pre>";
+        $data = compact('bookings');
+        return view('admin.booking.bookings')->with($data);
+    }
+
+    public function active()
+    {
+        //
+        $today = Carbon::today();
+        $bookings = Booking::with(['student', 'bus'=> function($query){
+            $query->with('route');
+        }, 'stop'])
+        ->where('status', 'approved')
+        ->where('end_date', '>', $today)
+        ->get();
+        // dd($bookings);
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // echo "</pre>";
+        $data = compact('bookings');
+        return view('admin.booking.bookings')->with($data);
+    }
+
+    public function rejected()
+    {
+        //
+        $bookings = Booking::with(['student', 'bus'=> function($query){
+            $query->with('route');
+        }, 'stop'])->where('status', 'rejected')->get();
+        // dd($bookings);
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // echo "</pre>";
+        $data = compact('bookings');
+        return view('admin.booking.bookings')->with($data);
+    }
+
+    public function expired()
+    {
+        //
+        $today = Carbon::today(); // Current date without time
+
+        $bookings = Booking::with(['student', 'bus'=> function($query){
+            $query->with('route');
+        }, 'stop'])->where('end_date', '<', $today)
+        ->get();
         // dd($bookings);
         // echo "<pre>";
         // print_r($bookings->toArray());
@@ -88,11 +153,11 @@ class BookingController extends Controller
         // echo "<pre>";
         // print_r($booking);
         if (is_null($booking)) {
-            return redirect()->route('booking.approved');
+            return redirect()->route('booking.table');
         } else {
             $booking->status = $request->status;
             $booking->save();
-            return redirect()->route('booking.approved');
+            return redirect()->route('booking.table');
         }
 
     }

@@ -183,8 +183,8 @@
                                     @enderror
                                 </div> --}}
 
-                                <fieldset class="row mt-3 mb-3 d-flex justify-content-center">
-                                    <legend class="col-form-label col-md-1 pt-0">Status</legend>
+                                <fieldset class="mt-3 mb-3 row d-flex justify-content-center">
+                                    <legend class="pt-0 col-form-label col-md-1">Status</legend>
                                     <div class="col-sm-2">
 
                                     <div class="form-check">
@@ -194,7 +194,7 @@
                                         </label>
                                     </div>
                                     <div class="form-check disabled">
-                                        <input class="form-check-input" type="radio" name="status" id="reject" value="reject">
+                                        <input class="form-check-input" type="radio" name="status" id="rejected" value="rejected">
                                         <label class="form-check-label" for="rejected">
                                             Rejected
                                         </label>

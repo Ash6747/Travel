@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Admin;
+use App\Models\Course;
 use App\Models\Driver;
 use App\Models\Student;
 use App\Models\User;
@@ -70,8 +71,10 @@ class ProfileController extends Controller
      */
     public function showCompleteProfile(Request $request)
     {
+        $courses = Course::all();
         return view('profile.completeProfile', [
             'user' => $request->user(),
+            'courses' => $courses
         ]);
     }
 
@@ -130,7 +133,7 @@ class ProfileController extends Controller
                             'before:' . now()->subYears(5)->format('Y-m-d'),   // Must be older than 5 years
                             'after:' . now()->subYears(90)->format('Y-m-d'),   // Must be younger than 90 years
                         ],
-                'course' => ['required', 'string'],
+                'course_id' => ['required', 'exists:courses,id'],
                 'year' => ['required', 'string'],
                 'guardianFirstName' => ['required', 'string', 'max:50'],
                 'guardianMiddleName' => ['required', 'string', 'max:50'],
@@ -147,7 +150,7 @@ class ProfileController extends Controller
             $newUser = new Student;
             $newUser->prn = $request['prn'];
             $newUser->dob = $request['dob'];
-            $newUser->course = $request['course'];
+            $newUser->course_id = $request['course_id'];
             $newUser->admission_year = $request['year'];
             $newUser->guardian_name = $request['guardianFirstName']." ".$request['guardianMiddleName']." ".$request['guardianLastName'];
             $newUser->guardian_email = $request['guardianEmail'];

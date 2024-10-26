@@ -56,11 +56,11 @@
 
               <div class="py-4 d-flex justify-content-center">
                 <a href="index.html" class="w-auto logo d-flex align-items-center">
-                  <img src="{{ asset('assets/img/logo.png') }}" alt="">
+                  {{-- <img src="{{ asset('assets/img/logo.png') }}" alt=""> --}}
                   {{-- <span class="d-none d-lg-block">SafeRide</span> --}}
-                  <span class="d-none d-lg-block">
-                    <i class="bi bi-truck-front"></i> SafeRide
-                </span>
+                    <span class="d-none d-lg-block">
+                        <i class="bi bi-truck-front"></i> SafeRide
+                    </span>
 
                 </a>
               </div><!-- End Logo -->
@@ -183,23 +183,29 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>
+
                   <div class="col-md-12">
-                    <label for="course" class="form-label">Course</label>
-                    <input type="text" class="form-control" id="course" name="course" value="BSC">
-                    @error('course')
+                    <label for="course_id" class="form-label">Course</label>
+                    <select name="course_id" id="course_id" class="form-control">
+                        <option value="">-- Select Course --</option>
+                        @foreach ($courses as $course)
+                        <option value="{{ $course->id }}">{{ $course->coures_full_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('course_id')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>
+
                   @php
                     $currentYear = now()->year; // Get current year
                     $startYear = $currentYear - 10; // Start 10 years ago
-                    {{-- $endYear = $currentYear + 10; // End 10 years from now --}}
                   @endphp
-                  <div class="form-group col-12">
-                    <label for="year">Select Addmission Year</label>
+                  <div class="col-md-12">
+                    <label for="year" class="form-label">Select Addmission Year</label>
                     <select name="year" id="year" class="form-control">
                         <option value="">-- Select Year --</option>
-                        @for ($year = $startYear; $year <= $endYear; $year++)
+                        @for ($year = $startYear; $year <= $currentYear; $year++)
                             <option value="{{ $year }}" {{ old('year') == $year ? 'selected' : '' }}>
                                 {{ $year }}
                             </option>

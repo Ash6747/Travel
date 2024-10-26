@@ -49,7 +49,6 @@ class BusController extends Controller
     public function show(string $id)
     {
         //
-
         $stops = Stop::with(['routes' => function ($routeQuery) {
             $routeQuery->with(['buses'=> function ($busQuery){
                 $busQuery->with(['bookings'=> function ($bookQuery){
