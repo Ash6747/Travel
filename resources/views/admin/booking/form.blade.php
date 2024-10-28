@@ -122,6 +122,33 @@
                                     <td>{{ $booking->payment_status }} Paid</td>
                                 </tr>
 
+                                @isset($booking->transactions[0])
+                                    <tr>
+                                        <td class="text-center text-primary" colspan="6"><h5>Current Booking Transactions</h5></td>
+                                    </tr>
+                                    @foreach ($booking->transactions as $transaction)
+                                        <tr>
+                                            <td ><b>Payment Date</b></td>
+                                            <td>{{ $transaction->payment_date }}</td>
+                                            <td><b>Reciept Token</b></td>
+                                            <td>{{ $transaction->reciept_token }}</td>
+                                            <td><b>Paid Amount</b></td>
+                                            <td>{{ $transaction->paid_amount }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td ><b>Pay Type</b></td>
+                                            <td>{{ $transaction->pay_type }}</td>
+                                            <td><b>Paid Status</b></td>
+                                            <td>{{ $transaction->paid_status }}</td>
+                                            <td><b>Status</b></td>
+                                            <td>{{ $transaction->status }}</td>
+                                        </tr>
+
+                                    @endforeach
+
+                                @endisset
+
                                 @isset($booking->student->reports[0])
                                     <tr>
                                         <td class="text-center text-primary" colspan="6"><h5>Booking History</h5></td>
@@ -172,16 +199,6 @@
                         @if ( $booking->status == 'pending' )
                             <form method="post" action="{{ isset($booking) ? route($url, ['id'=>$id]) : route($url) }}" class="row g-3">
                                 @csrf
-                                {{-- <div class="col-md-4">
-                                    <input type="radio" id="approved" name="status" value="approved" required>
-                                    <label for="approved">Approved</label><br>
-
-                                    <input type="radio" id="reject" name="status" value="reject">
-                                    <label for="reject">Rejected</label><br>
-                                    @error('status')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div> --}}
 
                                 <fieldset class="mt-3 mb-3 row d-flex justify-content-center">
                                     <legend class="pt-0 col-form-label col-md-1">Status</legend>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Report;
 use App\Models\Stop;
+use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,7 +20,62 @@ class BookingController extends Controller
      */
     public function index()
     {
+        // Get the authenticated user
+        $user = Auth::guard('api')->user();
+
+        // Retrieve student_id from the authenticated user
+        $student = User::with(['student' => function($query){
+            $query->with('bookings');
+        }])->findOrFail($user->id); // or $user->student->id if using a relationship
+
+        if(is_null($student->student->bookings)){
+            return response()->json([
+                'status'=> false,
+                'message' => 'Booking not found!',
+            ]);
+        }
+
+        return response()->json([
+            'status'=> true,
+            'message' => 'Current Booking of student!',
+            'student' => $student
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function history()
+    {
         //
+        $user = Auth::guard('api')->user();
+
+        // Retrieve student_id from the authenticated user
+        $student = User::with(['student' => function($query){
+            $query->with(['reports']);
+        }])->findOrFail($user->id); // or $user->student->id if using a relationship
+
+        if(is_null($student->student->reports)){
+            return response()->json([
+                'status'=> false,
+                'message' => 'Booking history not found!',
+            ]);
+        }
+
+        return response()->json([
+            'status'=> true,
+            'message' => 'Current Booking of student!',
+            'student' => $student
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function historyShow(string $id)
+    {
+        //
+
     }
 
     /**
@@ -35,51 +91,6 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        // Get the authenticated user
-        // $user = Auth::guard('api')->user();
-
-        // // Retrieve student_id from the authenticated user
-        // $studentId = $user->student_id; // or $user->student->id if using a relationship
-
-        // // Add student_id to the request data for validation and creation
-        // $request->merge(['student_id' => $studentId]);
-
-        // // Proceed with validation and booking creation
-        // $validator = Validator::make($request->all(), [
-        //     'bus_id' => 'required|exists:buses,id',
-        //     'stop_id' => 'required|exists:stops,id',
-        //     'start_date' => 'required|date',
-        //     'duration' => 'required|in:1,6,12',
-        //     'class' => 'required|in:First,Second,Third,Forth,Fifth,Sixth,Seventh',
-        //     'current_academic_year' => 'required|numeric|max:' . date('Y'),
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'errors' => $validator->errors(),
-        //     ], 422);
-        // }
-
-        // $validatedData = $validator->validated();
-
-        // $startDate = Carbon::parse($validatedData['start_date']);
-        // $endDate = $startDate->addMonths((int)$validatedData['duration']);
-        // $validatedData['end_date'] = $endDate->toDateString();
-
-        // $stop = Stop::findOrFail($validatedData['stop_id']);
-        // $validatedData['fee'] = $stop->fee;
-        // $validatedData['student_id'] = $user->student_id;;
-
-        // Booking::create($validatedData);
-
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Booking created successfully!',
-        //     'data' => $validatedData,
-        // ]);
-
-
         $user = Auth::guard('api')->user();
         $student = User::with('student')->findOrFail($user->id);
 
@@ -135,6 +146,24 @@ class BookingController extends Controller
     public function show(string $id)
     {
         //
+        $user = Auth::guard('api')->user();
+        $student = User::with(['student'])->findOrFail($user->id);
+
+        // Retrieve student_id from the authenticated user
+        $report = Report::where('student_id', $student->student->id)->findOrFail($id);
+
+        if(is_null($report)){
+            return response()->json([
+                'status'=> false,
+                'message' => 'Booking history not found!',
+            ], 404);
+        }
+
+        return response()->json([
+            'status'=> true,
+            'message' => 'Booking history of student!',
+            'report' => $report
+        ], 200);
     }
 
     /**

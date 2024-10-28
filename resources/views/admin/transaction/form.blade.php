@@ -25,6 +25,14 @@
     </div>
     @endsession
 
+    @session('status')
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-octagon me-1"></i>
+        {{ session('status') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endsession
+
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -142,6 +150,20 @@
                                     {{-- <td><b>Bus</b></td>
                                     <td>{{ $transaction->booking }}</td> --}}
                                 </tr>
+
+                                @isset($transaction->admin)
+                                <tr>
+                                    <td class="text-center text-primary" colspan="6"><h5>Verified By</h5></td>
+                                </tr>
+                                <tr>
+                                    <td ><b>Admin Name</b></td>
+                                    <td>{{ $transaction->admin->full_name }}</td>
+                                    <td><b>Admin What's up No.</b></td>
+                                    <td>{{ $transaction->admin->whatsup_no }}</td>
+                                    {{-- <td><b>Bus</b></td>
+                                    <td>{{ $transaction->booking }}</td> --}}
+                                </tr>
+                                @endisset
 
                             </tbody>
                         </table>
@@ -358,6 +380,14 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </fieldset>
+
+                                <div class="mb-3 form-floating">
+                                    <textarea class="form-control" placeholder="Leave a comment here" name="comment" id="comment" style="height: 100px;"></textarea>
+                                    <label for="comment">Comments</label>
+                                    @error('comment')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">Submit</button>

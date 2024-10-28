@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -81,6 +84,23 @@ class TransactionController extends Controller
         // dd($request);
         // Retrieve the transaction with the related booking
         $transaction = Transaction::with('booking')->findOrFail($id);
+        $user = Auth::user();
+        $admin = User::with('admin')->findOrFail($user->id);
+
+        if(!isset($admin->admin->id)){
+            return redirect()->route('transaction.edit', ['id'=>$id])->with('error', 'Admin Not exist');
+        }
+        //Admin id for comment
+        $validatedData = $request->validate([
+            'comment' => [
+                'required',
+                'string',
+                'regex:/^[a-zA-Z0-9\s]+$/',  // Allows alphabets, numbers, and spaces only
+                'max:200',  // Optional: Limit comment length
+            ]
+        ],[
+            'comment.regex'=> 'Allows alphabets, numbers, and spaces only',
+        ]);
 
         // Check if all required fields are 1
         $allChecksPassed = (
@@ -102,11 +122,16 @@ class TransactionController extends Controller
 
         // Set status based on the checks
         $transaction->status = $allChecksPassed ? 'accepted' : 'rejected';
+        $transaction->comment = $request->comment;
+        $transaction->verified_by = $admin->admin->id;
 
         // Update booking total amount and payment status if transaction is accepted
         if ($transaction->status === 'accepted') {
             $transaction->booking->total_amount += $transaction->paid_amount;
 
+            if($transaction->booking->total_amount > $transaction->booking->fee){
+                return redirect()->route('transaction.edit', ['id'=>$id])->with('error', 'Transaction is getting over Paid reject transaction');
+            }
             // Determine if the payment is partial or full
             $transaction->booking->payment_status =
                 $transaction->booking->total_amount < $transaction->booking->fee ? 'Partially' : 'Full';

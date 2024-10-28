@@ -49,6 +49,12 @@ class Transaction extends Model
         return $this->belongsTo(Booking::class, 'booking_id');
     }
 
+    // Inverse of the relationship with reports
+    public function report()
+    {
+        return $this->belongsTo(Report::class, 'booking_id', 'booking_id');
+    }
+
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'verified_by');

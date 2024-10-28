@@ -54,4 +54,10 @@ class Report extends Model
     {
         return $this->belongsTo(Stop::class, 'stop_id');
     }
+
+    // One-to-Many relationship with transactions
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'booking_id', 'booking_id');
+    }
 }

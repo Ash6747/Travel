@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Booking;
 use App\Models\Report;
 use App\Models\User;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class BookingConstraintMiddleware
         $user = Auth::guard('api')->user();
         $student = User::with('student')->findOrFail($user->id);
         $existingBooking = Booking::where('student_id', $student->student->id)->first();
+        $today = Carbon::today();
 
         if ($existingBooking) {
             switch ($existingBooking->status) {
@@ -38,7 +40,7 @@ class BookingConstraintMiddleware
                     if ($existingBooking->remaining_amount_check == 0) {
                         // Status is 'approved' and remaining_amount_check is 0, restrict booking
                         return response()->json(['message' => 'Cannot create new booking, remaining amount due'], 403);
-                    } elseif ($existingBooking->remaining_amount_check == 1) {
+                    } elseif ($existingBooking->remaining_amount_check == 1 && $existingBooking->end_date < $today) {
                         // Status is 'approved' and remaining_amount_check is 1, store old booking in report
                         Report::create([
                             'student_id' => $existingBooking->student_id,
@@ -62,6 +64,13 @@ class BookingConstraintMiddleware
                             'comment' => $existingBooking->comment,
                         ]);
                         $existingBooking->delete(); // Delete the old booking
+
+                    } elseif ($existingBooking->remaining_amount_check == 1 && $existingBooking->end_date > $today){
+                        // Status is 'approved' and remaining_amount_check is 1, end date is smaller than current date restrict booking
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Cannot create new booking, current booking not expired'
+                        ], 403);
                     }
                     break;
             }

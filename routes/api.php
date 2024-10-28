@@ -7,7 +7,6 @@ use App\Http\Controllers\Api\RoutesController;
 use App\Http\Controllers\Api\StopsController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\UserController;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,15 +39,26 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
     // student
     Route::prefix('student')->middleware(['authorized', 'check.api.student.profile'])->group(function(){
 
-        Route::get('users', [UserController::class, 'getUser'] );
         // Route::get('class', [CoursesController::class, 'index'] );
+        Route::get('/', [UserController::class, 'index'] );
+        Route::get('users', [UserController::class, 'getUser'] );
 
         // Booking
-        // Route::post('book', [BookingController::class, 'store'] );
-        Route::post('booking', [BookingController::class, 'createOrUpdateBooking'] )->middleware('booking.constraint');
+        Route::prefix('bookings')->controller(BookingController::class)->group(function(){
+            Route::get('/', 'index' );
+            Route::get('history', 'history' );
+            Route::get('history/{id}', 'show' );
+            Route::post('create', 'createOrUpdateBooking' )->middleware('booking.constraint');
+
+        });
 
         // transaction
-        Route::post('transaction', [TransactionController::class, 'store'] )->middleware('booking.exist');
+        Route::prefix('transactions')->controller(TransactionController::class)->group(function(){
+            Route::get('/', 'index' );
+            Route::get('show/{id}',  'show' );
+            Route::post('make','store' )->middleware('booking.exist');
+
+        });
 
     });
 

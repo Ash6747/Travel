@@ -124,7 +124,7 @@ class BookingController extends Controller
             $query->with(['user', 'course', 'reports']);
         }, 'bus'=> function($query){
             $query->with('route');
-        }, 'stop'])->findOrFail($id);
+        }, 'stop', 'transactions'])->findOrFail($id);
 
         // dd($route);
         if (is_null($booking)) {

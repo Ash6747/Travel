@@ -10,6 +10,26 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function index(){
+
+        $user = Auth::guard('api')->user();
+        // dd($user);
+        $student = User::with(['student'])->findOrFail($user->id);
+
+        if(!isset($student->student)){
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Student not found',
+            ],404);
+        }
+
+        return response()->json([
+            'status'=> false,
+            'message'=> 'Student not found',
+            'user'=> $student
+        ],200);
+    }
+
     public function register(Request $request){
         // $user = User::created();
 
@@ -55,7 +75,7 @@ class UserController extends Controller
                 'password' => 'required',
             ]
         );
-        
+
         if($userValidator->fails()){
             return response()->json([
                 'status'=> false,
@@ -110,14 +130,14 @@ class UserController extends Controller
     {
         $user = Auth::guard('api')->user();
         $user = User::find($user->id);
-        
+
         if (is_null($user)) {
             return response()->json([
                 'status' => false,
                 'message' => 'User not found',
             ], 404); // Return 404 Not Found
         }
-        
+
         return response()->json([
             'status' => true,
             'message' => 'User found',
