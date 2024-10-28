@@ -61,7 +61,12 @@
                 || Route::currentRouteName() == 'booking.rejected'
                 || Route::currentRouteName() == 'booking.expired') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a class="{{ Route::currentRouteName() != 'booking.active' ? '' : 'active' }}" href="{{ route('booking.active') }}">
+                        <a class="{{ (Route::currentRouteName() == 'booking.table'
+                            || Route::currentRouteName() == 'booking.pending'
+                            || Route::currentRouteName() == 'booking.active'
+                            || Route::currentRouteName() == 'booking.rejected'
+                            || Route::currentRouteName() == 'booking.expired') ? 'active' : '' }}"
+                            href="{{ route('booking.table') }}">
                             <i class="bi bi-circle"></i><span>Bookings</span>
                         </a>
                     </li><!-- End Bookings Nav -->

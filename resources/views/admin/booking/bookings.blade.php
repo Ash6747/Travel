@@ -12,7 +12,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Bookings</li>
-          <li class="breadcrumb-item active">Table</li>
+          <li class="breadcrumb-item active">Table {{ config('developer.name') }}</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -58,8 +58,8 @@
                       </button>
                     </a>
                     <a class="ms-2" href="{{ route('booking.expired') }}">
-                      <button class="btn btn-danger rounded-pill ">
-                          <i class="bi bi-exclamation-octagon"></i>
+                      <button class="btn btn-secondary rounded-pill ">
+                          <i class="bi bi-collection"></i>
                           Expired
                       </button>
                     </a>
