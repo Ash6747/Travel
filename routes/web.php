@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BusController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DriverController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoutesController;
 use App\Http\Controllers\Admin\StopsController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
@@ -167,6 +168,24 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
 
         Route::get('/update/{id}', 'edit')->name('transaction.edit');
         Route::post('/update/{id}', 'update')->name('transaction.update');
+    });
+
+    //Admin Students Controller
+    Route::prefix('students')->controller(ReportController::class)->group(function () {
+        Route::get('/', 'index')->name('student.table');
+
+        // Route::get('/trash', 'trash')->name('transaction.trash');
+        // Route::get('/restore/{id}', 'restore')->name('transaction.restore');
+        // Route::get('/force-delete/{id}', 'forcefullyDelete')->name('transaction.hardDelete');
+
+        Route::get('/status/{id}', 'active')->name('student.status');
+        // Route::get('/delete/{id}', 'destroy')->name('route.delete');
+
+        Route::get('/create', 'create')->name('student.create');
+        Route::post('/create', 'store')->name('student.store');
+
+        Route::get('/update/{id}', 'edit')->name('student.edit');
+        Route::post('/update/{id}', 'update')->name('student.update');
     });
 });
 // driver

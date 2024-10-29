@@ -48,6 +48,7 @@
 
             <li class="nav-item">
                 <a class="nav-link {{ (Route::currentRouteName() == 'booking.table'
+                || Route::currentRouteName() == 'student.table'
                 || Route::currentRouteName() == 'booking.pending'
                 || Route::currentRouteName() == 'booking.active'
                 || Route::currentRouteName() == 'booking.rejected'
@@ -55,7 +56,9 @@
                     <i class="ri ri-ticket-2-line"></i><span>Bookings</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="Bookings-nav" class="nav-content collapse {{ (Route::currentRouteName() == 'booking.table'
+                <ul id="Bookings-nav" class="nav-content collapse {{ (
+                Route::currentRouteName() == 'booking.table'
+                || Route::currentRouteName() == 'student.table'
                 || Route::currentRouteName() == 'booking.pending'
                 || Route::currentRouteName() == 'booking.active'
                 || Route::currentRouteName() == 'booking.rejected'
@@ -68,6 +71,12 @@
                             || Route::currentRouteName() == 'booking.expired') ? 'active' : '' }}"
                             href="{{ route('booking.table') }}">
                             <i class="bi bi-circle"></i><span>Bookings</span>
+                        </a>
+                    </li><!-- End Bookings Nav -->
+                    <li>
+                        <a class="{{ (Route::currentRouteName() == 'student.table') ? 'active' : '' }}"
+                            href="{{ route('student.table') }}">
+                            <i class="bi bi-circle"></i><span>Students</span>
                         </a>
                     </li><!-- End Bookings Nav -->
                 </ul>

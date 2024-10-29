@@ -145,11 +145,9 @@ class BookingController extends Controller
     {
         //
         $booking = Booking::find($id);
-        // $validatedData = $request->validate([
-        //     'bus_no' => ['required', 'string', 'max:50', 'unique:'.Bus::class.',bus_no,'.$bus->id],
-        //     'capacity' => ['required', 'numeric', 'max:70'],
-        //     'route_id' => ['required', 'exists:'.Route::class.',id'],
-        // ]);
+        $validatedData = $request->validate([
+            'status' => ['required', 'in:approved,rejected'],
+        ]);
         // echo "<pre>";
         // print_r($booking);
         if (is_null($booking)) {

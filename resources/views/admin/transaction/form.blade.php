@@ -147,8 +147,12 @@
                                     <td>{{ $transaction->pay_type }}</td>
                                     <td><b>Paid Status</b></td>
                                     <td>{{ $transaction->paid_status }}</td>
-                                    {{-- <td><b>Bus</b></td>
-                                    <td>{{ $transaction->booking }}</td> --}}
+                                    <td><b>Reciept File</b></td>
+                                    <td>
+                                        @isset($transaction->reciept_file)
+                                            <a href="{{ asset('/storage/' . $transaction->reciept_file) }}" target="blank">File</a>
+                                        @endisset
+                                    </td>
                                 </tr>
 
                                 @isset($transaction->admin)

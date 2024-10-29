@@ -33,20 +33,19 @@
     @endsession
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
-
-                <div class="card">
+            <div class="col-xl-4 position-relative">
+                <div class="z-0 card position-sticky" style="top: 80px">
                     <div class="pt-4 card-body profile-card d-flex flex-column align-items-center">
 
                         <img src="{{ asset('/storage/' . $user->admin->profile) }}" alt="Profile" class="rounded-circle">
                         <h2>{{ $user->admin->full_name }}</h2>
                         <h3></h3>
                         {{-- <div class="mt-2 social-links">
-                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-              </div> --}}
+                            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                        </div> --}}
                     </div>
                 </div>
 
