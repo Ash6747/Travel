@@ -7,7 +7,7 @@
 @section('admin-main')
 
     <div class="pagetitle">
-      <h1 style="color: blue;">Driver Table</h1>
+      <h1 style="color: blue;">Drivers Table</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>

@@ -5,12 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Admin;
+use App\Models\Booking;
+use App\Models\Bus;
+use App\Models\Course;
+use App\Models\Driver;
+use App\Models\Route;
+use App\Models\Stop;
 use App\Models\User;
 use App\Models\User\loadRelatedModel;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminProfileController extends Controller
@@ -20,7 +28,66 @@ class AdminProfileController extends Controller
      */
     public function index()
     {
-        //
+        $today = Carbon::now()->toDateTimeString();  // Convert to a string in a valid SQL format
+
+        // Count of expired and active bookings
+        $bookingsExpiredCount = Booking::select(
+            DB::raw("SUM(CASE WHEN end_date < '{$today}' THEN 1 ELSE 0 END) as expired_count"),
+            DB::raw("SUM(CASE WHEN end_date > '{$today}' THEN 1 ELSE 0 END) as active_count")
+        )
+        ->where('status', 'approved')
+        ->first();
+        $totalBookingsExpiredCount = array_sum($bookingsExpiredCount->toArray());
+
+        $bookingsCount = Booking::select('status', DB::raw('count(*) as count'))
+        ->groupBy('status')
+        ->pluck('count', 'status');
+        $totalBookingsCount = array_sum($bookingsCount->toArray());
+
+        $busesCount = Bus::select('status', DB::raw('count(*) as count'))
+                         ->groupBy('status')
+                         ->pluck('count', 'status');
+        // Calculate the total count by summing the results of each status count
+        $totalBusesCount = array_sum($busesCount->toArray());
+
+        $stopsCount = Stop::count();
+
+        $routesCount = Route::select('status', DB::raw('count(*) as count'))
+        ->groupBy('status')
+        ->pluck('count', 'status');
+        $totalRoutesCount = array_sum($routesCount->toArray());
+
+        $coursesCount = Course::select('status', DB::raw('count(*) as count'))
+        ->groupBy('status')
+        ->pluck('count', 'status');
+        $totalCoursesCount = array_sum($coursesCount->toArray());
+
+        $registeredDrivers = Driver::select('status', DB::raw('count(*) as count'))
+        ->groupBy('status')
+        ->pluck('count', 'status');
+        $totalRegisteredDrivers = array_sum($registeredDrivers->toArray());
+
+        $unregisteredDrivers = User::where('role', 'driver')
+        ->whereDoesntHave('driver')  // Ensure no relation in drivers table
+        ->count();
+
+        $data = compact(
+            'bookingsExpiredCount',
+            'totalBookingsExpiredCount',
+            'bookingsCount',
+            'totalBookingsCount',
+            'busesCount',
+            'totalBusesCount',
+            'stopsCount',
+            'routesCount',
+            'totalRoutesCount',
+            'coursesCount',
+            'totalCoursesCount',
+            'registeredDrivers',
+            'totalRegisteredDrivers',
+            'unregisteredDrivers'
+        );
+        return view('admin.dashboard')->with($data);
     }
 
     /**

@@ -76,7 +76,7 @@ class DriverController extends Controller
             'contact' => ['required', 'digits:10', 'unique:'.Driver::class.',contact'], // digits validation for 10 numbers
             'whatsup_no' => ['required', 'digits:10', 'unique:'.Driver::class.',whatsup_no'], // digits validation for 10 numbers
             'license_exp' => ['required', 'date'], // Only date validation
-            'license_number' => ['required', 'digits:10'],
+            'license_number' => ['required', 'string', 'max:10'],
             'address' => ['required', 'string', 'max:255'],
             'pincode' => ['required', 'digits:6'], // Pincode with 6 digits
             'user_id' => ['required', 'exists:'.User::class.',id', 'unique:'.Driver::class.',user_id'], // Check if user exists and unique in drivers

@@ -1,13 +1,13 @@
 {{-- <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Admin Dashboard') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
                 </div>
@@ -38,36 +38,75 @@
       <div class="row">
 
         <!-- Left side columns -->
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="row">
 
             <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
+            <div class="col-xxl-4 col-xl-4 col-md-4">
+                <div class="card info-card primary-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
+                  <div class="card-body">
+                    <h5 class="card-title">Bookings</h5>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="ri ri-ticket-2-line text-danger"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{ $totalBookingsCount ?? 0 }}</h6>
+                        <span class="pt-1 text-warning small fw-bold">{{ $bookingsCount['pending'] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Pending</span>
+                        <br>
+                        <span class="pt-1 text-success small fw-bold">{{ $bookingsCount['approved'] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Approved</span>
+                        <br>
+                        <span class="pt-1 text-danger small fw-bold">{{ $bookingsCount['rejected'] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Rejected</span>
+
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-xl-4 col-md-4">
+                <div class="card info-card primary-card">
+
+                  <div class="card-body">
+                    <h5 class="card-title">Bookings <span>| Active | Expired</span></h5>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-calendar-check text-secondary"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{ $totalBookingsExpiredCount ?? 0 }}</h6>
+                        <span class="pt-1 text-danger small fw-bold">{{ $bookingsExpiredCount['expired_count'] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Expired</span>
+                        <br>
+                        <span class="pt-1 text-success small fw-bold">{{ $bookingsExpiredCount['active_count'] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Active</span>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-xl-4 col-md-4">
+              <div class="card info-card primary-card">
 
                 <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
+                  <h5 class="card-title">Buses</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+                      <i class="bx bxs-bus"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <h6>{{ $totalBusesCount ?? 0 }}</h6>
+                      <span class="pt-1 text-danger small fw-bold">{{ $busesCount[0] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Inactive</span>
+                      <br>
+                      <span class="pt-1 text-success small fw-bold">{{ $busesCount[1] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Active</span>
 
                     </div>
                   </div>
@@ -77,32 +116,18 @@
             </div><!-- End Sales Card -->
 
             <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
+            <div class="col-xxl-4 col-xl-4 col-md-4">
+              <div class="card info-card success-card">
 
                 <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                  <h5 class="card-title">Stops</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
+                      <i class="bi bi-geo-alt-fill"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <h6>{{ $stopsCount ?? 0 }}</h6>
 
                     </div>
                   </div>
@@ -112,33 +137,46 @@
             </div><!-- End Revenue Card -->
 
             <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
+            <div class="col-xxl-4 col-xl-4 col-md-4">
+                <div class="card info-card danger-card">
 
-              <div class="card info-card customers-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Routes</h5>
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
+                        <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="ri ri-guide-line text-secondary"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{ $totalRoutesCount ?? 0 }}</h6>
+                            <span class="pt-1 text-danger small fw-bold">{{ $routesCount[0] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Inactive</span>
+                            <br>
+                            <span class="pt-1 text-success small fw-bold">{{ $routesCount[1] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Active</span>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+                        </div>
+                        </div>
+
+                    </div>
                 </div>
 
+            </div><!-- End Customers Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-xl-4 col-md-4">
+              <div class="card info-card danger-card">
+
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Courses</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
+                      <i class="ri ri-book-open-fill text-primary"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <h6>{{ $totalCoursesCount ?? 0 }}</h6>
+                      <span class="pt-1 text-danger small fw-bold">{{ $coursesCount[0] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Inactive</span>
+                      <br>
+                      <span class="pt-1 text-success small fw-bold">{{ $coursesCount[1] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Active</span>
 
                     </div>
                   </div>
@@ -148,33 +186,21 @@
 
             </div><!-- End Customers Card -->
             <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
+            <div class="col-xxl-4 col-xl-4 col-md-4">
+              <div class="card info-card danger-card">
 
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Drivers <span>| Registered</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
+                      <i class="bi bi-person-check text-info"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <h6>{{ $totalRegisteredDrivers ?? 0 }}</h6>
+                      <span class="pt-1 text-danger small fw-bold">{{ $registeredDrivers[0] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Inactive</span>
+                      <br>
+                      <span class="pt-1 text-success small fw-bold">{{ $registeredDrivers[1] ?? 0 }}</span> <span class="pt-2 text-muted small ps-1">Active</span>
 
                     </div>
                   </div>
@@ -184,34 +210,18 @@
 
             </div><!-- End Customers Card -->
             <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
+            <div class="col-xxl-4 col-xl-4 col-md-4">
+              <div class="card info-card danger-card">
 
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Drivers <span>| Unregistered</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
+                      <i class="bi bi-person-x"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
+                      <h6>{{ $unregisteredDrivers ?? 0 }}</h6>
                     </div>
                   </div>
 
@@ -219,42 +229,7 @@
               </div>
 
             </div><!-- End Customers Card -->
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
 
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div><!-- End Customers Card -->
 
             {{-- <!-- Reports -->
             <div class="col-12">
@@ -340,7 +315,7 @@
 
             {{-- <!-- Recent Sales -->
             <div class="col-12">
-              <div class="card recent-sales overflow-auto">
+              <div class="overflow-auto card recent-sales">
 
                 <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -414,7 +389,7 @@
 
             {{-- <!-- Top Selling -->
             <div class="col-12">
-              <div class="card top-selling overflow-auto">
+              <div class="overflow-auto card top-selling">
 
                 <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -429,7 +404,7 @@
                   </ul>
                 </div>
 
-                <div class="card-body pb-0">
+                <div class="pb-0 card-body">
                   <h5 class="card-title">Top Selling <span>| Today</span></h5>
 
                   <table class="table table-borderless">
@@ -489,7 +464,7 @@
           </div>
         </div><!-- End Left side columns -->
 
-        <!-- Right side columns -->
+        {{-- <!-- Right side columns -->
         <div class="col-lg-4">
 
           <!-- Recent Activity -->
@@ -565,213 +540,7 @@
             </div>
           </div><!-- End Recent Activity -->
 
-          {{-- <!-- Budget Report -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Budget Report <span>| This Month</span></h5>
-
-              <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                    legend: {
-                      data: ['Allocated Budget', 'Actual Spending']
-                    },
-                    radar: {
-                      // shape: 'circle',
-                      indicator: [{
-                          name: 'Sales',
-                          max: 6500
-                        },
-                        {
-                          name: 'Administration',
-                          max: 16000
-                        },
-                        {
-                          name: 'Information Technology',
-                          max: 30000
-                        },
-                        {
-                          name: 'Customer Support',
-                          max: 38000
-                        },
-                        {
-                          name: 'Development',
-                          max: 52000
-                        },
-                        {
-                          name: 'Marketing',
-                          max: 25000
-                        }
-                      ]
-                    },
-                    series: [{
-                      name: 'Budget vs spending',
-                      type: 'radar',
-                      data: [{
-                          value: [4200, 3000, 20000, 35000, 50000, 18000],
-                          name: 'Allocated Budget'
-                        },
-                        {
-                          value: [5000, 14000, 28000, 26000, 42000, 21000],
-                          name: 'Actual Spending'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div><!-- End Budget Report --> --}}
-
-          {{-- <!-- Website Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Website Traffic <span>| Today</span></h5>
-
-              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#trafficChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Access From',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div><!-- End Website Traffic --> --}}
-
-          {{-- <!-- News & Updates Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
-
-              <div class="news">
-                <div class="post-item clearfix">
-                  <img src="{{ asset('assets/img/news-1.jpg') }}" alt="">
-                  <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="{{ asset('assets/img/news-2.jpg') }}" alt="">
-                  <h4><a href="#">Quidem autem et impedit</a></h4>
-                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="{{ asset('assets/img/news-3.jpg') }}" alt="">
-                  <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="{{ asset('assets/img/news-4.jpg') }}" alt="">
-                  <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="{{ asset('assets/img/news-5.jpg') }}" alt="">
-                  <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-                </div>
-
-              </div><!-- End sidebar recent posts-->
-
-            </div>
-          </div><!-- End News & Updates --> --}}
-
-        </div><!-- End Right side columns -->
+        </div><!-- End Right side columns --> --}}
 
       </div>
     </section>
@@ -781,4 +550,3 @@
 
 
 
-  

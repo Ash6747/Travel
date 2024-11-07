@@ -33,7 +33,32 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <h5 class="card-title">Buses</h5>
-                    <a class="ms-auto" href="{{ route('bus.create') }}">
+                    <a class="ms-2" href="{{ route('bus.table') }}">
+                        <button class="btn btn-primary rounded-pill ">
+                            <i class="bi bi-info-circle"></i>
+                            All Type Buses
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('bus.enabled') }}">
+                        <button class="btn btn-success rounded-pill ">
+                            <i class="bi bi-check-circle"></i>
+                            Active
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('bus.disabled') }}">
+                        <button class="btn btn-danger rounded-pill ">
+                            <i class="bi bi-exclamation-octagon"></i>
+                            Inactive
+                        </button>
+                    </a>
+
+                    <a class="ms-auto" href="{{ route('bus.export', ['status' => $status]) }}" title="Download Excel">
+                        <button class="btn btn-dark rounded-pill">
+                            <i class="ri ri-download-line"></i>
+                            <i class="ri ri-file-excel-2-line"></i>
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('bus.create') }}">
                       <button class="btn btn-primary rounded-pill ">
                           <i class="bi bi-plus-circle"></i>
                           Add Bus

@@ -63,6 +63,14 @@
                           Expired
                       </button>
                     </a>
+
+                    <a class="ms-auto" href="{{ route('bookings.export', ['status' => $status]) }}" title="Download Excel">
+                        <button class="btn btn-dark rounded-pill">
+                            <i class="ri ri-download-line"></i>
+                            <i class="ri ri-file-excel-2-line"></i>
+                        </button>
+                    </a>
+
                 </div>
               <!-- Table with stripped rows -->
               <table

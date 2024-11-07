@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\BusesExport;
 use App\Http\Controllers\Controller;
 use App\Models\Bus;
 use App\Models\Route;
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule as ValidationRule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BusController extends Controller
 {
@@ -22,7 +25,40 @@ class BusController extends Controller
         // echo "<pre>";
         // print_r($buses->toArray());
         // echo "</pre>";
-        $data = compact('buses');
+        $status = '';
+        $data = compact('buses', 'status');
+        return view('admin.bus.buses')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function enabled()
+    {
+        //
+        $buses = Bus::where('status', 1)->with('route')->get();
+        // dd($buses);
+        // echo "<pre>";
+        // print_r($buses->toArray());
+        // echo "</pre>";
+        $status = 1;
+        $data = compact('buses', 'status');
+        return view('admin.bus.buses')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function disabled()
+    {
+        //
+        $buses = Bus::where('status', 0)->with('route')->get();
+        // dd($buses);
+        // echo "<pre>";
+        // print_r($buses->toArray());
+        // echo "</pre>";
+        $status = 0;
+        $data = compact('buses', 'status');
         return view('admin.bus.buses')->with($data);
     }
 
@@ -135,5 +171,24 @@ class BusController extends Controller
             $bus->save();
             return redirect()->route('bus.table');
         }
+    }
+
+    public function export(Request $request)
+    {
+        $today = Carbon::today();
+        $status = $request->query('status');
+
+        // Filter based on status
+        $query = Bus::with(['route']);
+
+        if ($status == 0) {
+            $buses = $query->where('status', 0)->get();
+        } elseif ($status == 1) {
+            $buses = $query->where('status', 1)->get();
+        } else {
+            $buses = $query->get(); // Default to all tran$buses if no status is provided
+        }
+
+        return Excel::download(new BusesExport($buses), 'buses.xlsx');
     }
 }

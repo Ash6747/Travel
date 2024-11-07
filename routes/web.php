@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\DriverController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoutesController;
 use App\Http\Controllers\Admin\StopsController;
-use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +26,7 @@ Route::prefix('student')->middleware(['auth', 'verified', 'student', 'check.stud
 
 // admin
 Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.profile'])->group(function(){
-    Route::get('dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('dashboard', [AdminProfileController::class, 'index'])->name('admin.dashboard');
     Route::get('profile', [AdminProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::post('profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
     Route::delete('profile', [AdminProfileController::class, 'destroy'])->name('admin.profile.destroy');
@@ -78,6 +76,10 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
     //Admin Buses Controller
     Route::prefix('buses')->controller(BusController::class)->group(function () {
         Route::get('/', 'index')->name('bus.table');
+        Route::get('active', 'enabled')->name('bus.enabled');
+        Route::get('inactive', 'disabled')->name('bus.disabled');
+
+        Route::get('export','export')->name('bus.export');
 
         // Route::get('/trash', 'trash')->name('bus.trash');
         // Route::get('/restore/{id}', 'restore')->name('bus.restore');
@@ -133,28 +135,35 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
     Route::prefix('booking')->controller(BookingController::class)->group(function () {
         Route::get('/', 'index')->name('booking.table');
         // Route::get('/approved', 'index')->name('booking.approved');
-        Route::get('/pending', 'pending')->name('booking.pending');
-        Route::get('/approved', 'active')->name('booking.active');
-        Route::get('/rejected', 'rejected')->name('booking.rejected');
-        Route::get('/expired', 'expired')->name('booking.expired');
+        Route::get('pending', 'pending')->name('booking.pending');
+        Route::get('approved', 'active')->name('booking.active');
+        Route::get('rejected', 'rejected')->name('booking.rejected');
+        Route::get('expired', 'expired')->name('booking.expired');
+
+        Route::get('export','export')->name('bookings.export');
 
         // Route::get('/trash', 'trash')->name('booking.trash');
         // Route::get('/restore/{id}', 'restore')->name('booking.restore');
         // Route::get('/force-delete/{id}', 'forcefullyDelete')->name('booking.hardDelete');
 
-        Route::get('/status/{id}', 'active')->name('booking.status');
+        Route::get('status/{id}', 'active')->name('booking.status');
         // Route::get('/delete/{id}', 'destroy')->name('route.delete');
 
-        Route::get('/create', 'create')->name('booking.create');
-        Route::post('/create', 'store')->name('booking.store');
+        Route::get('create', 'create')->name('booking.create');
+        Route::post('create', 'store')->name('booking.store');
 
-        Route::get('/update/{id}', 'edit')->name('booking.edit');
-        Route::post('/update/{id}', 'update')->name('booking.update')->middleware('bus.constraint');
+        Route::get('update/{id}', 'edit')->name('booking.edit');
+        Route::post('update/{id}', 'update')->name('booking.update')->middleware('bus.constraint');
     });
 
     //Admin transactions Controller
-    Route::prefix('transactions')->controller(AdminTransactionController::class)->group(function () {
+    Route::prefix('transactions')->controller(TransactionController::class)->group(function () {
         Route::get('/', 'index')->name('transaction.table');
+        Route::get('pending', 'pending')->name('transaction.pending');
+        Route::get('approved', 'accepted')->name('transaction.accepted');
+        Route::get('rejected', 'rejected')->name('transaction.rejected');
+
+        Route::get('export','export')->name('transaction.export');
 
         // Route::get('/trash', 'trash')->name('transaction.trash');
         // Route::get('/restore/{id}', 'restore')->name('transaction.restore');

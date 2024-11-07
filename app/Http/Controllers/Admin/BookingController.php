@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\BookingsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookingController extends Controller
 {
@@ -23,7 +25,8 @@ class BookingController extends Controller
         // echo "<pre>";
         // print_r($bookings->toArray());
         // echo "</pre>";
-        $data = compact('bookings');
+        $status = '';
+        $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
     }
 
@@ -37,7 +40,8 @@ class BookingController extends Controller
         // echo "<pre>";
         // print_r($bookings->toArray());
         // echo "</pre>";
-        $data = compact('bookings');
+        $status = 'pending';
+        $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
     }
 
@@ -55,7 +59,8 @@ class BookingController extends Controller
         // echo "<pre>";
         // print_r($bookings->toArray());
         // echo "</pre>";
-        $data = compact('bookings');
+        $status = 'active';
+        $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
     }
 
@@ -69,7 +74,8 @@ class BookingController extends Controller
         // echo "<pre>";
         // print_r($bookings->toArray());
         // echo "</pre>";
-        $data = compact('bookings');
+        $status = 'rejected';
+        $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
     }
 
@@ -86,7 +92,8 @@ class BookingController extends Controller
         // echo "<pre>";
         // print_r($bookings->toArray());
         // echo "</pre>";
-        $data = compact('bookings');
+        $status = 'expired';
+        $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
     }
 
@@ -166,5 +173,56 @@ class BookingController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function export(Request $request)
+    {
+        $today = Carbon::today();
+        $status = $request->query('status');
+
+        // Filter based on status
+        $query = Booking::with(['student', 'bus' => function($query) {
+            $query->with('route');
+        }, 'stop']);
+
+        if ($status === 'pending') {
+            $bookings = $query->where('status', 'pending')->get();
+        } elseif ($status === 'active') {
+            $bookings = $query->where('status', 'approved')->where('end_date', '>', $today)->get();
+        } elseif ($status === 'rejected') {
+            $bookings = $query->where('status', 'rejected')->get();
+        } elseif ($status === 'expired') {
+            $bookings = $query->where('end_date', '<', $today)->get();
+        } else {
+            $bookings = $query->get(); // Default to all bookings if no status is provided
+        }
+
+        return Excel::download(new BookingsExport($bookings), 'bookings.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $today = Carbon::today();
+        $status = $request->query('status');
+
+        // Filter based on status
+        $query = Booking::with(['student', 'bus' => function($query) {
+            $query->with('route');
+        }, 'stop']);
+
+        if ($status === 'pending') {
+            $bookings = $query->where('status', 'pending')->get();
+        } elseif ($status === 'active') {
+            $bookings = $query->where('status', 'approved')->where('end_date', '>', $today)->get();
+        } elseif ($status === 'rejected') {
+            $bookings = $query->where('status', 'rejected')->get();
+        } elseif ($status === 'expired') {
+            $bookings = $query->where('end_date', '<', $today)->get();
+        } else {
+            $bookings = $query->get(); // Default to all bookings if no status is provided
+        }
+
+        // return Excel::download(new BookingsExport($bookings), 'bookings.xlsx');
+        // return Excel::download(new BookingsExport($bookings), 'bookings.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

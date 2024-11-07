@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\TransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -22,7 +25,56 @@ class TransactionController extends Controller
         // echo "<pre>";
         // print_r($bookings->toArray());
         // echo "</pre>";
-        $data = compact('transactions');
+        $status = '';
+        $data = compact('transactions', 'status');
+        return view('admin.transaction.transactions')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function pending()
+    {
+        //
+        $transactions = Transaction::with(['student', 'booking'])->where('status', 'pending')->get();
+        // dd($bookings);
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // echo "</pre>";
+        $status = 'pending';
+        $data = compact('transactions', 'status');
+        return view('admin.transaction.transactions')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function accepted()
+    {
+        //
+        $transactions = Transaction::with(['student', 'booking'])->where('status', 'accepted')->get();
+        // dd($bookings);
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // echo "</pre>";
+        $status = 'accepted';
+        $data = compact('transactions', 'status');
+        return view('admin.transaction.transactions')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function rejected()
+    {
+        //
+        $transactions = Transaction::with(['student', 'booking'])->where('status', 'rejected')->get();
+        // dd($bookings);
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // echo "</pre>";
+        $status = 'rejected';
+        $data = compact('transactions', 'status');
         return view('admin.transaction.transactions')->with($data);
     }
 
@@ -153,5 +205,26 @@ class TransactionController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function export(Request $request)
+    {
+        $today = Carbon::today();
+        $status = $request->query('status');
+
+        // Filter based on status
+        $query = Transaction::with(['student', 'booking']);
+
+        if ($status === 'pending') {
+            $transactions = $query->where('status', 'pending')->get();
+        } elseif ($status === 'accepted') {
+            $transactions = $query->where('status', 'accepted')->get();
+        } elseif ($status === 'rejected') {
+            $transactions = $query->where('status', 'rejected')->get();
+        } else {
+            $transactions = $query->get(); // Default to all tran$transactions if no status is provided
+        }
+
+        return Excel::download(new TransactionsExport($transactions), 'transactions.xlsx');
     }
 }

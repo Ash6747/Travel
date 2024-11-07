@@ -42,6 +42,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'booking.exist'=>CheckBookingExist::class,
             'bus.constraint'=>BusLimitCheck::class,
             'check.api.student.profile'=>CheckStudentExist::class,
+            // Excel
+            'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         ]);
 
     })

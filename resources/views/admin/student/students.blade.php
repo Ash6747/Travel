@@ -57,6 +57,7 @@
                     <th>Course</th>
                     <th>Addmission Year</th>
                     <th>Contact</th>
+                    <th>Current Booking Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -68,6 +69,22 @@
                             <td>{{ $student->course->coures_code }}</td>
                             <td>{{ $student->admission_year }}</td>
                             <td>{{ $student->contact }}</td>
+                            <td>
+                                @php
+                                    $today = \Carbon\Carbon::now()->format('Y-m-d');
+                                    $status = $student->bookings->status;
+                                    $status = $student->bookings->status == 'approved' ? ( $today > $student->bookings->end_date ? 'expired' : $status) : $status ;
+
+                                    $color = $status == 'pending' ? 'warning' : ($status == 'rejected' ? 'danger' : ($status == 'expired' ? 'secondary' : 'success'));
+                                    $textColor = $status == 'pending' ? 'dark' : ($status == 'rejected' ? 'light' : 'light');
+                                    $icon = $status == 'pending' ? 'bi-exclamation-triangle' : ($status == 'rejected' ? 'bi-exclamation-octagon' : ( $status == 'expired'? 'bi-collection' : 'bi-check-circle'));
+                                @endphp
+
+                                <span class="badge rounded-pill bg-{{ $color }} text-{{ $textColor }}">
+                                    <i class="bi {{ $icon }} me-1"></i> {{ Str::ucfirst($status) }} - {{ $student->bookings->end_date }}
+                                </span>
+
+                            </td>
                             <td>
                                 <div class="form-button-action">
                                     <a href="{{ route('student.edit', ['id' => $student->id])}}">

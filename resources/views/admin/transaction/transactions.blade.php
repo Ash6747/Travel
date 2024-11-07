@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @push('header')
-    <title>transactions</title>
+    <title>Transactions</title>
 @endpush
 
 @section('admin-main')
@@ -11,7 +11,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">transactions</li>
+          <li class="breadcrumb-item">Transactions</li>
           <li class="breadcrumb-item active">Table</li>
         </ol>
       </nav>
@@ -33,12 +33,37 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <h5 class="card-title">Buses</h5>
-                    {{-- <a class="ms-auto" href="{{ route('transaction.create') }}">
-                      <button class="btn btn-primary rounded-pill ">
-                          <i class="bi bi-plus-circle"></i>
-                          Add Bus
-                      </button>
-                    </a> --}}
+                    <a class="ms-2" href="{{ route('transaction.table') }}">
+                        <button class="btn btn-primary rounded-pill ">
+                            <i class="bi bi-info-circle"></i>
+                            All Type Bookings
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('transaction.pending') }}">
+                        <button class="btn btn-warning rounded-pill ">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            Pending
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('transaction.accepted') }}">
+                        <button class="btn btn-success rounded-pill ">
+                            <i class="bi bi-check-circle"></i>
+                            Accepted
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('transaction.rejected') }}">
+                        <button class="btn btn-danger rounded-pill ">
+                            <i class="bi bi-exclamation-octagon"></i>
+                            Rejected
+                        </button>
+                    </a>
+
+                    <a class="ms-auto" href="{{ route('transaction.export', ['status' => $status]) }}" title="Download Excel">
+                        <button class="btn btn-dark rounded-pill">
+                            <i class="ri ri-download-line"></i>
+                            <i class="ri ri-file-excel-2-line"></i>
+                        </button>
+                    </a>
                 </div>
               <!-- Table with stripped rows -->
               <table

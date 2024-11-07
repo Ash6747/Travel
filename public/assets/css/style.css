@@ -821,17 +821,17 @@ img {
     flex-grow: 0;
 }
 
-.dashboard .sales-card .card-icon {
+.dashboard .primary-card .card-icon {
     color: #4154f1;
     background: #f6f6fe;
 }
 
-.dashboard .revenue-card .card-icon {
+.dashboard .success-card .card-icon {
     color: #2eca6a;
     background: #e0f8e9;
 }
 
-.dashboard .customers-card .card-icon {
+.dashboard .danger-card .card-icon {
     color: #ff771d;
     background: #ffecdf;
 }

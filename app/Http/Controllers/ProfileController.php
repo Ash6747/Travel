@@ -71,7 +71,7 @@ class ProfileController extends Controller
      */
     public function showCompleteProfile(Request $request)
     {
-        $courses = Course::all();
+        $courses = Course::where('status', 1)->get();
         return view('profile.completeProfile', [
             'user' => $request->user(),
             'courses' => $courses
