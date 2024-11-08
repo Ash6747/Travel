@@ -141,6 +141,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('expired', 'expired')->name('booking.expired');
 
         Route::get('export','export')->name('bookings.export');
+        Route::get('pdf/{id}','pdf')->name('bookings.pdf');
 
         // Route::get('/trash', 'trash')->name('booking.trash');
         // Route::get('/restore/{id}', 'restore')->name('booking.restore');
@@ -164,6 +165,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('rejected', 'rejected')->name('transaction.rejected');
 
         Route::get('export','export')->name('transaction.export');
+        Route::get('pdf/{id}','pdf')->name('transaction.pdf');
 
         // Route::get('/trash', 'trash')->name('transaction.trash');
         // Route::get('/restore/{id}', 'restore')->name('transaction.restore');

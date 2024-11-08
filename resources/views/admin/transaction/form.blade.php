@@ -1,18 +1,18 @@
 @extends('admin.layouts.main')
 
 @push('header')
-    <title>Bookings</title>
+    <title>Transaction</title>
 @endpush
 
 @section('admin-main')
 
     <div class="pagetitle">
-      <h1>Booking Table</h1>
+      <h1>Transaction Form</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Bookings</li>
-          <li class="breadcrumb-item active">Table</li>
+          <li class="breadcrumb-item">Transaction</li>
+          <li class="breadcrumb-item active">Form</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -38,10 +38,16 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $title }}</h5>
-                        {{-- <div class="col-md-4">
-                            <label for="bus_no" class="form-label">Bus Number</label>
-                        </div> --}}
+                        <div class="d-flex align-items-center">
+                            <h5 class="card-title">{{ $title }}</h5>
+
+                            <a class="ms-auto" href="{{ route('transaction.pdf', ['id' => $id]) }}" title="Download Pdf">
+                                <button class="btn btn-dark rounded-pill">
+                                    <i class="ri ri-download-line"></i>
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                </button>
+                            </a>
+                        </div>
                         <table id="zctb" class="table border table-bordered border-primary table-striped border-3"  width="100%" style="font-size: small">
 
                             <tbody>
@@ -161,11 +167,13 @@
                                 </tr>
                                 <tr>
                                     <td ><b>Admin Name</b></td>
-                                    <td>{{ $transaction->admin->full_name }}</td>
+                                    <td colspan="2">{{ $transaction->admin->full_name }}</td>
                                     <td><b>Admin What's up No.</b></td>
-                                    <td>{{ $transaction->admin->whatsup_no }}</td>
-                                    {{-- <td><b>Bus</b></td>
-                                    <td>{{ $transaction->booking }}</td> --}}
+                                    <td colspan="2">{{ $transaction->admin->whatsup_no }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Comment</b></td>
+                                    <td colspan="5">{{ $transaction->comment }}</td>
                                 </tr>
                                 @endisset
 

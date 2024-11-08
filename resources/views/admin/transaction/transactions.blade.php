@@ -7,7 +7,7 @@
 @section('admin-main')
 
     <div class="pagetitle">
-      <h1>transaction Table</h1>
+      <h1>Transaction Table</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -82,7 +82,13 @@
                   </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $total = 0;
+                    @endphp
                     @foreach ($transactions as $transaction)
+                    @php
+                        $total = $total + $transaction->paid_amount;
+                    @endphp
                         <tr>
                             <td>{{ $transaction->student->prn }}</td>
                             <td>{{ $transaction->payment_date }}</td>
@@ -108,18 +114,17 @@
                                         <i class="bi text-secondary-emphasis bi-pencil-square"></i>
                                     </button>
                                 </a>
-                                {{-- <a href="{{ route('transaction.delete', ['id' => $transaction->id]) }}">
-                                    <button type="button" data-bs-toggle="tooltip" title="Remove"
-                                        class="btn btn-link btn-danger btn-lg rounded-pill" data-original-title="Remove" >
-                                        <i class="bi text-secondary-emphasis bi-trash"></i>
-                                    </button>
-                                </a> --}}
                                 </div>
                             </td>
                         </tr>
                     @endforeach
-
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total Amount Recieved : </td>
+                        <td>{{ $total }}</td>
+                    </tr>
+                </tfoot>
               </table>
               <!-- End Table with stripped rows -->
 

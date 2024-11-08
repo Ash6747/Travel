@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Transaction;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,9 @@ class TransactionController extends Controller
     public function index()
     {
         //
-        $transactions = Transaction::with(['student', 'booking'])->get();
+        $transactions = Transaction::with(['student', 'booking'])
+        ->orderBy('created_at', 'desc')
+        ->get();
         // dd($bookings);
         // echo "<pre>";
         // print_r($bookings->toArray());
@@ -36,7 +39,10 @@ class TransactionController extends Controller
     public function pending()
     {
         //
-        $transactions = Transaction::with(['student', 'booking'])->where('status', 'pending')->get();
+        $transactions = Transaction::with(['student', 'booking'])
+        ->where('status', 'pending')
+        ->orderBy('created_at', 'desc')
+        ->get();
         // dd($bookings);
         // echo "<pre>";
         // print_r($bookings->toArray());
@@ -52,7 +58,10 @@ class TransactionController extends Controller
     public function accepted()
     {
         //
-        $transactions = Transaction::with(['student', 'booking'])->where('status', 'accepted')->get();
+        $transactions = Transaction::with(['student', 'booking'])
+        ->where('status', 'accepted')
+        ->orderBy('created_at', 'desc')
+        ->get();
         // dd($bookings);
         // echo "<pre>";
         // print_r($bookings->toArray());
@@ -68,7 +77,10 @@ class TransactionController extends Controller
     public function rejected()
     {
         //
-        $transactions = Transaction::with(['student', 'booking'])->where('status', 'rejected')->get();
+        $transactions = Transaction::with(['student', 'booking'])
+        ->where('status', 'rejected')
+        ->orderBy('created_at', 'desc')
+        ->get();
         // dd($bookings);
         // echo "<pre>";
         // print_r($bookings->toArray());
@@ -226,5 +238,23 @@ class TransactionController extends Controller
         }
 
         return Excel::download(new TransactionsExport($transactions), 'transactions.xlsx');
+    }
+
+    public function pdf(string $id){
+
+        $transaction = Transaction::with(['student', 'admin', 'booking'=>function($bookQuery){
+            $bookQuery->with(['bus'=>function($busQuery){
+                $busQuery->with('route');
+            }, 'stop']);
+        }])
+        ->findOrFail($id);
+
+        $url = 'transaction.update';
+            $title = "Transaction";
+            $routTitle = "Update";
+            $data = compact('url', 'title', 'transaction', 'routTitle', 'id');
+            // resources\views\admin\transaction\transactionPdf.blade.php
+        $pdf = Pdf::loadView('admin.transaction.transactionPdf', $data);
+        return $pdf->download('invoice.pdf');
     }
 }

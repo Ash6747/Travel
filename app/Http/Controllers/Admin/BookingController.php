@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\BookingsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -200,29 +201,20 @@ class BookingController extends Controller
         return Excel::download(new BookingsExport($bookings), 'bookings.xlsx');
     }
 
-    public function pdf(Request $request)
-    {
-        $today = Carbon::today();
-        $status = $request->query('status');
+    public function pdf(string $id){
 
-        // Filter based on status
-        $query = Booking::with(['student', 'bus' => function($query) {
+        $booking = Booking::with(['student'=> function($query){
+            $query->with(['user', 'course', 'reports']);
+        }, 'bus'=> function($query){
             $query->with('route');
-        }, 'stop']);
+        }, 'stop', 'transactions'])->findOrFail($id);
 
-        if ($status === 'pending') {
-            $bookings = $query->where('status', 'pending')->get();
-        } elseif ($status === 'active') {
-            $bookings = $query->where('status', 'approved')->where('end_date', '>', $today)->get();
-        } elseif ($status === 'rejected') {
-            $bookings = $query->where('status', 'rejected')->get();
-        } elseif ($status === 'expired') {
-            $bookings = $query->where('end_date', '<', $today)->get();
-        } else {
-            $bookings = $query->get(); // Default to all bookings if no status is provided
-        }
-
-        // return Excel::download(new BookingsExport($bookings), 'bookings.xlsx');
-        // return Excel::download(new BookingsExport($bookings), 'bookings.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $url = 'booking.update';
+        $title = "Booking";
+        $routTitle = "Update";
+        $data = compact('url', 'title', 'booking', 'routTitle', 'id');
+        // resources\views\admin\transaction\transactionPdf.blade.php
+        $pdf = Pdf::loadView('admin.booking.bookingPdf', $data);
+        return $pdf->download('booking.pdf');
     }
 }
