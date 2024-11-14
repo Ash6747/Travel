@@ -59,7 +59,7 @@
                   {{-- <img src="{{ asset('assets/img/logo.png') }}" alt=""> --}}
                   {{-- <span class="d-none d-lg-block">SafeRide</span> --}}
                     <span class="d-none d-lg-block">
-                        <i class="bi bi-truck-front"></i> SafeRide
+                        <i class="bi bi-truck-front"></i> SafeTrack
                     </span>
 
                 </a>

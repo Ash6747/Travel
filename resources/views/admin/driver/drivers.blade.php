@@ -63,7 +63,7 @@
                             </td>
                             <td>
                                 <div class="form-button-action">
-                                <a href="{{ route('driver.edit', ['id' => $driver->id])}}">
+                                <a href="{{ route('driver.edit', ['id' => $driver->id])}}" title="Edit">
                                     <button type="button" data-bs-toggle="tooltip" title="Edit"
                                         class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Edit Task" >
                                         <i class="bi text-secondary-emphasis bi-pencil-square"></i>

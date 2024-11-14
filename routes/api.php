@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\CoursesController;
 use App\Http\Controllers\Api\RoutesController;
 use App\Http\Controllers\Api\StopsController;
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\TripController;
+use App\Http\Controllers\Api\TriphistoryController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +42,7 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
     Route::prefix('student')->middleware(['authorized', 'check.api.student.profile'])->group(function(){
 
         // Route::get('class', [CoursesController::class, 'index'] );
-        Route::get('/', [UserController::class, 'index'] );
+        Route::get('/details', [UserController::class, 'index'] );
         Route::get('users', [UserController::class, 'getUser'] );
 
         // Booking
@@ -65,6 +67,19 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
     // driver
     Route::prefix('driver')->middleware('authorized')->group(function(){
         Route::get('users', [UserController::class, 'getUser'] );
+
+        Route::prefix('trip')->controller(TripController::class)->group(function(){
+            Route::get('/', 'index');
+        });
+
+        Route::prefix('triphistory')->controller(TriphistoryController::class)->group(function(){
+            Route::get('/', 'index');
+            Route::post('/end','update' );
+            Route::post('/location','location' );
+            Route::post('/store','store' );
+
+            Route::get('show/{id}',  'show' );
+        });
     });
 
     // guardian

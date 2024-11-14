@@ -25,7 +25,7 @@ class UserController extends Controller
 
         return response()->json([
             'status'=> false,
-            'message'=> 'Student not found',
+            'message'=> 'Student Exist',
             'user'=> $student
         ],200);
     }

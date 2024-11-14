@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
-            $table->time('expected_start_time');
-            $table->time('expected_end_time');
+            $table->time('expected_morning_start_time');
+            $table->time('expected_morning_end_time');
+            $table->time('expected_evening_start_time');
+            $table->time('expected_evening_end_time');
+
             $table->decimal('expected_distance', 4, 2);
             $table->tinyInteger('status')->default(0);
             $table->unsignedBigInteger('bus_id');
-            $table->unsignedBigInteger('route_id');
             $table->unsignedBigInteger('driver_id');
 
             $table->foreign('bus_id')->references('id')->on('buses');
-            $table->foreign('route_id')->references('id')->on('routes');
             $table->foreign('driver_id')->references('id')->on('drivers');
             $table->timestamps();
         });

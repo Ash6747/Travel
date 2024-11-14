@@ -105,7 +105,7 @@
                                                         value="{{ old('stop_order') ?? $stop->pivot->stop_order ?? '' }}">
                                                 </div>
                                                 <div class="text-center col-md-2">
-                                                    <button type="submit" class="btn btn-primary">
+                                                    <button type="submit" class="btn btn-primary" title="Update Sequece">
                                                         <i class="bi bi-arrow-repeat"></i>
                                                     </button>
                                                 </div>

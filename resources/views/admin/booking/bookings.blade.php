@@ -12,7 +12,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Bookings</li>
-          <li class="breadcrumb-item active">Table {{ config('developer.name') }}</li>
+          <li class="breadcrumb-item active">Table</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -111,10 +111,17 @@
                             </td>
                             <td>
                                 <div class="form-button-action">
-                                <a href="{{ route('booking.edit', ['id' => $booking->id])}}">
+                                <a href="{{ route('booking.edit', ['id' => $booking->id])}}" title="Open Booking">
                                     <button type="button" data-bs-toggle="tooltip" title="Open Booking"
                                         class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Open Booking" >
                                         <i class="bi text-secondary-emphasis bi-pencil-square"></i>
+                                    </button>
+                                </a>
+
+                                <a href="{{ route('student.edit', ['id' => $booking->student->id])}}" title="Open Student Details">
+                                    <button type="button" data-bs-toggle="tooltip" title="Open Student Details"
+                                        class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Open Student Details" >
+                                        <i class="bi bi-person-badge text-secondary-emphasis"></i>
                                     </button>
                                 </a>
                                 {{-- <a href="{{ route('booking.delete', ['id' => $booking->id]) }}">

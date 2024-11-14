@@ -87,7 +87,7 @@
                             </td>
                             <td>
                                 <div class="form-button-action">
-                                    <a href="{{ route('student.edit', ['id' => $student->id])}}">
+                                    <a href="{{ route('student.edit', ['id' => $student->id])}}" title="Open Details">
                                         <button type="button" data-bs-toggle="tooltip" title="Open Details"
                                             class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Open Details" >
                                             <i class="bi text-secondary-emphasis bi-pencil-square"></i>

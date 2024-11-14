@@ -37,9 +37,7 @@
               <table class="table datatable">
                 <thead>
                   <tr>
-                    <th>
-                      <b>N</b>ame
-                    </th>
+                    <th>User Name</th>
                     <th>Email</th>
                     <th>Role</th>
                     <th>Action</th>
@@ -53,7 +51,7 @@
                             <td>{{ $driver->role }}</td>
                             <td>
                                 <div class="form-button-action ">
-                                    <a href="{{ route('driver.create', ['id' => $driver->id])}}">
+                                    <a href="{{ route('driver.create', ['id' => $driver->id])}}" title="Join as Driver">
                                         <button type="button" data-bs-toggle="tooltip" title="Join as Driver"
                                             class="text-black btn btn-link btn-info btn-lg text-decoration-none" data-original-title="Edit Task" >
                                             <i class="bi bi-person-plus"></i>

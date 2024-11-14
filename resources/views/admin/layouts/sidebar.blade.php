@@ -40,11 +40,18 @@
             </li><!-- End Courses Nav -->
 
             <li class="nav-item">
-            <a class="nav-link {{ Route::currentRouteName() != 'transaction.table' ? 'collapsed' : '' }}" href="{{ route('transaction.table') }}">
-                <i class="ri ri-secure-payment-line"></i>
-                <span>Transactions</span>
-            </a>
+                <a class="nav-link {{ Route::currentRouteName() != 'transaction.table' ? 'collapsed' : '' }}" href="{{ route('transaction.table') }}">
+                    <i class="ri ri-secure-payment-line"></i>
+                    <span>Transactions</span>
+                </a>
             </li><!-- End transactions Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() != 'trip.table' ? 'collapsed' : '' }}" href="{{ route('trip.table') }}">
+                    <i class="ri ri-compass-3-line"></i>
+                    <span>Trips</span>
+                </a>
+            </li><!-- End trips Nav -->
 
             <li class="nav-item">
                 <a class="nav-link {{ (Route::currentRouteName() == 'booking.table'

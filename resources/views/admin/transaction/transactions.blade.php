@@ -108,7 +108,7 @@
                             </td>
                             <td>
                                 <div class="form-button-action">
-                                <a href="{{ route('transaction.edit', ['id' => $transaction->id])}}">
+                                <a href="{{ route('transaction.edit', ['id' => $transaction->id])}}" title="Open transaction">
                                     <button type="button" data-bs-toggle="tooltip" title="Open transaction"
                                         class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Open transaction" >
                                         <i class="bi text-secondary-emphasis bi-pencil-square"></i>

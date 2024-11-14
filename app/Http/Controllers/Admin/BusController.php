@@ -25,7 +25,7 @@ class BusController extends Controller
         // echo "<pre>";
         // print_r($buses->toArray());
         // echo "</pre>";
-        $status = '';
+        $status = 2;
         $data = compact('buses', 'status');
         return view('admin.bus.buses')->with($data);
     }

@@ -19,6 +19,25 @@ class TransactionController extends Controller
     public function index()
     {
         //
+        $user = Auth::guard('api')->user();
+        $userDetails = User::with(['student'=>function($query){
+            $query->with('transactions');
+        }])->findOrFail($user->id);
+        $transactions = $userDetails->student->transactions;
+
+        if(isset($transactions)){
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Transactions for students',
+                'trasactions'=> $transactions
+            ]);
+        }
+
+        return response()->json([
+            'status'=> false,
+            'message'=> 'Transactions not exist for student'
+        ]);
+
     }
 
     /**
@@ -96,6 +115,37 @@ class TransactionController extends Controller
     public function show(string $id)
     {
         //
+        $user = Auth::guard('api')->user();
+        // $userDetails = User::with(['student'=>function($query){
+        //     $query->with(['transactions'=> function($query, $id){
+        //         $query->findOrFail($id);
+        //     }]);
+        // }])->findOrFail($user->id);
+        $userDetails = User::with(['student'=>function($query){
+            $query->with(['transactions']);
+        }])->findOrFail($user->id);
+
+        try {
+            $transaction = $userDetails->student->transactions->findOrFail($id);
+
+            if(isset($transaction)){
+                return response()->json([
+                    'status'=> false,
+                    'message'=> 'Transaction for students',
+                    'trasaction'=> $transaction
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Transaction not exist for student'
+            ]);
+        }
+
+        // return response()->json([
+        //     'status'=> false,
+        //     'message'=> 'Transaction not exist for student'
+        // ]);
     }
 
     /**

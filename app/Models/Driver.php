@@ -39,4 +39,10 @@ class Driver extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function trip()
+    {
+        return $this->hasOne(Trip::class, 'driver_id');
+    }
+
+
 }

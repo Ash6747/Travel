@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoutesController;
 use App\Http\Controllers\Admin\StopsController;
 use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -179,6 +180,41 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
 
         Route::get('/update/{id}', 'edit')->name('transaction.edit');
         Route::post('/update/{id}', 'update')->name('transaction.update');
+    });
+
+    //Admin trips Controller
+    Route::prefix('trips')->controller(TripController::class)->group(function () {
+        Route::get('/', 'index')->name('trip.table');
+        Route::get('active', 'enabled')->name('trip.enabled');
+        Route::get('inactive', 'disabled')->name('trip.disabled');
+
+        Route::get('export','export')->name('trip.export');
+        // Route::get('pdf/{id}','pdf')->name('trip.pdf');
+
+        Route::get('/status/{id}', 'status')->name('trip.status');
+
+        Route::get('/create', 'create')->name('trip.create');
+        Route::post('/create', 'store')->name('trip.store');
+
+        Route::get('/update/{id}', 'edit')->name('trip.edit');
+        Route::post('/update/{id}', 'update')->name('trip.update');
+    });
+    //Admin triphistory Controller
+    Route::prefix('triphistory')->controller(TripController::class)->group(function () {
+        Route::get('/', 'index')->name('triphistory.table');
+        // Route::get('active', 'enabled')->name('triphistory.enabled');
+        // Route::get('inactive', 'disabled')->name('triphistory.disabled');
+
+        // Route::get('export','export')->name('triphistory.export');
+        // Route::get('pdf/{id}','pdf')->name('triphistory.pdf');
+
+        // Route::get('/status/{id}', 'status')->name('triphistory.status');
+
+        // Route::get('/create', 'create')->name('triphistory.create');
+        // Route::post('/create', 'store')->name('triphistory.store');
+
+        // Route::get('/update/{id}', 'edit')->name('triphistory.edit');
+        // Route::post('/update/{id}', 'update')->name('triphistory.update');
     });
 
     //Admin Students Controller

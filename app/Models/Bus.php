@@ -11,12 +11,6 @@ class Bus extends Model
     protected $table = "buses";
     protected $primaryKey = "id";
 
-    // Inverse relationship: A bus belongs to a route
-    public function route()
-    {
-        return $this->belongsTo(Route::class, 'route_id');
-    }
-
     // Add the fields that you want to allow mass assignment for
     protected $fillable = [
         'bus_no',
@@ -24,8 +18,20 @@ class Bus extends Model
         'route_id',
     ];
 
+    // Inverse relationship: A bus belongs to a route
+    public function route()
+    {
+        return $this->belongsTo(Route::class, 'route_id');
+    }
+
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
+
+    public function trip()
+    {
+        return $this->hasOne(Trip::class, 'bus_id');
+    }
+
 }
