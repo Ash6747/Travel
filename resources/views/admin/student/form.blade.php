@@ -38,6 +38,17 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endsession
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <section class="section profile">
         <div class="row">
             <div class="col-xl-3 position-relative">
@@ -212,6 +223,18 @@
                                             <th scope="col">Payment Status</th>
                                             <td scope="col">{{ $student->bookings->payment_status }}</td>
                                         </tr>
+
+                                        @isset($student->bookings->verified_by)
+                                        <tr>
+                                            <th scope="col">Verified By</th>
+                                            <td colspan="3" scope="col">{{ $student->bookings->admin->full_name ?? "Admin" }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="col">Comment</th>
+                                            <td colspan="3" scope="col">{{ $student->bookings->comment ?? "Admin" }}</td>
+                                        </tr>
+                                        @endisset
                                     {{-- </tbody> --}}
                                 </table>
                                 @if ($student->bookings->remaining_amount_check == 1)
@@ -243,6 +266,19 @@
                                         @enderror
                                     </fieldset>
                                     <b class="text-danger">Submiting 'Yes' will no longer accept payment from student</b>
+
+                                    <fieldset class="m-auto my-2 row">
+                                        <legend class="pt-0 col-form-label col-md-4 fw-bold">Refund Amount : </legend>
+                                        <div class="col-sm-8">
+                                            <input type="number" id="refund" name="refund" min="0" value="{{ old('refund') ?? 0.00 }}" class="form-control">
+                                        </div>
+                                        {{-- <div class="col-sm-8">
+                                            <input type="number" id="refund" name="refund" min="0">
+                                        </div> --}}
+                                        @error('refund')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </fieldset>
 
                                     <div class="mb-3 form-floating">
                                         <textarea class="form-control" placeholder="Leave a comment here" name="comment" id="comment" style="height: 100px;"></textarea>

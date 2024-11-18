@@ -44,5 +44,8 @@ class Driver extends Model
         return $this->hasOne(Trip::class, 'driver_id');
     }
 
+    public function triphistories(){
+        return $this->hasMany(Triphistory::class, 'driver_id');
+    }
 
 }

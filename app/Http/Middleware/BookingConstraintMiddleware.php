@@ -36,7 +36,7 @@ class BookingConstraintMiddleware
                     $existingBooking->delete();
                     break;
 
-                case 'approved':
+                default:
                     if ($existingBooking->remaining_amount_check == 0) {
                         // Status is 'approved' and remaining_amount_check is 0, restrict booking
                         return response()->json(['message' => 'Cannot create new booking, remaining amount due'], 403);

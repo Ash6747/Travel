@@ -24,7 +24,7 @@ return new class extends Migration
             $table->decimal('refund', 8, 2)->nullable();
             $table->enum('payment_status' ,['Partially', 'Full', 'Not', 'Concession'])->default('Not');
             $table->tinyInteger('remaining_amount_check')->default(0);
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected', 'leave'])->default('pending');
             $table->text('comment')->nullable();
 
             $table->unsignedBigInteger('verified_by')->nullable()->comment('admin id');

@@ -47,6 +47,13 @@
             </li><!-- End transactions Nav -->
 
             <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() != 'triphistory.table' ? 'collapsed' : '' }}" href="{{ route('triphistory.table') }}">
+                    <i class="ri ri-history-line"></i>
+                    <span>Trip History</span>
+                </a>
+            </li><!-- End trip history Nav -->
+
+            <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() != 'trip.table' ? 'collapsed' : '' }}" href="{{ route('trip.table') }}">
                     <i class="ri ri-compass-3-line"></i>
                     <span>Trips</span>

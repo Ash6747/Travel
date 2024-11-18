@@ -24,6 +24,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endsession
+    @session('error')
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-1"></i>
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endsession
 
     <section class="section">
       <div class="row">
@@ -33,18 +40,30 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <h5 class="card-title">Students</h5>
-                    {{-- <a class="ms-2" href="{{ route('booking.table') }}">
+                    <a class="ms-2" href="{{ route('student.table') }}">
                       <button class="btn btn-primary rounded-pill ">
                           <i class="bi bi-info-circle"></i>
                           All Type Students
                       </button>
                     </a>
-                    <a class="ms-2" href="{{ route('booking.pending') }}">
+                    <a class="ms-2" href="{{ route('student.pending') }}">
                       <button class="btn btn-warning rounded-pill ">
                           <i class="bi bi-exclamation-triangle"></i>
                           Pending
                       </button>
-                    </a> --}}
+                    </a>
+                    <a class="ms-2" href="{{ route('student.verified') }}">
+                      <button class="btn btn-success rounded-pill ">
+                          <i class="bi bi-check-circle"></i>
+                          Verified
+                      </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('student.active') }}">
+                      <button class="btn btn-secondary rounded-pill ">
+                          <i class="bi bi-collection"></i>
+                          Remaining Payments
+                      </button>
+                    </a>
                 </div>
               <!-- Table with stripped rows -->
               <table
@@ -57,7 +76,7 @@
                     <th>Course</th>
                     <th>Addmission Year</th>
                     <th>Contact</th>
-                    <th>Current Booking Status</th>
+                    <th>Amount Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -70,20 +89,9 @@
                             <td>{{ $student->admission_year }}</td>
                             <td>{{ $student->contact }}</td>
                             <td>
-                                @php
-                                    $today = \Carbon\Carbon::now()->format('Y-m-d');
-                                    $status = $student->bookings->status;
-                                    $status = $student->bookings->status == 'approved' ? ( $today > $student->bookings->end_date ? 'expired' : $status) : $status ;
-
-                                    $color = $status == 'pending' ? 'warning' : ($status == 'rejected' ? 'danger' : ($status == 'expired' ? 'secondary' : 'success'));
-                                    $textColor = $status == 'pending' ? 'dark' : ($status == 'rejected' ? 'light' : 'light');
-                                    $icon = $status == 'pending' ? 'bi-exclamation-triangle' : ($status == 'rejected' ? 'bi-exclamation-octagon' : ( $status == 'expired'? 'bi-collection' : 'bi-check-circle'));
-                                @endphp
-
-                                <span class="badge rounded-pill bg-{{ $color }} text-{{ $textColor }}">
-                                    <i class="bi {{ $icon }} me-1"></i> {{ Str::ucfirst($status) }} - {{ $student->bookings->end_date }}
+                                <span class="badge rounded-pill bg-{{ $student->bookings->remaining_amount_check? 'success' : 'warning' }}">
+                                    <i class="bi {{ $student->bookings->remaining_amount_check? 'bi-check-circle' : 'bi-exclamation-octagon' }} me-1"></i> {{ $student->bookings->remaining_amount_check? 'Verified': 'Pending'  }}
                                 </span>
-
                             </td>
                             <td>
                                 <div class="form-button-action">
@@ -91,6 +99,13 @@
                                         <button type="button" data-bs-toggle="tooltip" title="Open Details"
                                             class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Open Details" >
                                             <i class="bi text-secondary-emphasis bi-pencil-square"></i>
+                                        </button>
+                                    </a>
+
+                                    <a href="{{ route('student.create', ['id' => $student->id])}}" title="Create Transaction">
+                                        <button type="button" data-bs-toggle="tooltip" title="Create Transaction"
+                                            class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Create Transaction" >
+                                            <i class="bi text-secondary-emphasis bi-cash-stack"></i>
                                         </button>
                                     </a>
                                 </div>

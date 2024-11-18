@@ -8,7 +8,10 @@ use App\Models\Triphistory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
+use function PHPUnit\Framework\isNull;
 
 class TriphistoryController extends Controller
 {
@@ -17,7 +20,35 @@ class TriphistoryController extends Controller
      */
     public function index()
     {
-        //
+
+        $auth = Auth::guard('api')->user();
+        $user = User::with(['driver' => function($query) {
+            $query->with(['triphistories']);
+        }])->findOrFail($auth->id);
+
+        $driver = $user->driver;
+        try {
+            //code...
+            $triphistory = $driver->triphistories;
+            if(isset($triphistory)){
+                return response()->json([
+                    'status'=> true,
+                    'message'=> 'Found Trip history for driver',
+                    'triphistory'=> $triphistory
+                ]);
+            }
+
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Not found Trip history for driver',
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Not found Trip history for driver',
+            ]);
+        }
     }
 
     /**
@@ -44,13 +75,15 @@ class TriphistoryController extends Controller
                     $query->whereDate('created_at', Carbon::today())
                         ->whereNotNull('start_meter_reading')
                         ->whereNull('end_meter_reading');
-                }]);
+                }])->where('status', 1);
             }]);
         }])->findOrFail($request->user_id);
 
         $driver = $user->driver;
 
-        if ($driver->trip && $driver->trip->triphistories->isNotEmpty()) {
+        dd($driver);
+
+        if (!isNull($driver->trip) && $driver->trip->triphistories->isNotEmpty()) {
             return response()->json([
                 'status' => false,
                 'message' => 'Fill data of end trip first, then create a new trip'
@@ -94,6 +127,30 @@ class TriphistoryController extends Controller
     public function show(string $id)
     {
         //
+        $auth = Auth::guard('api')->user();
+        $user = User::with(['driver' => function($query) {
+            $query->with(['triphistories']);
+        }])->findOrFail($auth->id);
+
+        $driver = $user->driver;
+        try {
+            //code...
+            $triphistory = $driver->triphistories->findOrFail($id);
+            if(isset($triphistory)){
+                return response()->json([
+                    'status'=> true,
+                    'message'=> 'Found Trip history for driver',
+                    'triphistory'=> $triphistory
+                ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Not found Trip history for driver',
+            ]);
+        }
+
     }
 
     /**
@@ -136,6 +193,14 @@ class TriphistoryController extends Controller
                 'end_meter_img' => ['required', 'mimes:png,jpg'],
                 'end_meter_reading' => ['required', 'numeric', 'min:'.$triphistory->start_meter_reading, 'max:999999999.99'],
                 'distance_traveled' => ['required', 'numeric', 'min: 0', 'max:999999.99'],
+                'note' => [
+                    'required',
+                    'string',
+                    'regex:/^[a-zA-Z0-9\s]+$/',  // Allows alphabets, numbers, and spaces only
+                    'max:200',  // Optional: Limit comment length
+                ]
+            ],[
+                'note.regex'=> 'Allows alphabets, numbers, and spaces only',
             ]);
 
             if ($validator->fails()) {

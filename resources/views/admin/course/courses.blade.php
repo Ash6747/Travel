@@ -33,6 +33,25 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <h5 class="card-title">Courses</h5>
+                    <a class="ms-2" href="{{ route('course.table') }}">
+                        <button class="btn btn-primary rounded-pill ">
+                            <i class="bi bi-info-circle"></i>
+                            All Type Courses
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('course.enabled') }}">
+                        <button class="btn btn-success rounded-pill ">
+                            <i class="bi bi-check-circle"></i>
+                            Active
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('course.disabled') }}">
+                        <button class="btn btn-danger rounded-pill ">
+                            <i class="bi bi-exclamation-octagon"></i>
+                            Inactive
+                        </button>
+                    </a>
+
                     <a class="ms-auto" href="{{ route('course.create') }}" title="Add Course">
                       <button class="btn btn-primary rounded-pill ">
                           <i class="bi bi-journal-plus"></i>

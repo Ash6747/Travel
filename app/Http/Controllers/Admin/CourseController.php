@@ -20,7 +20,40 @@ class CourseController extends Controller
         // echo "<pre>";
         // print_r($courses->toArray());
         // echo "</pre>";
+        $status = -3;
         $data = compact('courses');
+        return view('admin.course.courses')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function enabled()
+    {
+        //
+        $courses = Course::where('status', 1)->get();
+        // dd($routes);
+        // echo "<pre>";
+        // print_r($routes->toArray());
+        // echo "</pre>";
+        $status = 1;
+        $data = compact('courses', 'status');
+        return view('admin.course.courses')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function disabled()
+    {
+        //
+        $courses = Course::where('status', 0)->get();
+        // dd($routes);
+        // echo "<pre>";
+        // print_r($routes->toArray());
+        // echo "</pre>";
+        $status = 0;
+        $data = compact('courses', 'status');
         return view('admin.course.courses')->with($data);
     }
 

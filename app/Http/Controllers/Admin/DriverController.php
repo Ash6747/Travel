@@ -19,7 +19,31 @@ class DriverController extends Controller
         // echo "<pre>";
         // print_r($drivers->toArray());
         // echo "</pre>";
+        $status = 1;
         $data = compact('drivers');
+        return view('admin.driver.drivers')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function enabled()
+    {
+        $drivers = Driver::where('status', 1)->get();
+        $status = 1;
+        $data = compact('drivers', 'status');
+        return view('admin.driver.drivers')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function disabled()
+    {
+        $drivers = Driver::where('status', 0)->get();
+
+        $status = 0;
+        $data = compact('drivers', 'status');
         return view('admin.driver.drivers')->with($data);
     }
 

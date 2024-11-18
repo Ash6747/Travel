@@ -21,7 +21,40 @@ class RoutesController extends Controller
         // echo "<pre>";
         // print_r($routes->toArray());
         // echo "</pre>";
-        $data = compact('routes');
+        $status = 3;
+        $data = compact('routes', 'status');
+        return view('admin.route.routes')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function enabled()
+    {
+        //
+        $routes = Route::where('status', 1)->get();
+        // dd($routes);
+        // echo "<pre>";
+        // print_r($routes->toArray());
+        // echo "</pre>";
+        $status = 1;
+        $data = compact('routes', 'status');
+        return view('admin.route.routes')->with($data);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function disabled()
+    {
+        //
+        $routes = Route::where('status', 0)->get();
+        // dd($routes);
+        // echo "<pre>";
+        // print_r($routes->toArray());
+        // echo "</pre>";
+        $status = 0;
+        $data = compact('routes', 'status');
         return view('admin.route.routes')->with($data);
     }
 

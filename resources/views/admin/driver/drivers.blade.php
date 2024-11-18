@@ -31,7 +31,27 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title" style="color: red;">Verified Drivers</h5>
+                <div class="d-flex align-items-center">
+                    <h5 class="card-title" style="color: red;">Verified Drivers</h5>
+                    <a class="ms-2" href="{{ route('driver.table') }}">
+                      <button class="btn btn-primary rounded-pill ">
+                          <i class="bi bi-info-circle"></i>
+                          All Type Drivers
+                      </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('driver.enabled') }}">
+                        <button class="btn btn-success rounded-pill ">
+                            <i class="bi bi-check-circle"></i>
+                            Active
+                        </button>
+                    </a>
+                    <a class="ms-2" href="{{ route('driver.disabled') }}">
+                        <button class="btn btn-danger rounded-pill ">
+                            <i class="bi bi-exclamation-octagon"></i>
+                            Inactive
+                        </button>
+                    </a>
+                </div>
 
               <!-- Table with stripped rows -->
               <table class="table datatable">

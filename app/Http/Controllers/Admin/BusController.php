@@ -68,7 +68,7 @@ class BusController extends Controller
     public function create()
     {
         //
-        $routes = Route::where('status', 1)->get(['id', 'route_name']);
+        $routes = Route::where('status', 1)->get();
         $url = 'bus.store';
         $title = "Bus Registration";
         $routTitle = "Register";
@@ -113,7 +113,7 @@ class BusController extends Controller
     {
         //
         $bus = Bus::find($id);
-        $routes = Route::where('status', 1)->get(['id', 'route_name']);
+        $routes = Route::where('status', 1)->get();
         // dd($route);
         if (is_null($bus)) {
             return redirect('routes');

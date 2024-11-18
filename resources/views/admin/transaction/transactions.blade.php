@@ -32,11 +32,11 @@
           <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <h5 class="card-title">Buses</h5>
+                    <h5 class="card-title">Transactions</h5>
                     <a class="ms-2" href="{{ route('transaction.table') }}">
                         <button class="btn btn-primary rounded-pill ">
                             <i class="bi bi-info-circle"></i>
-                            All Type Bookings
+                            All
                         </button>
                     </a>
                     <a class="ms-2" href="{{ route('transaction.pending') }}">
@@ -108,12 +108,12 @@
                             </td>
                             <td>
                                 <div class="form-button-action">
-                                <a href="{{ route('transaction.edit', ['id' => $transaction->id])}}" title="Open transaction">
-                                    <button type="button" data-bs-toggle="tooltip" title="Open transaction"
-                                        class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Open transaction" >
-                                        <i class="bi text-secondary-emphasis bi-pencil-square"></i>
-                                    </button>
-                                </a>
+                                    <a href="{{ route('transaction.edit', ['id' => $transaction->id])}}" title="Open transaction">
+                                        <button type="button" data-bs-toggle="tooltip" title="Open transaction"
+                                            class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Open transaction" >
+                                            <i class="bi text-secondary-emphasis bi-pencil-square"></i>
+                                        </button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

@@ -51,7 +51,6 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
             Route::get('history', 'history' );
             Route::get('history/{id}', 'show' );
             Route::post('create', 'createOrUpdateBooking' )->middleware('booking.constraint');
-
         });
 
         // transaction
@@ -77,7 +76,6 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
             Route::post('/end','update' );
             Route::post('/location','location' );
             Route::post('/store','store' );
-
             Route::get('show/{id}',  'show' );
         });
     });

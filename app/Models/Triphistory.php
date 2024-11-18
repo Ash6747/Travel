@@ -30,4 +30,8 @@ class Triphistory extends Model
     public function trip(){
         return $this->belongsTo(Trip::class, 'trip_id');
     }
+
+    public function driver(){
+        return $this->belongsTo(Driver::class, 'driver_id');
+    }
 }

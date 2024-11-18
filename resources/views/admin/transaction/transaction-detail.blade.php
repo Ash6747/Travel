@@ -7,28 +7,36 @@
 @section('admin-main')
 
     <div class="pagetitle">
-      <h1>Transaction Form</h1>
+      <h1>Transaction Details</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Transaction</li>
-          <li class="breadcrumb-item active">Form</li>
+          <li class="breadcrumb-item active">Details</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
     @session('error')
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle me-1"></i>
+        <i class="bi bi-exclamation-octagon me-1"></i>
         {{ session('error') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endsession
 
-    @session('status')
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-octagon me-1"></i>
-        {{ session('status') }}
+    @session('accepted')
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-1"></i>
+        {{ session('accepted') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endsession
+
+    @session('reject')
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-1"></i>
+        {{ session('reject') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endsession

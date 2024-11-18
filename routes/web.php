@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\RoutesController;
 use App\Http\Controllers\Admin\StopsController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\TripController;
+use App\Http\Controllers\Admin\TriphistoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,8 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
     Route::prefix('drivers')->controller(DriverController::class)->group(function () {
         Route::get('/', 'index')->name('driver.table');
         Route::get('/unregistered', 'unregistered')->name('driver.unregistered');
+        Route::get('active', 'enabled')->name('driver.enabled');
+        Route::get('inactive', 'disabled')->name('driver.disabled');
 
         // Route::get('/trash', 'trash')->name('driver.trash');
         // Route::get('/restore/{id}', 'restore')->name('driver.restore');
@@ -54,6 +57,10 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
     //Admin Route Controller
     Route::prefix('routes')->controller(RoutesController::class)->group(function () {
         Route::get('/', 'index')->name('route.table');
+        Route::get('active', 'enabled')->name('route.enabled');
+        Route::get('inactive', 'disabled')->name('route.disabled');
+
+        // Route::get('export','export')->name('route.export');
 
         // Route::get('/trash', 'trash')->name('route.trash');
         // Route::get('/restore/{id}', 'restore')->name('route.restore');
@@ -117,6 +124,8 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
     //Admin Course Controller
     Route::prefix('course')->controller(CourseController::class)->group(function () {
         Route::get('/', 'index')->name('course.table');
+        Route::get('active', 'enabled')->name('course.enabled');
+        Route::get('inactive', 'disabled')->name('course.disabled');
 
         // Route::get('/trash', 'trash')->name('course.trash');
         // Route::get('/restore/{id}', 'restore')->name('course.restore');
@@ -175,8 +184,8 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('/status/{id}', 'active')->name('transaction.status');
         // Route::get('/delete/{id}', 'destroy')->name('route.delete');
 
-        Route::get('/create', 'create')->name('transaction.create');
-        Route::post('/create', 'store')->name('transaction.store');
+        // Route::get('/create', 'create')->name('transaction.create');
+        // Route::post('/create', 'store')->name('transaction.store');
 
         Route::get('/update/{id}', 'edit')->name('transaction.edit');
         Route::post('/update/{id}', 'update')->name('transaction.update');
@@ -200,12 +209,14 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::post('/update/{id}', 'update')->name('trip.update');
     });
     //Admin triphistory Controller
-    Route::prefix('triphistory')->controller(TripController::class)->group(function () {
+    Route::prefix('triphistory')->controller(TriphistoryController::class)->group(function () {
         Route::get('/', 'index')->name('triphistory.table');
-        // Route::get('active', 'enabled')->name('triphistory.enabled');
-        // Route::get('inactive', 'disabled')->name('triphistory.disabled');
 
-        // Route::get('export','export')->name('triphistory.export');
+        Route::get('morning', 'morning')->name('triphistory.morning');
+        Route::get('evening', 'evening')->name('triphistory.evening');
+
+        Route::get('/show/{id}', 'show')->name('triphistory.show');
+        Route::get('export','export')->name('triphistory.export');
         // Route::get('pdf/{id}','pdf')->name('triphistory.pdf');
 
         // Route::get('/status/{id}', 'status')->name('triphistory.status');
@@ -213,13 +224,16 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         // Route::get('/create', 'create')->name('triphistory.create');
         // Route::post('/create', 'store')->name('triphistory.store');
 
-        // Route::get('/update/{id}', 'edit')->name('triphistory.edit');
+        Route::get('/update/{id}', 'edit')->name('triphistory.edit');
         // Route::post('/update/{id}', 'update')->name('triphistory.update');
     });
 
     //Admin Students Controller
     Route::prefix('students')->controller(ReportController::class)->group(function () {
         Route::get('/', 'index')->name('student.table');
+        Route::get('/pending', 'pending')->name('student.pending');
+        Route::get('/virified', 'verified')->name('student.verified');
+        Route::get('/remaining-payments', 'active')->name('student.active');
 
         // Route::get('/trash', 'trash')->name('transaction.trash');
         // Route::get('/restore/{id}', 'restore')->name('transaction.restore');
@@ -228,13 +242,14 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('/status/{id}', 'active')->name('student.status');
         // Route::get('/delete/{id}', 'destroy')->name('route.delete');
 
-        Route::get('/create', 'create')->name('student.create');
-        Route::post('/create', 'store')->name('student.store');
+        Route::get('/create/{id}', 'create')->name('student.create');
+        Route::post('/create/{id}', 'store')->name('student.store');
 
         Route::get('/update/{id}', 'edit')->name('student.edit');
         Route::post('/update/{id}', 'update')->name('student.update');
     });
 });
+
 // driver
 Route::prefix('driver')->middleware(['auth', 'verified', 'driver'])->group(function(){
     Route::get('dashboard', function () {
@@ -242,8 +257,10 @@ Route::prefix('driver')->middleware(['auth', 'verified', 'driver'])->group(funct
     })->name('driver.dashboard');
 
 });
+
 Route::get('complete-profile/{id}', [ProfileController::class, 'showCompleteProfile'])->name('complete-profile');
 Route::post('complete-profile/{id}', [ProfileController::class, 'completeProfile'])->name('complete-profile');
+
 // guardian
 Route::prefix('guardian')->middleware(['auth', 'verified', 'guardian'])->group(function(){
     Route::get('dashboard', function () {

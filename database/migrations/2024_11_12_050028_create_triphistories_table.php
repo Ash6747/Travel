@@ -22,7 +22,9 @@ return new class extends Migration
             $table->decimal('latitude', 10, 7)->nullable(); // Precision for GPS coordinates
             $table->decimal('longitude', 10, 7)->nullable(); // Precision for GPS coordinates
 
-            $table->decimal('distance_traveled', 8, 2)->nullable();
+            $table->decimal('distance_traveled', 10, 2)->nullable();
+            $table->text('note', 250)->nullable();
+
             $table->enum('status', ['active', 'complete', 'cancle'])->default('active');
             $table->tinyInteger('phase');
 

@@ -35,51 +35,51 @@
                 <div class="card-body">
                   <h5 class="card-title">{{ $title }}</h5>
 
-                  <!-- Multi Columns Form -->
-                  <form method="post" action="{{ isset($stop) ? route($url, ['id'=>$id]) : route($url) }}" class="row g-3">
-                    @csrf
-                    <div class="col-md-12">
-                      <label for="stop_name" class="form-label">Stop Name</label>
-                      <input type="text" class="form-control"
-                        id="stop_name" name="stop_name"
-                        value="{{ old('stop_name') ?? $stop->stop_name ?? '' }}">
-                      @error('stop_name')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                    </div>
-                    <div class="col-md-4">
-                      <label for="longitude" class="form-label">Longitude</label>
-                      <input type="text" class="form-control"
-                        id="longitude" name="longitude"
-                        value="{{ old('longitude') ?? $stop->longitude ?? '' }}">
-                      @error('longitude')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                    </div>
-                    <div class="col-md-4">
-                      <label for="latitude" class="form-label">Latitude</label>
-                      <input type="text" class="form-control"
-                        id="latitude" name="latitude"
-                        value="{{ old('latitude') ?? $stop->latitude ?? '' }}">
-                      @error('latitude')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                    </div>
+                    <!-- Multi Columns Form -->
+                    <form method="post" action="{{ isset($stop) ? route($url, ['id'=>$id]) : route($url) }}" class="row g-3">
+                        @csrf
+                        <div class="col-md-12">
+                        <label for="stop_name" class="form-label">Stop Name</label>
+                        <input type="text" class="form-control"
+                            id="stop_name" name="stop_name"
+                            value="{{ old('stop_name') ?? $stop->stop_name ?? '' }}">
+                        @error('stop_name')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        </div>
+                        <div class="col-md-4">
+                        <label for="longitude" class="form-label">Longitude</label>
+                        <input type="text" class="form-control"
+                            id="longitude" name="longitude"
+                            value="{{ old('longitude') ?? $stop->longitude ?? '' }}">
+                        @error('longitude')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        </div>
+                        <div class="col-md-4">
+                        <label for="latitude" class="form-label">Latitude</label>
+                        <input type="text" class="form-control"
+                            id="latitude" name="latitude"
+                            value="{{ old('latitude') ?? $stop->latitude ?? '' }}">
+                        @error('latitude')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        </div>
 
-                    <div class="col-md-4">
-                      <label for="fee" class="form-label">Fee</label>
-                      <input type="number" class="form-control" id="fee" name="fee"
-                        value="{{ old('fee') ?? $stop->fee ?? '' }}">
-                      @error('fee')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                    </div>
+                        <div class="col-md-4">
+                        <label for="fee" class="form-label">Fee</label>
+                        <input type="number" class="form-control" id="fee" name="fee"
+                            value="{{ old('fee') ?? $stop->fee ?? '' }}">
+                        @error('fee')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        </div>
 
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                      <button type="reset" class="btn btn-secondary">Reset</button>
-                    </div>
-                  </form><!-- End Multi Columns Form -->
+                        <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </form><!-- End Multi Columns Form -->
 
                 </div>
               </div>

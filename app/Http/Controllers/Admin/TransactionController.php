@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\TransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Booking;
 use App\Models\Transaction;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -103,7 +104,8 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $bookings = Booking::with('student')
+        // ->where('');
     }
 
     /**
@@ -135,7 +137,7 @@ class TransactionController extends Controller
             $title = "Transaction Update";
             $routTitle = "Update";
             $data = compact('url', 'title', 'transaction', 'routTitle', 'id');
-            return view('admin.transaction.form')->with($data);
+            return view('admin.transaction.transaction-detail')->with($data);
         }
     }
 
@@ -207,8 +209,12 @@ class TransactionController extends Controller
         // Save the updated transaction
         $transaction->save();
 
+        if($transaction->status === 'accepted'){
+            return redirect()->route('transaction.edit', ['id'=>$id])->with('accepted', 'Transaction successfully accepted.');
+        }
+
         // Return a response
-        return redirect()->route('transaction.edit', ['id'=>$id])->with('status', 'Transaction updated successfully.');
+        return redirect()->route('transaction.edit', ['id'=>$id])->with('reject', 'Transaction successfully rejected.');
     }
 
     /**
