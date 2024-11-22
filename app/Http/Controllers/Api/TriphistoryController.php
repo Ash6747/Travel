@@ -81,7 +81,7 @@ class TriphistoryController extends Controller
 
         $driver = $user->driver;
 
-        dd($driver);
+        // dd($driver);
 
         if (!isNull($driver->trip) && $driver->trip->triphistories->isNotEmpty()) {
             return response()->json([

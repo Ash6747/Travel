@@ -91,6 +91,19 @@ class TriphistoryController extends Controller
     public function show(string $id)
     {
         //
+        $triphistory = Triphistory::with(['trip' => function ($query) {
+            $query->with(['bus' => function ($query) {
+                $query->with('route:id,route_name'); // Load only 'id' and 'name' columns for route
+            }]); // Load only necessary columns for trip
+        }, 'driver' => function($query){
+            $query->with('user');
+        }]) // Load only 'id' and 'name' columns for driver
+        ->findOrFail($id);
+        // ->paginate(10); // Paginate results to avoid overloading
+
+        $title = 'Trip History';
+        $data = compact('triphistory', 'title');
+        return view('admin.triphistory.form')->with($data);
     }
 
     /**

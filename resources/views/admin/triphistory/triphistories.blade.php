@@ -94,18 +94,12 @@
                             </td>
                             <td>
                                 <div class="form-button-action">
-                                    <a href="{{ route('triphistory.edit', ['id' => $triphistory->id])}}" title="Open trip">
+                                    <a href="{{ route('triphistory.show', ['id' => $triphistory->id])}}" title="Open trip">
                                         <button type="button" data-bs-toggle="tooltip" title="Open trip"
                                             class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Open trip" >
                                             <i class="bi text-secondary-emphasis bi-pencil-square"></i>
                                         </button>
                                     </a>
-                                  {{-- <a href="{{ route('triphistory.delete', ['id' => $triphistory->id]) }}">
-                                      <button type="button" data-bs-toggle="tooltip" title="Remove"
-                                          class="btn btn-link btn-danger btn-lg rounded-pill" data-original-title="Remove" >
-                                          <i class="bi text-secondary-emphasis bi-trash"></i>
-                                      </button>
-                                  </a> --}}
                                 </div>
                             </td>
                         </tr>

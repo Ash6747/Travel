@@ -90,9 +90,9 @@ class ProfileController extends Controller
             $request->validate([
                 'profile' => ['required', 'mimes:png,jpg,jpeg'],
                 'license_file' => ['required', 'mimes:png,jpg,jpeg'],
-                'firstName' => ['required', 'string', 'max:50'],
-                'middleName' => ['required', 'string', 'max:50'],
-                'lastName' => ['required', 'string', 'max:50'],
+                'firstName' => ['required', 'string', 'max:50', 'regex:/^[a-zA-Z\s]+$/', 'min:3'],
+                'middleName' => ['required', 'string', 'max:50', 'regex:/^[a-zA-Z\s]+$/', 'min:3'],
+                'lastName' => ['required', 'string', 'max:50', 'regex:/^[a-zA-Z\s]+$/', 'min:3'],
                 'contact' => ['required', 'digits:10'], // digits validation for 10 numbers
                 'whatsup_no' => ['required', 'digits:10'], // digits validation for 10 numbers
                 'license_exp' => ['required', 'date'], // Only date validation
@@ -102,6 +102,9 @@ class ProfileController extends Controller
                 'user_id' => ['required', 'exists:'.User::class.',id']//, 'unique:'.Driver::class.',user_id'], // Check if user exists and unique in drivers
             ], [
                 'user_id.exists' => 'The selected user does not exist.',
+                'firstName.regex'=> 'Allows alphabets, and spaces only',
+                'middleName.regex'=> 'Allows alphabets, and spaces only',
+                'lastName.regex'=> 'Allows alphabets, and spaces only',
                 // 'user_id.unique' => 'This user already has a driver profile.',
             ]);
             $newUser = new Driver;

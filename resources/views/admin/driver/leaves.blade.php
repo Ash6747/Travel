@@ -7,12 +7,12 @@
 @section('admin-main')
 
     <div class="pagetitle">
-      <h1 style="color: blue;">Drivers Table</h1>
+      <h1 style="color: blue;">Drivers Leaves</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Drivers</li>
-          <li class="breadcrumb-item active">Table</li>
+          <li class="breadcrumb-item active">Leaves</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -32,8 +32,9 @@
           <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <h5 class="card-title" style="color: red;">Verified Drivers</h5>
-                    <a class="ms-2" href="{{ route('driver.table') }}">
+                    <h5 class="card-title">{{ $driver->full_name }} </h5>
+                    <h5 class="card-title"> - {{ $driver->license_number }}</h5>
+                    {{-- <a class="ms-2" href="{{ route('driver.table') }}">
                       <button class="btn btn-primary rounded-pill ">
                           <i class="bi bi-info-circle"></i>
                           All Type Drivers
@@ -50,53 +51,58 @@
                             <i class="bi bi-exclamation-octagon"></i>
                             Inactive
                         </button>
-                    </a>
+                    </a> --}}
                 </div>
 
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
                   <tr>
-                    <th>
-                      <b>Name</b>
-                    </th>
-                    <th>Contact</th>
-                    <th>Whats's up No.</th>
-                    <th>License No.</th>
-                    <th data-type="date" data-format="YYYY/DD/MM">Exp. Date</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Duration</th>
+                    <th>Reason</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    {{-- <th>Action</th> --}}
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach ($drivers as $driver)
+                    @foreach ($driver->leaves as $leave)
                         <tr>
-                            <td>{{ $driver->full_name }}</td>
-                            <td>{{ $driver->contact }}</td>
-                            <td>{{ $driver->whatsup_no }}</td>
-                            <td>{{ $driver->license_number }}</td>
-                            <td>{{ $driver->license_exp }}</td>
+                            <td>{{ $leave->start_date }}</td>
+                            <td>{{ $leave->end_date }}</td>
+                            <td>{{ $leave->duration }}</td>
+                            <td>{{ $leave->reason }}</td>
                             <td>
-                                <a class="badge rounded-pill bg-{{ $driver->status? 'success' : 'danger' }}" href="{{ route('driver.status', ['id' => $driver->id])}}">
-                                    <i class="bi {{ $driver->status? 'bi-check-circle' : 'bi-exclamation-octagon' }} me-1"></i> {{ $driver->status? 'Active' : 'Inactive' }}
+                                @php
+                                    $color = $leave->status == 'pending' ? 'warning' : ($leave->status == 'rejected' ? 'danger' : 'success');
+                                    $textColor = $leave->status == 'pending' ? 'dark' : ($leave->status == 'rejected' ? 'light' : 'light');
+                                    $icon = $leave->status == 'pending' ? 'bi-exclamation-triangle' : ($leave->status == 'rejected' ? 'bi-exclamation-octagon' : 'bi-check-circle');
+                                @endphp
+
+                                @if ($leave->status == 'pending')
+                                <a class="badge rounded-pill bg-danger" href="{{ route('driver.leaves.status', ['id' => $driver->id, 'leaveId' => $leave->id, 'status' => 'rejected'])}}">
+                                    <i class="bi bi-exclamation-octagon me-1"></i> Reject
                                 </a>
+                                <a class="badge rounded-pill bg-success" href="{{ route('driver.leaves.status', ['id' => $driver->id, 'leaveId' => $leave->id, 'status' => 'approved'])}}">
+                                    <i class="bi bi-check-circle me-1"></i> Approve
+                                </a>
+                                @else
+                                <span class="badge rounded-pill bg-{{ $color }} text-{{ $textColor }}">
+                                    <i class="bi {{ $icon }} me-1"></i> {{ Str::ucfirst($leave->status)}}
+                                </span>
+                                @endif
                             </td>
-                            <td>
+                            {{-- <td>
                                 <div class="form-button-action">
-                                <a href="{{ route('driver.edit', ['id' => $driver->id])}}" title="Edit">
+                                <a href="{{ route('driver.edit', ['id' => $leave->id])}}" title="Edit">
                                     <button type="button" data-bs-toggle="tooltip" title="Edit"
                                         class="btn btn-link btn-info btn-lg rounded-pill" data-original-title="Edit Task" >
                                         <i class="bi text-secondary-emphasis bi-pencil-square"></i>
                                     </button>
                                 </a>
-                                <a href="{{ route('driver.leaves', ['id' => $driver->id]) }}" title="Leaves">
-                                    <button type="button" data-bs-toggle="tooltip"
-                                        class="btn btn-link btn-danger btn-lg rounded-pill" >
-                                        <i class="bi bi-calendar-x text-secondary-emphasis"></i>
-                                    </button>
-                                </a>
                                 </div>
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
 

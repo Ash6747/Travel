@@ -6,7 +6,9 @@ use App\Http\Middleware\Admin\CheckAdminProfile;
 use App\Http\Middleware\Api\ApiAuthenticate;
 use App\Http\Middleware\Api\Authorization;
 use App\Http\Middleware\Api\CheckBookingExist;
+use App\Http\Middleware\Api\CheckDriverExist;
 use App\Http\Middleware\Api\CheckStudentExist;
+use App\Http\Middleware\Api\CheckTripExist;
 use App\Http\Middleware\Api\Handletoken;
 use App\Http\Middleware\BookingConstraintMiddleware;
 use App\Http\Middleware\CheckDriverProfile;
@@ -42,6 +44,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'booking.exist'=>CheckBookingExist::class,
             'bus.constraint'=>BusLimitCheck::class,
             'check.api.student.profile'=>CheckStudentExist::class,
+            'check.api.driver.profile'=>CheckDriverExist::class,
+            'trip.exist'=>CheckTripExist::class,
             // Excel
             'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         ]);

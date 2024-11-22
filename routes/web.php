@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BusController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DriverController;
+use App\Http\Controllers\Admin\LeavesController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoutesController;
 use App\Http\Controllers\Admin\StopsController;
@@ -36,13 +37,13 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
     //Admin Driver Controller
     Route::prefix('drivers')->controller(DriverController::class)->group(function () {
         Route::get('/', 'index')->name('driver.table');
+        Route::prefix('/{id}/leaves')->group(function(){
+            Route::get('/', 'leaves')->name('driver.leaves');
+            Route::get('/{leaveId}', 'leavesStatus')->name('driver.leaves.status');
+        });
         Route::get('/unregistered', 'unregistered')->name('driver.unregistered');
         Route::get('active', 'enabled')->name('driver.enabled');
         Route::get('inactive', 'disabled')->name('driver.disabled');
-
-        // Route::get('/trash', 'trash')->name('driver.trash');
-        // Route::get('/restore/{id}', 'restore')->name('driver.restore');
-        // Route::get('/force-delete/{id}', 'forcefullyDelete')->name('driver.hardDelete');
 
         Route::get('/status/{id}', 'active')->name('driver.status');
         // Route::get('/delete/{id}', 'destroy')->name('driver.delete');
@@ -53,6 +54,11 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('/update/{id}', 'edit')->name('driver.edit');
         Route::post('/update/{id}', 'update')->name('driver.update');
     });
+    //Admin Driver leaves Controller
+    Route::prefix('leaves')->controller(LeavesController::class)->group(function () {
+        Route::get('/', 'index')->name('leave.table');
+        Route::get('/status/{leaveId}', 'leavesStatus')->name('leave.status');
+    });
 
     //Admin Route Controller
     Route::prefix('routes')->controller(RoutesController::class)->group(function () {
@@ -60,14 +66,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('active', 'enabled')->name('route.enabled');
         Route::get('inactive', 'disabled')->name('route.disabled');
 
-        // Route::get('export','export')->name('route.export');
-
-        // Route::get('/trash', 'trash')->name('route.trash');
-        // Route::get('/restore/{id}', 'restore')->name('route.restore');
-        // Route::get('/force-delete/{id}', 'forcefullyDelete')->name('route.hardDelete');
-
         Route::get('/status/{id}', 'active')->name('route.status');
-        // Route::get('/delete/{id}', 'destroy')->name('route.delete');
 
         Route::get('/stops/{id}', 'show')->name('route.stops');
         Route::post('/stops/{id}', 'add')->name('route.add');
@@ -89,12 +88,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
 
         Route::get('export','export')->name('bus.export');
 
-        // Route::get('/trash', 'trash')->name('bus.trash');
-        // Route::get('/restore/{id}', 'restore')->name('bus.restore');
-        // Route::get('/force-delete/{id}', 'forcefullyDelete')->name('bus.hardDelete');
-
         Route::get('/status/{id}', 'active')->name('bus.status');
-        // Route::get('/delete/{id}', 'destroy')->name('route.delete');
 
         Route::get('/create', 'create')->name('bus.create');
         Route::post('/create', 'store')->name('bus.store');
@@ -177,15 +171,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('export','export')->name('transaction.export');
         Route::get('pdf/{id}','pdf')->name('transaction.pdf');
 
-        // Route::get('/trash', 'trash')->name('transaction.trash');
-        // Route::get('/restore/{id}', 'restore')->name('transaction.restore');
-        // Route::get('/force-delete/{id}', 'forcefullyDelete')->name('transaction.hardDelete');
-
         Route::get('/status/{id}', 'active')->name('transaction.status');
-        // Route::get('/delete/{id}', 'destroy')->name('route.delete');
-
-        // Route::get('/create', 'create')->name('transaction.create');
-        // Route::post('/create', 'store')->name('transaction.store');
 
         Route::get('/update/{id}', 'edit')->name('transaction.edit');
         Route::post('/update/{id}', 'update')->name('transaction.update');

@@ -48,4 +48,8 @@ class Driver extends Model
         return $this->hasMany(Triphistory::class, 'driver_id');
     }
 
+    public function leaves(){
+        return $this->hasMany(Driverleave::class, 'driver_id');
+    }
+
 }

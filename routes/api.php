@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\BusController;
 use App\Http\Controllers\Api\CoursesController;
+use App\Http\Controllers\Api\DriverleavesController;
 use App\Http\Controllers\Api\RoutesController;
 use App\Http\Controllers\Api\StopsController;
 use App\Http\Controllers\Api\TransactionController;
@@ -64,20 +65,26 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
     });
 
     // driver
-    Route::prefix('driver')->middleware('authorized')->group(function(){
+    Route::prefix('driver')->middleware(['authorized', 'check.api.driver.profile'])->group(function(){
         Route::get('users', [UserController::class, 'getUser'] );
 
         Route::prefix('trip')->controller(TripController::class)->group(function(){
+            Route::get('/', 'index')->middleware('trip.exist');
+        });
+
+        Route::prefix('leave')->controller(DriverleavesController::class)->group(function(){
             Route::get('/', 'index');
+            Route::post('/store','store' );
         });
 
         Route::prefix('triphistory')->controller(TriphistoryController::class)->group(function(){
             Route::get('/', 'index');
-            Route::post('/end','update' );
-            Route::post('/location','location' );
-            Route::post('/store','store' );
+            Route::post('/end','update' )->middleware('trip.exist');
+            Route::post('/location','location' )->middleware('trip.exist');
+            Route::post('/store','store' )->middleware('trip.exist');
             Route::get('show/{id}',  'show' );
         });
+
     });
 
     // guardian

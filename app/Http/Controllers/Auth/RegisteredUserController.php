@@ -31,9 +31,11 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'role' => ['required', 'string'],
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/', 'min:3'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ],[
+            'name.regex'=> 'Allows alphabets, and spaces only',
         ]);
 
         $user = User::create([

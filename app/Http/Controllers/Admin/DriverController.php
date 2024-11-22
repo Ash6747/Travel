@@ -129,6 +129,36 @@ class DriverController extends Controller
     /**
      * Display the specified resource.
      */
+    public function leaves(string $id)
+    {
+        //
+        $driver = Driver::with(['leaves'=> function($query){
+            $query->orderBy('created_at', 'DESC');
+        }])->findOrFail($id);
+        // dd($driver);
+        $data = compact('driver');
+        return view('admin.driver.leaves')->with($data);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function leavesStatus(Request $request,string $id, string $leaveId)
+    {
+        //
+        // dd($request);
+        $driver = Driver::with('leaves')->findOrFail($id);
+        $leave = $driver->leaves->findOrFail($leaveId);
+        $leave['status'] = $request->query('status');
+        // dd($leave);
+        $leave->save();
+
+        return redirect()->route('driver.leaves', ['id'=>$id])->with('status', 'Driver leave '.$leave->status.' successfully!');
+    }
+
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
         //

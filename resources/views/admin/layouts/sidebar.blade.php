@@ -47,6 +47,31 @@
             </li><!-- End transactions Nav -->
 
             <li class="nav-item">
+                <a class="nav-link {{ (Route::currentRouteName() == 'trip.table'
+                || Route::currentRouteName() == 'triphistory.table'
+                // || Route::currentRouteName() == 'leave.table'
+                ) ? '' : 'collapsed' }}" data-bs-target="#Trips-nav" data-bs-toggle="collapse" href="#">
+                    <i class="ri ri-compass-3-line"></i><span>Trips</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Trips-nav" class="nav-content collapse {{ (Route::currentRouteName() == 'trip.table'
+                || Route::currentRouteName() == 'triphistory.table'
+                // || Route::currentRouteName() == 'leave.table'
+                ) ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="{{ Route::currentRouteName() != 'trip.table' ? '' : 'active' }}" href="{{ route('trip.table') }}">
+                            <i class="bi bi-circle"></i><span>Assigned</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="{{ Route::currentRouteName() != 'triphistory.table' ? '' : 'active' }}" href="{{ route('triphistory.table') }}">
+                            <i class="bi bi-circle"></i><span>History</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Drivers Nav -->
+
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() != 'triphistory.table' ? 'collapsed' : '' }}" href="{{ route('triphistory.table') }}">
                     <i class="ri ri-history-line"></i>
                     <span>Trip History</span>
@@ -58,7 +83,7 @@
                     <i class="ri ri-compass-3-line"></i>
                     <span>Trips</span>
                 </a>
-            </li><!-- End trips Nav -->
+            </li><!-- End trips Nav --> --}}
 
             <li class="nav-item">
                 <a class="nav-link {{ (Route::currentRouteName() == 'booking.table'
@@ -97,19 +122,30 @@
             </li><!-- End Bookings Nav -->
 
             <li class="nav-item">
-                <a class="nav-link {{ (Route::currentRouteName() == 'driver.table' || Route::currentRouteName() == 'driver.unregistered') ? '' : 'collapsed' }}" data-bs-target="#Drivers-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link {{ (Route::currentRouteName() == 'driver.table'
+                || Route::currentRouteName() == 'driver.unregistered'
+                || Route::currentRouteName() == 'leave.table'
+                ) ? '' : 'collapsed' }}" data-bs-target="#Drivers-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri ri-contacts-line"></i><span>Drivers</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="Drivers-nav" class="nav-content collapse {{ (Route::currentRouteName() == 'driver.table' || Route::currentRouteName() == 'driver.unregistered') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+                <ul id="Drivers-nav" class="nav-content collapse {{ (Route::currentRouteName() == 'driver.table'
+                || Route::currentRouteName() == 'driver.unregistered'
+                || Route::currentRouteName() == 'leave.table'
+                ) ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
                     <li>
                         <a class="{{ Route::currentRouteName() != 'driver.table' ? '' : 'active' }}" href="{{ route('driver.table') }}">
-                            <i class="bi bi-circle"></i><span>Registered Drivers</span>
+                            <i class="bi bi-circle"></i><span>Registered</span>
                         </a>
                     </li>
                     <li>
                         <a class="{{ Route::currentRouteName() != 'driver.unregistered' ? '' : 'active' }}" href="{{ route('driver.unregistered') }}">
-                            <i class="bi bi-circle"></i><span>Unregistered Drivers</span>
+                            <i class="bi bi-circle"></i><span>Unregistered</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="{{ Route::currentRouteName() != 'leave.table' ? '' : 'active' }}" href="{{ route('leave.table') }}">
+                            <i class="bi bi-circle"></i><span>Leaves</span>
                         </a>
                     </li>
                 </ul>

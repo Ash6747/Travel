@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('driverleaves', function (Blueprint $table) {
             $table->id();
             $table->text('reason', 250);
-            $table->decimal('duration', 2);
+            $table->integer('duration');
             $table->date('start_date');
             $table->date('end_date');
             $table->unsignedBigInteger('driver_id');
