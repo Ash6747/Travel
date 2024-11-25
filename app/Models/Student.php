@@ -38,4 +38,9 @@ class Student extends Model
         return $this->hasMany(Transaction::class, 'student_id');
     }
 
+    public function complaints()
+    {
+        return $this->hasMany(Complaint::class, 'student_id');
+    }
+
 }

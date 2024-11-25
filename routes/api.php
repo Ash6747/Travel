@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\BusController;
+use App\Http\Controllers\Api\ComplaintController;
 use App\Http\Controllers\Api\CoursesController;
 use App\Http\Controllers\Api\DriverleavesController;
 use App\Http\Controllers\Api\RoutesController;
@@ -60,6 +61,13 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
             Route::get('show/{id}',  'show' );
             Route::post('make','store' )->middleware('booking.exist');
 
+        });
+
+        // complaint
+        Route::prefix('complaints')->controller(ComplaintController::class)->group(function(){
+            Route::get('/', 'index' );
+            Route::post('/','store' )->middleware('booking.exist');
+            Route::get('show/{id}',  'show' );
         });
 
     });

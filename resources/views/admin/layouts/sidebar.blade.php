@@ -151,7 +151,19 @@
                 </ul>
             </li><!-- End Drivers Nav -->
 
-            <li class="nav-heading">Pages</li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() == 'complaint.table'
+                || Route::currentRouteName() == 'complaint.pending'
+                || Route::currentRouteName() == 'complaint.progress'
+                || Route::currentRouteName() == 'complaint.resolved'
+                || Route::currentRouteName() == 'complaint.edit'
+                 ? '' : 'collapsed' }}" href="{{ route('complaint.table') }}">
+                    <i class="ri ri-feedback-line"></i>
+                    <span>Complaints</span>
+                </a>
+            </li><!-- End complaints Nav -->
+
+            <li class="nav-heading">Admin Account</li>
 
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() != 'admin.profile.edit' ? 'collapsed' : '' }}" href="{{ route('admin.profile.edit') }}">

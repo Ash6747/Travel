@@ -33,22 +33,22 @@ class CheckBookingExist
         }
 
         // Ensure that payment_date > booking created_at date
-        $paymentDate = $request->payment_date;
-        if ($paymentDate < $booking->created_at->format('Y-m-d')) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Payment date must be after the booking creation date.',
-            ], 400);
-        }
+        // $paymentDate = $request->payment_date;
+        // if ($paymentDate < $booking->created_at->format('Y-m-d')) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Payment date must be after the booking creation date.',
+        //     ], 400);
+        // }
 
         // Determine the paid status based on the fee and paid amount
-        $paid_status = $booking->fee > $request->paid_amount ? 'partial' : 'full';
+        // $paid_status = $booking->fee > $request->paid_amount ? 'partial' : 'full';
 
         // Merge all necessary data into the request object
         $request->merge([
             'booking_id' => $booking->id,
-            'booking_fee' => $booking->fee,
-            'paid_status' => $paid_status,
+            // 'booking_fee' => $booking->fee,
+            // 'paid_status' => $paid_status,
         ]);
 
         return $next($request);

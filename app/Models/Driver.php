@@ -52,4 +52,8 @@ class Driver extends Model
         return $this->hasMany(Driverleave::class, 'driver_id');
     }
 
+    public function complaints(){
+        return $this->hasMany(Complaint::class, 'driver_id');
+    }
+
 }

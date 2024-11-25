@@ -292,18 +292,6 @@
                                     @enderror
                                 </fieldset>
 
-                                {{-- <div>
-                                    <th>Paid Amount: </th>
-                                    <div>{{ $transaction->paid_amount }}</div>
-                                </div>
-                                <div>
-                                    <th>Paid Amount Confirm </th>
-                                    <div>
-                                        <input type="radio" value="1" name="paid_amount_check" {{ $transaction->paid_amount_check ? 'checked' : '' }}> Yes
-                                        <input type="radio" value="0" name="paid_amount_check" {{ !$transaction->paid_amount_check ? 'checked' : '' }}> No
-                                    </div>
-                                </div> --}}
-
                                 <fieldset class="m-auto border border-4 row">
                                     <legend class="pt-0 col-form-label col-md-4 fw-bold">Paid Amount Confirm</legend>
                                     <div class="col-md-4">
@@ -327,18 +315,6 @@
                                     @enderror
                                 </fieldset>
 
-                                {{-- <div>
-                                    <th>Payment Type </th>
-                                    <div>{{ $transaction->pay_type }}</div>
-                                </div>
-                                <div>
-                                    <th>Payment Type Confirm </th>
-                                    <div>
-                                        <input type="radio" value="1" name="pay_type_check" {{ $transaction->pay_type_check ? 'checked' : '' }}> Yes
-                                        <input type="radio" value="0" name="pay_type_check" {{ !$transaction->pay_type_check ? 'checked' : '' }}> No
-                                    </div>
-                                </div> --}}
-
                                 <fieldset class="m-auto border border-4 row">
                                     <legend class="pt-0 col-form-label col-md-4 fw-bold">Payment Type Confirm</legend>
                                     <div class="col-md-4">
@@ -361,21 +337,6 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </fieldset>
-
-                                {{-- <div>
-                                    <th>File (if any)</th>
-                                    <div>
-                                        <a href="{{ asset('/storage/' . $transaction->reciept_file) }}" target="blank">File</a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <th>Reciept File Confirm </th>
-                                    <div>
-                                        <input type="radio" value="1" name="reciept_file_check" {{ $transaction->reciept_file_check ? 'checked' : '' }}> Yes
-                                        <input type="radio" value="0" name="reciept_file_check" {{ !$transaction->reciept_file_check ? 'checked' : '' }}> No
-
-                                    </div>
-                                </div> --}}
 
                                 <fieldset class="m-auto border border-4 row">
                                     <legend class="pt-0 col-form-label col-md-4 fw-bold">Reciept File Confirm</legend>

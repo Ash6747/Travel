@@ -34,4 +34,8 @@ class Bus extends Model
         return $this->hasOne(Trip::class, 'bus_id');
     }
 
+
+    public function complaints(){
+        return $this->hasMany(Complaint::class, 'bus_id');
+    }
 }

@@ -32,4 +32,9 @@ class Admin extends Model
     {
         return $this->hasMany(Booking::class, 'verified_by');
     }
+
+    public function complaints()
+    {
+        return $this->hasMany(Complaint::class, 'verified_by');
+    }
 }

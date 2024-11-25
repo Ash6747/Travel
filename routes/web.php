@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BusController;
+use App\Http\Controllers\Admin\ComplaintController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DriverController;
 use App\Http\Controllers\Admin\LeavesController;
@@ -234,6 +235,27 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('/update/{id}', 'edit')->name('student.edit');
         Route::post('/update/{id}', 'update')->name('student.update');
     });
+
+    //Admin complaints Controller
+    Route::prefix('complaints')->controller(ComplaintController::class)->group(function () {
+        Route::get('/', 'index')->name('complaint.table');
+        Route::get('/pending', 'pending')->name('complaint.pending');
+        Route::get('/progress', 'progress')->name('complaint.progress');
+        Route::get('/resolved', 'resolved')->name('complaint.resolved');
+
+        // Route::get('/trash', 'trash')->name('transaction.trash');
+        // Route::get('/restore/{id}', 'restore')->name('transaction.restore');
+        // Route::get('/force-delete/{id}', 'forcefullyDelete')->name('transaction.hardDelete');
+
+        Route::get('/status/{id}', 'status')->name('complaint.status');
+        // Route::get('/delete/{id}', 'destroy')->name('route.delete');
+
+        // Route::get('/create/{id}', 'create')->name('complaint.create');
+        // Route::post('/create/{id}', 'store')->name('complaint.store');
+
+        Route::get('/update/{id}', 'edit')->name('complaint.edit');
+        Route::post('/update/{id}', 'update')->name('complaint.update');
+    });
 });
 
 // driver
@@ -244,7 +266,7 @@ Route::prefix('driver')->middleware(['auth', 'verified', 'driver'])->group(funct
 
 });
 
-Route::get('complete-profile/{id}', [ProfileController::class, 'showCompleteProfile'])->name('complete-profile');
+Route::get('complete-profile/{id}', [ProfileController::class, 'showCompleteProfile'])->name('show-complete-profile');
 Route::post('complete-profile/{id}', [ProfileController::class, 'completeProfile'])->name('complete-profile');
 
 // guardian

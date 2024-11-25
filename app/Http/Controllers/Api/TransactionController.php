@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Student;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -27,7 +28,7 @@ class TransactionController extends Controller
 
         if(isset($transactions)){
             return response()->json([
-                'status'=> false,
+                'status'=> true,
                 'message'=> 'Transactions for students',
                 'trasactions'=> $transactions
             ]);
@@ -55,13 +56,15 @@ class TransactionController extends Controller
     {
         // Get today's date
         // dd($request);
+        // $student = Student::with(['bookings']);
+        $booking = Booking::findOrFail($request['booking_id']);
         $today = Carbon::today()->format('Y-m-d');
 
         // Define custom validation logic
         $validator = Validator::make($request->all(), [
             'student_id' => 'required|exists:students,id',
             'booking_id' => 'required|exists:bookings,id',
-            'payment_date' => "required|date|before_or_equal:$today", // Ensure payment date is today or earlier
+            'payment_date' => "required|date|before_or_equal:$today|after_or_equal:".$booking->created_at->format('Y-m-d'), // Ensure payment date is today or earlier
             'reciept_token' => [
                 'required',
                 'string',
@@ -77,26 +80,28 @@ class TransactionController extends Controller
                     }
                 }
             ],
-            'paid_amount' => 'required|numeric|min:1|max:'.$request->booking_fee,
+            'paid_amount' => 'required|numeric|min:1|max:'.$booking->fee,
             'reciept_file' => 'required|mimes:png,jpg',
             'pay_type' => 'required|in:dd,cash,cheque,nft,upi,bank transfer',
-            'paid_status' => 'required|in:full,partial',
+            // 'paid_status' => 'required|in:full,partial',
         ]);
 
         // Handle file uploads (optional)
 
-        // Store receipt file
-        $recieptPath = $request->file('reciept_file')->store('student/reciepts', 'public');
 
         // Handle validation failure
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
+        // Store receipt file
+        $recieptPath = $request->file('reciept_file')->store('student/reciepts', 'public');
         // Proceed with transaction creation
         // Add receipt path to validated data
         $validatedData = $validator->validated();
         $validatedData['reciept_file'] = $recieptPath;
+        $validatedData['paid_status'] = $request->paid_amount < $booking->fee ? 'partial' : 'full';
+
 
         // dd($validatedData);
         // Save the transaction (example)

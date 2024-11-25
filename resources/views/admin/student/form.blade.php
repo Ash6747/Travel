@@ -237,7 +237,9 @@
                                         @endisset
                                     {{-- </tbody> --}}
                                 </table>
-                                @if ($student->bookings->remaining_amount_check == 1)
+                                @if ($student->bookings->status != 'approved')
+                                    <div class="text-center border border-4 text-success border-success col-md-2"><b>Not Approved</b></div>
+                                @elseif ($student->bookings->remaining_amount_check == 1)
                                     <div class="text-center border border-4 text-success border-success col-md-2"><b>No Remaining Amount</b></div>
                                 @else
                                 <!-- Profile Edit Form -->
