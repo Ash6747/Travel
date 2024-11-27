@@ -20,18 +20,23 @@ class BusLimitCheck
     {
         $today = Carbon::today(); // Current date without time
 
-            // $bookQuery->where('end_date', '>', $today)
-            // ->select('bus_id', DB::raw('COUNT(*) as total_bookings'))
-            // ->groupBy('bus_id')
-            // ->get();
-        $existingBooking = Booking::with('bus')
-        ->where('status', 'approved')
-        ->where('end_date', '>', $today)
-        ->select('bus_id', DB::raw('COUNT(*) AS total_bookings'))
-        ->groupBy('bus_id')
+        $existingBooking = Booking::with(['bus'=>function($query){
+            $query
+            ->with(['bookings'=>function($query){
+                $today = Carbon::today();
+
+                $query
+                ->where('status', 'approved')
+                ->where('end_date', '>', $today)
+                ->select('bus_id', DB::raw('COUNT(*) AS total_bookings'))
+                ->groupBy('bus_id')
+                ->first();
+            }]);
+        }])
         ->findOrFail($request->id);
 
-        if($existingBooking->total_bookings >= $existingBooking->bus->capacity){
+        // dd($existingBooking->bus->bookings[0]->total_bookings);
+        if($existingBooking->bus->bookings[0]->total_bookings >= $existingBooking->bus->capacity){
             return redirect()
             ->route('booking.edit', ['id'=>$request->id])
             ->with('Error', 'No seat available for student.');

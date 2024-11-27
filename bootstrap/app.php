@@ -5,6 +5,7 @@ use App\Http\Middleware\Admin\BusLimitCheck;
 use App\Http\Middleware\Admin\CheckAdminProfile;
 use App\Http\Middleware\Api\ApiAuthenticate;
 use App\Http\Middleware\Api\Authorization;
+use App\Http\Middleware\Api\BusCapacityCheck;
 use App\Http\Middleware\Api\CheckBookingExist;
 use App\Http\Middleware\Api\CheckDriverExist;
 use App\Http\Middleware\Api\CheckStudentExist;
@@ -43,6 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'booking.constraint'=>BookingConstraintMiddleware::class,
             'booking.exist'=>CheckBookingExist::class,
             'bus.constraint'=>BusLimitCheck::class,
+            'bus.capacity'=>BusCapacityCheck::class,
             'check.api.student.profile'=>CheckStudentExist::class,
             'check.api.driver.profile'=>CheckDriverExist::class,
             'trip.exist'=>CheckTripExist::class,

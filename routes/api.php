@@ -54,7 +54,7 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
             Route::get('/', 'index' );
             Route::get('history', 'history' );
             Route::get('history/{id}', 'show' );
-            Route::post('create', 'createOrUpdateBooking' )->middleware(['bus.constraint','booking.constraint']);
+            Route::post('create', 'createOrUpdateBooking' )->middleware(['bus.capacity', 'booking.constraint']);
         });
 
         // transaction
