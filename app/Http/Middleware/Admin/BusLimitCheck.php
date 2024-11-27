@@ -24,7 +24,9 @@ class BusLimitCheck
             // ->select('bus_id', DB::raw('COUNT(*) as total_bookings'))
             // ->groupBy('bus_id')
             // ->get();
-        $existingBooking = Booking::with('bus')->where('end_date', '>', $today)
+        $existingBooking = Booking::with('bus')
+        ->where('status', 'approved')
+        ->where('end_date', '>', $today)
         ->select('bus_id', DB::raw('COUNT(*) AS total_bookings'))
         ->groupBy('bus_id')
         ->findOrFail($request->id);

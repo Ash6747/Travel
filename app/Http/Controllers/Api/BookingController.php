@@ -129,7 +129,7 @@ class BookingController extends Controller
         $validatedData['end_date'] = $endDate->toDateString();
 
         $stop = Stop::findOrFail($validatedData['stop_id']);
-        $validatedData['fee'] = $stop->fee;
+        $validatedData['fee'] = $stop->fee * $validatedData['duration'];
 
         Booking::create($validatedData);
 
@@ -230,7 +230,7 @@ class BookingController extends Controller
         $validatedData['end_date'] = $endDate->toDateString();
 
         $stop = Stop::findOrFail($validatedData['stop_id']);
-        $validatedData['fee'] = $stop->fee;
+        $validatedData['fee'] = $stop->fee * $duration;
 
         Booking::create($validatedData);
 

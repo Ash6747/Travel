@@ -39,9 +39,6 @@ class ComplaintController extends Controller
             $query->with('route');
         }, 'driver', 'trip'])->where('status', 'pending')->get();
         // dd($bookings);
-        // echo "<pre>";
-        // print_r($bookings->toArray());
-        // echo "</pre>";
         $status = 'pending';
         $data = compact('complaints', 'status');
         return view('admin.complaint.complaints')->with($data);

@@ -87,7 +87,9 @@ class BookingController extends Controller
 
         $bookings = Booking::with(['student', 'bus'=> function($query){
             $query->with('route');
-        }, 'stop'])->where('end_date', '<', $today)
+        }, 'stop'])
+        ->where('status', 'approved')
+        ->where('end_date', '<', $today)
         ->get();
         // dd($bookings);
         // echo "<pre>";

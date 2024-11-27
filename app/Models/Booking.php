@@ -59,4 +59,14 @@ class Booking extends Model
     {
         return $this->hasMany(Transaction::class, 'booking_id');
     }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'booking_id');
+    }
+
+    public function cancel()
+    {
+        return $this->hasOne(CancelBooking::class, 'booking_id');
+    }
 }

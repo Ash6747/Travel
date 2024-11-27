@@ -158,10 +158,17 @@
                 || Route::currentRouteName() == 'complaint.resolved'
                 || Route::currentRouteName() == 'complaint.edit'
                  ? '' : 'collapsed' }}" href="{{ route('complaint.table') }}">
-                    <i class="ri ri-feedback-line"></i>
+                    <i class="ri ri-error-warning-line"></i>
                     <span>Complaints</span>
                 </a>
             </li><!-- End complaints Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() != 'feedback.table' ? 'collapsed' : '' }}" href="{{ route('feedback.table') }}">
+                    <i class="ri ri-chat-smile-2-line"></i>
+                    <span>Feedbacks</span>
+                </a>
+            </li><!-- End Feedbacks Page Nav -->
 
             <li class="nav-heading">Admin Account</li>
 

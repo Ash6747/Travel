@@ -48,7 +48,12 @@ class Trip extends Model
         return $this->hasMany(Triphistory::class, 'trip_id');
     }
 
-    public function complaints(){
-        return $this->hasMany(Complaint::class, 'trip_id');
+    public function feedbacks(){
+        return $this->hasMany(Feedback::class, 'trip_id');
     }
+
+    public function cancel(){
+        return $this->hasMany(CancelBooking::class, 'trip_id');
+    }
+
 }

@@ -37,4 +37,10 @@ class Admin extends Model
     {
         return $this->hasMany(Complaint::class, 'verified_by');
     }
+
+    public function cancel()
+    {
+        return $this->hasMany(CancelBooking::class, 'verified_by');
+    }
 }
+

@@ -38,4 +38,13 @@ class Bus extends Model
     public function complaints(){
         return $this->hasMany(Complaint::class, 'bus_id');
     }
+
+
+    public function feedbacks(){
+        return $this->hasMany(Feedback::class, 'bus_id');
+    }
+
+    public function cancel(){
+        return $this->hasMany(CancelBooking::class, 'bus_id');
+    }
 }

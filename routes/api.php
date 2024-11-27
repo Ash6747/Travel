@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\BusController;
+use App\Http\Controllers\Api\CancelBookingController;
 use App\Http\Controllers\Api\ComplaintController;
 use App\Http\Controllers\Api\CoursesController;
 use App\Http\Controllers\Api\DriverleavesController;
+use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\RoutesController;
 use App\Http\Controllers\Api\StopsController;
 use App\Http\Controllers\Api\TransactionController;
@@ -52,7 +54,7 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
             Route::get('/', 'index' );
             Route::get('history', 'history' );
             Route::get('history/{id}', 'show' );
-            Route::post('create', 'createOrUpdateBooking' )->middleware('booking.constraint');
+            Route::post('create', 'createOrUpdateBooking' )->middleware(['bus.constraint','booking.constraint']);
         });
 
         // transaction
@@ -60,13 +62,27 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
             Route::get('/', 'index' );
             Route::get('show/{id}',  'show' );
             Route::post('make','store' )->middleware('booking.exist');
-
         });
 
         // complaint
         Route::prefix('complaints')->controller(ComplaintController::class)->group(function(){
             Route::get('/', 'index' );
             Route::post('/','store' )->middleware('booking.exist');
+            Route::get('show/{id}',  'show' );
+        });
+
+        // Feedback
+        Route::prefix('feedbacks')->controller(FeedbackController::class)->group(function(){
+            Route::get('/', 'index' );
+            Route::post('/','store' )->middleware('booking.exist');
+            Route::get('show/{id}',  'show' );
+        });
+
+        // Cancel Booking
+        Route::prefix('cancel-booking')->controller(CancelBookingController::class)->group(function(){
+            Route::get('/', 'index' );
+            Route::post('/','store' )->middleware('booking.exist');
+            Route::get('/current', 'current' );
             Route::get('show/{id}',  'show' );
         });
 

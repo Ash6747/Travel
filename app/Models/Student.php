@@ -43,4 +43,13 @@ class Student extends Model
         return $this->hasMany(Complaint::class, 'student_id');
     }
 
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'student_id');
+    }
+    public function cancel()
+    {
+        return $this->hasMany(CancelBooking::class, 'student_id');
+    }
+
 }

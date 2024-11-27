@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BusController;
 use App\Http\Controllers\Admin\ComplaintController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DriverController;
+use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\LeavesController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoutesController;
@@ -255,6 +256,12 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
 
         Route::get('/update/{id}', 'edit')->name('complaint.edit');
         Route::post('/update/{id}', 'update')->name('complaint.update');
+    });
+
+    //Admin feedbacks Controller
+    Route::prefix('feedbacks')->controller(FeedbackController::class)->group(function () {
+        Route::get('/', 'index')->name('feedback.table');
+        Route::get('/show/{id}', 'show')->name('feedback.show');
     });
 });
 

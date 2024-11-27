@@ -56,4 +56,12 @@ class Driver extends Model
         return $this->hasMany(Complaint::class, 'driver_id');
     }
 
+    public function feedbacks(){
+        return $this->hasMany(Feedback::class, 'driver_id');
+    }
+
+    public function cancel(){
+        return $this->hasMany(CancelBooking::class, 'driver_id');
+    }
+
 }
