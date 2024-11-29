@@ -96,12 +96,17 @@
                                     data-bs-target="#profile-change-password">Booking History</button>
                             </li>
 
+                            {{-- @isset($student->bookings->cancel) --}}
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-Bookig-cancellation">Cancellation</button>
+                            </li>
+                            {{-- @endisset --}}
                         </ul>
                         <div class="pt-2 tab-content">
 
                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                 {{-- <h5 class="card-title">About</h5>
-                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p> --}}
+                                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p> --}}
 
                                 <h5 class="card-title">Student Details</h5>
 
@@ -182,62 +187,66 @@
 
                             </div>
 
-                            <div class="pt-2 tab-pane fade booking" id="booking">
+                            <div class="tab-pane fade booking" id="booking">
 
                                 <h5 class="card-title">Booking Details</h5>
                                 <table class="table table-bordered border-primary">
-                                    {{-- <tbody> --}}
-                                        <tr>
-                                            <th scope="col">Stop</th>
-                                            <td scope="col">{{ $student->bookings->stop->stop_name }}</td>
-                                            <th scope="col">Bus</th>
-                                            <td scope="col">{{ $student->bookings->bus->bus_no }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Route</th>
-                                            <td scope="col">{{ $student->bookings->bus->route->route_name }}</td>
-                                            <th scope="col">Class</th>
-                                            <td scope="col">{{ $student->bookings->class }} Year</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Start Date</th>
-                                            <td scope="col">{{ $student->bookings->start_date }}</td>
-                                            <th scope="col">End Date</th>
-                                            <td scope="col">{{ $student->bookings->end_date }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Duration</th>
-                                            <td scope="col">{{ $student->bookings->duration }}</td>
-                                            <th scope="col">Academic Year</th>
-                                            <td scope="col">{{ $student->bookings->current_academic_year }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Fee</th>
-                                            <td scope="col">{{ $student->bookings->fee }}</td>
-                                            <th scope="col">Total Paid</th>
-                                            <td scope="col">{{ $student->bookings->total_amount }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col">Refund</th>
-                                            <td scope="col">{{ $student->bookings->refund ?? 0 }}</td>
-                                            <th scope="col">Payment Status</th>
-                                            <td scope="col">{{ $student->bookings->payment_status }}</td>
-                                        </tr>
+                                    <tr>
+                                        <th scope="col">Stop</th>
+                                        <td scope="col">{{ $student->bookings->stop->stop_name }}</td>
+                                        <th scope="col">Bus</th>
+                                        <td scope="col">{{ $student->bookings->bus->bus_no }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Route</th>
+                                        <td scope="col">{{ $student->bookings->bus->route->route_name }}</td>
+                                        <th scope="col">Class</th>
+                                        <td scope="col">{{ $student->bookings->class }} Year</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Start Date</th>
+                                        <td scope="col">{{ $student->bookings->start_date }}</td>
+                                        <th scope="col">End Date</th>
+                                        <td scope="col">{{ $student->bookings->end_date }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Duration</th>
+                                        <td scope="col">{{ $student->bookings->duration }}</td>
+                                        <th scope="col">Academic Year</th>
+                                        <td scope="col">{{ $student->bookings->current_academic_year }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Fee</th>
+                                        <td scope="col">{{ $student->bookings->fee }}</td>
+                                        <th scope="col">Total Paid</th>
+                                        <td scope="col">{{ $student->bookings->total_amount }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Refund</th>
+                                        <td scope="col">{{ $student->bookings->refund ?? 0 }}</td>
+                                        <th scope="col">Payment Status</th>
+                                        <td scope="col">{{ $student->bookings->payment_status }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Booking Status</th>
+                                        <td colspan="3" scope="col">{{ Str::ucfirst($student->bookings->status)}}</td>
+                                        {{-- <th scope="col">Payment Status</th>
+                                        <td scope="col">{{ $student->bookings->payment_status }}</td> --}}
+                                    </tr>
 
-                                        @isset($student->bookings->verified_by)
-                                        <tr>
-                                            <th scope="col">Verified By</th>
-                                            <td colspan="3" scope="col">{{ $student->bookings->admin->full_name ?? "Admin" }}</td>
-                                        </tr>
+                                    @isset($student->bookings->verified_by)
+                                    <tr>
+                                        <th scope="col">Verified By</th>
+                                        <td colspan="3" scope="col">{{ $student->bookings->admin->full_name ?? "Admin" }}</td>
+                                    </tr>
 
-                                        <tr>
-                                            <th scope="col">Comment</th>
-                                            <td colspan="3" scope="col">{{ $student->bookings->comment ?? "Admin" }}</td>
-                                        </tr>
-                                        @endisset
-                                    {{-- </tbody> --}}
+                                    <tr>
+                                        <th scope="col">Comment</th>
+                                        <td colspan="3" scope="col">{{ $student->bookings->comment ?? "Admin" }}</td>
+                                    </tr>
+                                    @endisset
                                 </table>
-                                @if ($student->bookings->status != 'approved')
+                                @if ($student->bookings->status == 'pending')
                                     <div class="text-center border border-4 text-success border-success col-md-2"><b>Not Approved</b></div>
                                 @elseif ($student->bookings->remaining_amount_check == 1)
                                     <div class="text-center border border-4 text-success border-success col-md-2"><b>No Remaining Amount</b></div>
@@ -380,7 +389,7 @@
 
                             </div> --}}
 
-                            <div class="pt-3 tab-pane fade" id="profile-change-password">
+                            <div class="tab-pane fade" id="profile-change-password">
                                 <h5 class="card-title">{{ isset($student->reports[0]) ? 'Booking History' : 'No Booking History' }}</h5>
                                 @isset($student->reports[0])
                                     @foreach ( $student->reports as $report)
@@ -465,6 +474,213 @@
 
                                         @endisset
                                     @endforeach
+                                @endisset
+                            </div>
+
+                            <div class="tab-pane fade" id="profile-Bookig-cancellation">
+                                <h5 class="card-title">Cancellation Details</h5>
+                                @isset($student->bookings->cancel)
+                                    <table class="table table-bordered border-primary">
+                                        <tr>
+                                            <th scope="col">Stop</th>
+                                            <td scope="col">{{ $student->bookings->stop->stop_name }}</td>
+                                            <th scope="col">Bus</th>
+                                            <td scope="col">{{ $student->bookings->bus->bus_no }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Route</th>
+                                            <td scope="col">{{ $student->bookings->bus->route->route_name }}</td>
+                                            <th scope="col">Class</th>
+                                            <td scope="col">{{ $student->bookings->class }} Year</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Start Date</th>
+                                            <td scope="col">{{ $student->bookings->start_date }}</td>
+                                            <th scope="col">End Date</th>
+                                            <td scope="col">{{ $student->bookings->end_date }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Duration</th>
+                                            <td scope="col">{{ $student->bookings->duration }}</td>
+                                            <th scope="col">Academic Year</th>
+                                            <td scope="col">{{ $student->bookings->current_academic_year }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Fee</th>
+                                            <td scope="col">{{ $student->bookings->fee }}</td>
+                                            <th scope="col">Total Paid</th>
+                                            <td scope="col">{{ $student->bookings->total_amount }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Refund</th>
+                                            <td scope="col">{{ $student->bookings->refund ?? 0 }}</td>
+                                            <th scope="col">Payment Status</th>
+                                            <td scope="col">{{ $student->bookings->payment_status }}</td>
+                                        </tr>
+
+                                        @isset($student->bookings->verified_by)
+                                        <tr>
+                                            <th scope="col">Verified By</th>
+                                            <td colspan="3" scope="col">{{ $student->bookings->admin->full_name ?? "Admin" }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="col">Comment</th>
+                                            <td colspan="3" scope="col">{{ $student->bookings->comment ?? "Admin" }}</td>
+                                        </tr>
+                                        @endisset
+
+                                        @isset($student->bookings->cancel->file)
+
+                                        <tr>
+                                            <th scope="col">Cancellation File</th>
+                                            <td colspan="3">
+                                                <a href="{{ asset('/storage/' . $student->bookings->cancel->file) }}" target="blank">File</a>
+                                            </td>
+                                        </tr>
+
+                                        @endisset
+
+                                        <tr>
+                                            <th scope="col">Cancellation Reason</th>
+                                            <td colspan="3">{{ $student->bookings->cancel->reason }}</td>
+                                        </tr>
+                                    </table>
+                                    @if ($student->bookings->remaining_amount_check == 0 && $student->bookings->cancel->status == 'pending')
+                                    {{-- <b class="text-danger"></b> --}}
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Action Required:</strong> To proceed, the value of <code>Remaining Amount</code> must be set to <strong>Yes</strong>. Please update it and try again.
+                                    </div>
+                                    @elseif ($student->bookings->remaining_amount_check == 1 && $student->bookings->cancel->status == 'pending')
+                                        <!-- Settings Form -->
+                                        <form method="POST" action="{{ route('cancellation.update', ['id'=> $student->id]) }}">
+                                            @csrf
+
+                                            <fieldset class="m-auto mb-3 border border-4 row">
+                                                <legend class="m-auto col-form-label col-md-4 fw-bold">Refund Amount : </legend>
+                                                <div class="p-2 col-sm-8">
+                                                    <input type="number" id="refund" name="refund" min="0" value="{{ old('refund') ?? 0.00 }}" class="form-control">
+                                                </div>
+                                                @error('refund')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </fieldset>
+
+                                            <div class="mb-3 border border-4 form-floating">
+                                                <textarea class="form-control" placeholder="Leave a resolution here" name="resolution" id="resolution" style="height: 100px;"></textarea>
+                                                <label for="resolution">Resolutions</label>
+                                                @error('resolution')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <fieldset class="m-auto mb-3 border border-4 row ">
+                                                <legend class="m-auto col-form-label col-md-4 fw-bold">Status :</legend>
+                                                <div class="p-2 col-sm-8">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="status" id="approved" value="approved">
+                                                        <label class="form-check-label" for="approved">
+                                                            Approved
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check disabled">
+                                                        <input class="form-check-input" type="radio" name="status" id="rejected" value="rejected">
+                                                        <label class="form-check-label" for="rejected">
+                                                            Rejected
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                @error('status')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </fieldset>
+
+                                            <div class="mt-2 text-center">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+                                    @elseif ($student->bookings->cancel->status == 'approved' || $student->bookings->cancel->status == 'rejected')
+                                        @php
+                                            $color = $student->bookings->cancel->status == 'rejected' ? 'danger' : 'success';
+                                        @endphp
+                                        <div class="text-{{ $color }} border border-{{ $color }} border-4 col-md-2 text-center"><b>{{ Str::ucfirst($student->bookings->cancel->status) }}</b></div>
+
+
+                                    @endif
+
+                                @else
+
+                                    @if ($student->bookings->remaining_amount_check == 1)
+                                        <form method="POST" action="{{ route('cancellation.store', ['id'=> $student->id]) }}" enctype="multipart/form-data">
+                                            @csrf
+
+                                            <fieldset class="m-auto mb-3 border border-4 row">
+                                                <legend class="m-auto col-form-label col-md-4 fw-bold">Refund Amount (OPTIONAL): </legend>
+                                                <div class="p-2 col-sm-8">
+                                                    <input type="number" id="refund" name="refund" min="0" value="{{ old('refund') ?? 0.00 }}" class="form-control">
+                                                </div>
+                                                @error('refund')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </fieldset>
+
+                                            <div class="mb-3 border border-4 form-floating">
+                                                <textarea class="form-control" placeholder="Leave a reason here" name="reason" id="reason" style="height: 100px;"></textarea>
+                                                <label for="reason">Reasons</label>
+                                                @error('reason')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <fieldset class="m-auto mb-3 border border-4 row">
+                                                <legend class="m-auto col-form-label col-md-4 fw-bold">Reason File (OPTIONAL): </legend>
+                                                <div class="p-2 col-sm-8">
+                                                    <input type="file" accept="image/*" id="file" name="file" class="form-control">
+                                                </div>
+                                                @error('file')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </fieldset>
+
+                                            <div class="mb-3 border border-4 form-floating">
+                                                <textarea class="form-control" placeholder="Leave a resolution here" name="resolution" id="resolution" style="height: 100px;"></textarea>
+                                                <label for="resolution">Resolutions</label>
+                                                @error('resolution')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            {{-- <fieldset class="m-auto mb-3 border border-4 row ">
+                                                <legend class="m-auto col-form-label col-md-4 fw-bold">Status :</legend>
+                                                <div class="p-2 col-sm-8">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="status" id="approved" value="approved">
+                                                        <label class="form-check-label" for="approved">
+                                                            Approved
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check disabled">
+                                                        <input class="form-check-input" type="radio" name="status" id="rejected" value="rejected">
+                                                        <label class="form-check-label" for="rejected">
+                                                            Rejected
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                @error('status')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </fieldset> --}}
+
+                                            <div class="mt-2 text-center">
+                                                <button type="submit" class="btn btn-primary">Leave</button>
+                                            </div>
+                                        </form>
+                                    @else
+                                        <div class="alert alert-warning" role="alert">
+                                            <strong>Action Required:</strong> To proceed, the value of <code>Remaining Amount</code> must be set to <strong>Yes</strong>. Please update it and try again.
+                                        </div>
+                                    @endif
+
                                 @endisset
                             </div>
 

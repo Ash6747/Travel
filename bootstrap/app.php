@@ -7,6 +7,7 @@ use App\Http\Middleware\Api\ApiAuthenticate;
 use App\Http\Middleware\Api\Authorization;
 use App\Http\Middleware\Api\BusCapacityCheck;
 use App\Http\Middleware\Api\CheckBookingExist;
+use App\Http\Middleware\Api\CheckBookingExpired;
 use App\Http\Middleware\Api\CheckDriverExist;
 use App\Http\Middleware\Api\CheckStudentExist;
 use App\Http\Middleware\Api\CheckTripExist;
@@ -43,6 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
             // Other middleware Api
             'booking.constraint'=>BookingConstraintMiddleware::class,
             'booking.exist'=>CheckBookingExist::class,
+            'booking.expired'=>CheckBookingExpired::class,
             'bus.constraint'=>BusLimitCheck::class,
             'bus.capacity'=>BusCapacityCheck::class,
             'check.api.student.profile'=>CheckStudentExist::class,

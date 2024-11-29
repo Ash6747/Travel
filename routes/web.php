@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BusController;
+use App\Http\Controllers\Admin\CancelBookingController;
 use App\Http\Controllers\Admin\ComplaintController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DriverController;
@@ -144,23 +145,39 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
         Route::get('pending', 'pending')->name('booking.pending');
         Route::get('approved', 'active')->name('booking.active');
         Route::get('rejected', 'rejected')->name('booking.rejected');
+        Route::get('leave', 'leave')->name('booking.leave');
         Route::get('expired', 'expired')->name('booking.expired');
 
         Route::get('export','export')->name('bookings.export');
         Route::get('pdf/{id}','pdf')->name('bookings.pdf');
 
-        // Route::get('/trash', 'trash')->name('booking.trash');
-        // Route::get('/restore/{id}', 'restore')->name('booking.restore');
-        // Route::get('/force-delete/{id}', 'forcefullyDelete')->name('booking.hardDelete');
-
         Route::get('status/{id}', 'active')->name('booking.status');
-        // Route::get('/delete/{id}', 'destroy')->name('route.delete');
 
         Route::get('create', 'create')->name('booking.create');
         Route::post('create', 'store')->name('booking.store');
 
         Route::get('update/{id}', 'edit')->name('booking.edit');
         Route::post('update/{id}', 'update')->name('booking.update')->middleware('bus.constraint');
+
+        //Admin Booking cancelation Controller
+        Route::prefix('cancellation')->controller(CancelBookingController::class)->group(function () {
+            Route::get('/', 'index')->name('cancellation.table');
+            Route::get('/approved', 'approved')->name('cancellation.approved');
+            Route::get('pending', 'pending')->name('cancellation.pending');
+            // Route::get('approved', 'active')->name('cancellation.active');
+            Route::get('rejected', 'rejected')->name('cancellation.rejected');
+
+            // Route::get('export','export')->name('cancellation.export');
+            // Route::get('pdf/{id}','pdf')->name('cancellation.pdf');
+
+            // Route::get('status/{id}', 'active')->name('cancellation.status');
+
+            // Route::get('create', 'create')->name('cancellation.create');
+            Route::post('create/{id}', 'store')->name('cancellation.store');
+
+            Route::get('update/{id}', 'edit')->name('cancellation.edit');
+            Route::post('update/{id}', 'update')->name('cancellation.update');
+        });
     });
 
     //Admin transactions Controller

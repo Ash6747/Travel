@@ -80,6 +80,21 @@ class BookingController extends Controller
         return view('admin.booking.bookings')->with($data);
     }
 
+    public function leave()
+    {
+        //
+        $bookings = Booking::with(['student', 'bus'=> function($query){
+            $query->with('route');
+        }, 'stop'])->where('status', 'leave')->get();
+        // dd($bookings);
+        // echo "<pre>";
+        // print_r($bookings->toArray());
+        // echo "</pre>";
+        $status = 'leave';
+        $data = compact('bookings', 'status');
+        return view('admin.booking.bookings')->with($data);
+    }
+
     public function expired()
     {
         //

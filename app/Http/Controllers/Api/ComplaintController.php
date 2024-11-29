@@ -76,9 +76,18 @@ class ComplaintController extends Controller
         }
 
         // Store receipt file
-        $complaintFilePath = $request->file('complaint_file')->store('student/complaints', 'public');
         $validatedData = $validator->validated();
-        $validatedData['complaint_file'] = $complaintFilePath;
+
+        // Handle file uploads (optional)
+        if ($request->hasFile('complaint_file')) {
+            // $file_path = public_path('storage/') . $driver->file;
+            // if (file_exists($file_path)) {
+                //     @unlink($file_path);
+                // }
+            $validatedData['complaint_file'] = $request->file('complaint_file')->store('student/complaints', 'public');
+            // $validatedData['file'] = $request->file('file')->store('student/cancelBookingFile', 'public');
+        }
+        // $validatedData['complaint_file'] = $complaintFilePath;
         $validatedData['student_id'] = $student->id;
         $validatedData['trip_id'] = $student->bookings->bus->trip->id;
         $validatedData['bus_id'] = $student->bookings->bus->id;

@@ -57,6 +57,12 @@
                           Rejected
                       </button>
                     </a>
+                    <a class="ms-2" href="{{ route('booking.leave') }}">
+                      <button class="btn btn-info rounded-pill ">
+                          <i class="bi bi-hourglass-split"></i>
+                          Leave
+                      </button>
+                    </a>
                     <a class="ms-2" href="{{ route('booking.expired') }}">
                       <button class="btn btn-secondary rounded-pill ">
                           <i class="bi bi-collection"></i>
@@ -101,9 +107,9 @@
                             <td>{{ $booking->fee }}</td>
                             <td>
                                 @php
-                                    $color = $booking->status == 'pending' ? 'warning' : ($booking->status == 'rejected' ? 'danger' : 'success');
-                                    $textColor = $booking->status == 'pending' ? 'dark' : ($booking->status == 'rejected' ? 'light' : 'light');
-                                    $icon = $booking->status == 'pending' ? 'bi-exclamation-triangle' : ($booking->status == 'rejected' ? 'bi-exclamation-octagon' : 'bi-check-circle');
+                                    $color = $booking->status == 'pending' ? 'warning' : ($booking->status == 'rejected' ? 'danger' : ($booking->status == 'leave' ? 'info' : 'success'));
+                                    $textColor = $booking->status == 'pending' ? 'dark' : ($booking->status == 'rejected' ? 'light' : ($booking->status == 'leave' ? 'dark' : 'light'));
+                                    $icon = $booking->status == 'pending' ? 'bi-exclamation-triangle' : ($booking->status == 'rejected' ? 'bi-exclamation-octagon' : ($booking->status == 'leave' ? 'bi-hourglass-split me-1' : 'bi-check-circle'));
                                 @endphp
                                 <span class="badge rounded-pill bg-{{ $color }} text-{{ $textColor }}">
                                     <i class="bi {{ $icon }} me-1"></i> {{ Str::ucfirst($booking->status)}}

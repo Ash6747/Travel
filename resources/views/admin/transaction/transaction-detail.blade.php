@@ -190,13 +190,6 @@
                         @if ( $transaction->status == 'pending' )
                             <form method="post" action="{{ route($url, ['id'=>$id])}}" class="mt-3 row g-3">
                                 @csrf
-                                {{-- <div>
-                                    <th >Student Details Confirm </th>
-                                    <div>
-                                        <input type="radio" value="1" name="alluserDetailsCheck" {{ $transaction->alluserDetailsCheck ? 'checked' : '' }}> Yes
-                                        <input type="radio" value="0" name="alluserDetailsCheck" {{ !$transaction->alluserDetailsCheck ? 'checked' : '' }}> No
-                                    </div>
-                                </div> --}}
 
                                 <fieldset class="m-auto border border-4 row">
                                     <legend class="pt-0 col-form-label col-md-4 fw-bold">Student Details Confirm</legend>

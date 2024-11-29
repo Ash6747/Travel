@@ -88,34 +88,77 @@
             <li class="nav-item">
                 <a class="nav-link {{ (Route::currentRouteName() == 'booking.table'
                 || Route::currentRouteName() == 'student.table'
+                || Route::currentRouteName() == 'student.pending'
+                || Route::currentRouteName() == 'student.verified'
+                || Route::currentRouteName() == 'student.active'
+                || Route::currentRouteName() == 'student.create'
+                || Route::currentRouteName() == 'student.edit'
+
+                || Route::currentRouteName() == 'cancellation.table'
+                || Route::currentRouteName() == 'cancellation.approved'
+                || Route::currentRouteName() == 'cancellation.pending'
+                || Route::currentRouteName() == 'cancellation.rejected'
+
+                || Route::currentRouteName() == 'booking.edit'
                 || Route::currentRouteName() == 'booking.pending'
                 || Route::currentRouteName() == 'booking.active'
                 || Route::currentRouteName() == 'booking.rejected'
+                || Route::currentRouteName() == 'booking.leave'
                 || Route::currentRouteName() == 'booking.expired') ? '' : 'collapsed' }}" data-bs-target="#Bookings-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri ri-ticket-2-line"></i><span>Bookings</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="Bookings-nav" class="nav-content collapse {{ (
                 Route::currentRouteName() == 'booking.table'
+
                 || Route::currentRouteName() == 'student.table'
+                || Route::currentRouteName() == 'student.pending'
+                || Route::currentRouteName() == 'student.verified'
+                || Route::currentRouteName() == 'student.active'
+                || Route::currentRouteName() == 'student.create'
+                || Route::currentRouteName() == 'student.edit'
+
+                || Route::currentRouteName() == 'cancellation.table'
+                || Route::currentRouteName() == 'cancellation.approved'
+                || Route::currentRouteName() == 'cancellation.pending'
+                || Route::currentRouteName() == 'cancellation.rejected'
+
+                || Route::currentRouteName() == 'booking.edit'
                 || Route::currentRouteName() == 'booking.pending'
                 || Route::currentRouteName() == 'booking.active'
                 || Route::currentRouteName() == 'booking.rejected'
+                || Route::currentRouteName() == 'booking.leave'
                 || Route::currentRouteName() == 'booking.expired') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
                     <li>
                         <a class="{{ (Route::currentRouteName() == 'booking.table'
+                            || Route::currentRouteName() == 'booking.edit'
                             || Route::currentRouteName() == 'booking.pending'
                             || Route::currentRouteName() == 'booking.active'
                             || Route::currentRouteName() == 'booking.rejected'
+                            || Route::currentRouteName() == 'booking.leave'
                             || Route::currentRouteName() == 'booking.expired') ? 'active' : '' }}"
                             href="{{ route('booking.table') }}">
                             <i class="bi bi-circle"></i><span>Bookings</span>
                         </a>
                     </li><!-- End Bookings Nav -->
                     <li>
-                        <a class="{{ (Route::currentRouteName() == 'student.table') ? 'active' : '' }}"
+                        <a class="{{ (Route::currentRouteName() == 'student.table'
+                            || Route::currentRouteName() == 'student.pending'
+                            || Route::currentRouteName() == 'student.verified'
+                            || Route::currentRouteName() == 'student.active'
+                            || Route::currentRouteName() == 'student.create'
+                            || Route::currentRouteName() == 'student.edit') ? 'active' : '' }}"
                             href="{{ route('student.table') }}">
                             <i class="bi bi-circle"></i><span>Students</span>
+                        </a>
+                    </li><!-- End Bookings Nav -->
+                    <li>
+                        <a class="{{ (Route::currentRouteName() == 'cancellation.table'
+                            || Route::currentRouteName() == 'cancellation.approved'
+                            || Route::currentRouteName() == 'cancellation.pending'
+                            || Route::currentRouteName() == 'cancellation.rejected') ? 'active' : '' }}"
+                            href="{{ route('cancellation.table') }}">
+                            <i class="bi bi-circle"></i><span>Cancellations</span>
                         </a>
                     </li><!-- End Bookings Nav -->
                 </ul>

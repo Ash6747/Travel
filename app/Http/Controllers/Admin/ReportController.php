@@ -19,7 +19,6 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //
         $students = Student::with(['reports', 'bookings', 'course'])
         ->whereHas('reports')
         ->orWhereHas('bookings', function ($query) {
@@ -36,7 +35,6 @@ class ReportController extends Controller
      */
     public function active()
     {
-        //
         $students = Student::with(['reports', 'bookings', 'course'])
         ->whereHas('reports')
         ->orWhereHas('bookings', function ($query) {
@@ -55,7 +53,6 @@ class ReportController extends Controller
      */
     public function pending()
     {
-        //
         $students = Student::with(['reports', 'bookings', 'course'])
         ->whereHas('reports')
         ->orWhereHas('bookings', function ($query) {
@@ -73,7 +70,6 @@ class ReportController extends Controller
      */
     public function verified()
     {
-        //
         $students = Student::with(['reports', 'bookings', 'course'])
         ->whereHas('reports')
         ->orWhereHas('bookings', function ($query) {
@@ -167,13 +163,12 @@ class ReportController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $student = Student::with(['reports'=> function($query){
             $query->with(['transactions', 'stop', 'bus' => function($query){
                 $query->with('route');
             }]);
         }, 'bookings'=> function($query){
-            $query->with(['transactions', 'stop', 'admin', 'bus' => function($query){
+            $query->with(['transactions', 'cancel', 'stop', 'admin', 'bus' => function($query){
                 $query->with('route');
             }]);
         }, 'course', 'user'])
@@ -181,7 +176,7 @@ class ReportController extends Controller
 
         // dd($student);
         if (is_null($student)) {
-            return redirect('routes');
+            return redirect()->route('student.table');
         } else {
             $url = 'student.update';
             $title = "student Update";

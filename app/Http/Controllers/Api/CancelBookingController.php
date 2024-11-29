@@ -93,7 +93,7 @@ class CancelBookingController extends Controller
             ],
             'file' => 'mimes:png,jpg',
         ],[
-            'details.regex'=> 'Allows alphabets, numbers, and spaces only',
+            'reason.regex'=> 'Allows alphabets, numbers, and spaces only',
         ]);
         // Handle validation failure
         if ($validator->fails()) {

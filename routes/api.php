@@ -67,21 +67,21 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
         // complaint
         Route::prefix('complaints')->controller(ComplaintController::class)->group(function(){
             Route::get('/', 'index' );
-            Route::post('/','store' )->middleware('booking.exist');
+            Route::post('/','store' )->middleware(['booking.exist', 'booking.expired']);
             Route::get('show/{id}',  'show' );
         });
 
         // Feedback
         Route::prefix('feedbacks')->controller(FeedbackController::class)->group(function(){
             Route::get('/', 'index' );
-            Route::post('/','store' )->middleware('booking.exist');
+            Route::post('/','store' )->middleware(['booking.exist', 'booking.expired']);
             Route::get('show/{id}',  'show' );
         });
 
         // Cancel Booking
         Route::prefix('cancel-booking')->controller(CancelBookingController::class)->group(function(){
             Route::get('/', 'index' );
-            Route::post('/','store' )->middleware('booking.exist');
+            Route::post('/','store' )->middleware(['booking.exist', 'booking.expired']);
             Route::get('/current', 'current' );
             Route::get('show/{id}',  'show' );
         });
