@@ -23,7 +23,7 @@ Route::get('/', function () {
 });
 // student
 
-Route::prefix('student')->middleware(['auth', 'verified', 'student', 'check.student.profile'])->group(function(){
+Route::prefix('student')->middleware(['check.site.access', 'auth', 'verified', 'student', 'check.student.profile'])->group(function(){
 
     Route::get('dashboard', function () {
         return view('student.dashboard');
@@ -31,7 +31,7 @@ Route::prefix('student')->middleware(['auth', 'verified', 'student', 'check.stud
 });
 
 // admin
-Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.profile'])->group(function(){
+Route::prefix('admin')->middleware(['check.site.access', 'auth', 'verified', 'admin', 'check.admin.profile'])->group(function(){
     Route::get('dashboard', [AdminProfileController::class, 'index'])->name('admin.dashboard');
     Route::get('profile', [AdminProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::post('profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
@@ -283,7 +283,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin', 'check.admin.pr
 });
 
 // driver
-Route::prefix('driver')->middleware(['auth', 'verified', 'driver'])->group(function(){
+Route::prefix('driver')->middleware(['check.site.access', 'auth', 'verified', 'driver'])->group(function(){
     Route::get('dashboard', function () {
         return view('driver.dashboard');
     })->name('driver.dashboard');
@@ -294,11 +294,11 @@ Route::get('complete-profile/{id}', [ProfileController::class, 'showCompleteProf
 Route::post('complete-profile/{id}', [ProfileController::class, 'completeProfile'])->name('complete-profile');
 
 // guardian
-Route::prefix('guardian')->middleware(['auth', 'verified', 'guardian'])->group(function(){
-    Route::get('dashboard', function () {
-        return view('guardian.dashboard');
-    })->name('guardian.dashboard');
-});
+// Route::prefix('guardian')->middleware(['auth', 'verified', 'guardian'])->group(function(){
+//     Route::get('dashboard', function () {
+//         return view('guardian.dashboard');
+//     })->name('guardian.dashboard');
+// });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

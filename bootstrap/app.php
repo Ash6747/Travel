@@ -14,6 +14,7 @@ use App\Http\Middleware\Api\CheckTripExist;
 use App\Http\Middleware\Api\Handletoken;
 use App\Http\Middleware\BookingConstraintMiddleware;
 use App\Http\Middleware\CheckDriverProfile;
+use App\Http\Middleware\CheckSiteAccessibility;
 use App\Http\Middleware\Driver;
 use App\Http\Middleware\Guardian;
 use App\Http\Middleware\Student;
@@ -52,6 +53,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'trip.exist'=>CheckTripExist::class,
             // Excel
             'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+            // Site accessibility
+            'check.site.access' => CheckSiteAccessibility::class,
         ]);
 
     })
