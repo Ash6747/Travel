@@ -26,7 +26,7 @@ class ComplaintController extends Controller
             return response()->json([
                 'status'=> true,
                 'message'=> 'Complaints of student',
-                'complaints'=> $complaints
+                'responseObject'=> $complaints
             ]);
         }
 
@@ -72,7 +72,11 @@ class ComplaintController extends Controller
         ]);
         // Handle validation failure
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Error in complaint input',
+                'error'=>$validator->errors()
+            ], 422);
         }
 
         // Store receipt file
@@ -121,7 +125,7 @@ class ComplaintController extends Controller
                 return response()->json([
                     'status'=> true,
                     'message'=> 'Complaint of student',
-                    'complaint'=> $complaint
+                    'responseObject'=> $complaint
                 ]);
             }
         } catch (\Throwable $th) {

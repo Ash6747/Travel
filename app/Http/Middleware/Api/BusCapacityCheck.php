@@ -20,7 +20,7 @@ class BusCapacityCheck
     {
         if (!isset($request['bus_id'])) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Student not selected bus.',
             ], 400);
         }
@@ -36,7 +36,7 @@ class BusCapacityCheck
 
         if($bus->bookings[0]->total_bookings >= $bus->capacity){
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'No seat available for student.',
             ], 400);
         }

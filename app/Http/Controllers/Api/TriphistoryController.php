@@ -34,7 +34,7 @@ class TriphistoryController extends Controller
                 return response()->json([
                     'status'=> true,
                     'message'=> 'Found Trip history for driver',
-                    'triphistory'=> $triphistory
+                    'responseObject'=> $triphistory
                 ]);
             }
 
@@ -97,7 +97,11 @@ class TriphistoryController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+            return response()->json([
+                'status' => false,
+                'message'=> 'Error in validation',
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         // Store the start meter image and get the path
@@ -140,7 +144,7 @@ class TriphistoryController extends Controller
                 return response()->json([
                     'status'=> true,
                     'message'=> 'Found Trip history for driver',
-                    'triphistory'=> $triphistory
+                    'responseObject'=> $triphistory
                 ]);
             }
         } catch (\Throwable $th) {
@@ -204,7 +208,11 @@ class TriphistoryController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Error in input',
+                    'error' => $validator->errors()
+                ], 422);
             }
 
             // Store the start meter image and get the path
@@ -266,7 +274,11 @@ class TriphistoryController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Error in input',
+                    'error' => $validator->errors()
+                ], 422);
             }
 
             // Prepare data for creating a new trip history

@@ -24,7 +24,7 @@ class StopsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Stops found',
-            'stops' => $stops,
+            'responseObject' => $stops,
         ], 200); // Return 200 OK
     }
 
@@ -64,7 +64,7 @@ class StopsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'routes found',
-            'stops-routes' => $stops->routes,
+            'responseObject' => $stops->routes,
         ], 200); // Return 200 OK
 
     }
@@ -91,7 +91,7 @@ class StopsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Buses found',
-            'stops-buses' => $stops->routes[0]->buses,
+            'responseObject' => $stops->routes[0]->buses,
         ], 200); // Return 200 OK
 
     }

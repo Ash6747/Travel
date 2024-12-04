@@ -23,7 +23,10 @@ class Authorization
         // dd($user);
         // Check if the user is authenticated
         if (!$user) {
-            return response()->json(['error' => 'Unauthorized'],400);
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized',
+            ],400);
         }
 
 
@@ -33,7 +36,10 @@ class Authorization
 
         // Check if the user role matches the route prefix
         if ($userRole !== $routePrefix) {
-            return response()->json(['error' => 'Unauthorized'],400);
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized',
+            ],400);
         }
         $request->merge(['user_id' => $user->id]);
         return $next($request);

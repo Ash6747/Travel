@@ -52,7 +52,8 @@ class DriverleavesController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors(),
+                "message" => "Error in leave request",
+                'error' => $validator->errors(),
             ], 422);
         }
 
@@ -72,13 +73,6 @@ class DriverleavesController extends Controller
             return response()->json([
                 "status" => true,
                 "message" => "Leave requested successfully!",
-                "data" => [
-                    "reason" => $validatedData['reason'],
-                    "driver_id" => $validatedData['driver_id'],
-                    "start_date" => $validatedData['start_date'],
-                    "end_date" => $validatedData['end_date'],
-                    "duration_in_days" => $duration,
-                ],
             ]);
         } catch (\Exception $e) {
             // Catch and log the error

@@ -38,9 +38,9 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
     });
 
     // admin
-    Route::prefix('admin')->middleware('authorized')->group(function(){
-        Route::get('users', [UserController::class, 'getUser'] );
-    });
+    // Route::prefix('admin')->middleware('authorized')->group(function(){
+    //     Route::get('users', [UserController::class, 'getUser'] );
+    // });
 
     // student
     Route::prefix('student')->middleware(['authorized', 'check.api.student.profile'])->group(function(){
@@ -112,11 +112,12 @@ Route::middleware(['checkBearer', 'api.auth'])->group(function(){
     });
 
     // guardian
-    Route::prefix('guardian')->middleware('authorized')->group(function(){
-        Route::get('users', [UserController::class, 'getUser'] );
-    });
+    // Route::prefix('guardian')->middleware('authorized')->group(function(){
+    //     Route::get('users', [UserController::class, 'getUser'] );
+    // });
 
     Route::get('/logout', [UserController::class, 'logout'] );
+    Route::get('/user', [UserController::class, 'getUser'] );
 
 });
 

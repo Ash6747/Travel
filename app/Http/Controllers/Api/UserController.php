@@ -26,7 +26,7 @@ class UserController extends Controller
         return response()->json([
             'status'=> false,
             'message'=> 'Student Exist',
-            'user'=> $student
+            'responseObject'=> $student
         ],200);
     }
 
@@ -48,7 +48,7 @@ class UserController extends Controller
             return response()->json([
                 'status'=> false,
                 'message'=> 'Validation Error',
-                'errors'=> $userValidator->errors()->all()
+                'error'=> $userValidator->errors()->all()
             ],401);
         }
         // echo "<pre>";
@@ -63,7 +63,7 @@ class UserController extends Controller
         return response()->json([
             'status'=> true,
             'message'=> 'User created successfuly',
-            'user'=> $user
+            'responseObject'=> $user
         ],200);
     }
 
@@ -80,7 +80,7 @@ class UserController extends Controller
             return response()->json([
                 'status'=> false,
                 'message'=> 'Validation Error',
-                'errors'=> $userValidator->errors()->all()
+                'error'=> $userValidator->errors()->all()
             ],401);
         }
 
@@ -95,7 +95,7 @@ class UserController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => 'User logged in successfully',
-                    'user' => $user,
+                    'responseObject' => $user,
                     'token' => $user->createToken('Api_Token')->accessToken,
                 ], 200);
             }
@@ -141,7 +141,7 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User found',
-            'user' => $user,
+            'responseObject' => $user,
         ], 200); // Return 200 OK
     }
 }

@@ -26,7 +26,7 @@ class FeedbackController extends Controller
             return response()->json([
                 'status'=> true,
                 'message'=> 'Feedbacks of student',
-                'feedbacks'=> $feedbacks
+                'responseObject'=> $feedbacks
             ]);
         }
 
@@ -78,7 +78,11 @@ class FeedbackController extends Controller
 
         // Handle validation failure
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Feedbacks not exist for student',
+                'error'=> $validator->errors()
+            ], 422);
         }
 
         // Validated data
@@ -87,7 +91,10 @@ class FeedbackController extends Controller
         // Extract relationships safely
         $booking = $student->bookings->first(); // Assuming the first booking is relevant
         if (!$booking || !$booking->bus || !$booking->bus->trip || !$booking->bus->trip->driver) {
-            return response()->json(['error' => 'Incomplete student trip data.'], 400);
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Incomplete student trip data.'
+            ], 400);
         }
 
         // Add additional fields
@@ -125,7 +132,7 @@ class FeedbackController extends Controller
                 return response()->json([
                     'status'=> true,
                     'message'=> 'Feedback of student',
-                    'feedback'=> $feedback
+                    'responseObject'=> $feedback
                 ]);
             }
         } catch (\Throwable $th) {

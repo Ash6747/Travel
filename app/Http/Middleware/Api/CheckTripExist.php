@@ -24,7 +24,7 @@ class CheckTripExist
 
         if (!$driver->trip) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Trip ID not found for authenticated Driver.',
             ], 400);
         }

@@ -38,7 +38,7 @@ class BookingController extends Controller
         return response()->json([
             'status'=> true,
             'message' => 'Current Booking of student!',
-            'student' => $student
+            'responseObject' => $student
         ]);
     }
 
@@ -65,7 +65,7 @@ class BookingController extends Controller
         return response()->json([
             'status'=> true,
             'message' => 'Current Booking of student!',
-            'student' => $student
+            'responseObject' => $student
         ]);
     }
 
@@ -96,7 +96,7 @@ class BookingController extends Controller
 
         if (!$user || !$student) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Student ID not found for authenticated user.',
             ], 400);
         }
@@ -110,13 +110,13 @@ class BookingController extends Controller
             'start_date' => 'required|date',
             'duration' => 'required|in:1,6,12',
             'class' => 'required|in:First,Second,Third,Forth,Fifth,Sixth,Seventh',
-            'current_academic_year' => 'required|numeric|max:' . date('Y'),
+            // 'current_academic_year' => 'required|numeric|max:' . date('Y'),
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
+                'status' => false,
+                'error' => $validator->errors(),
             ], 422);
         }
 
@@ -127,6 +127,8 @@ class BookingController extends Controller
         $endDate = $startDate->addMonths($duration);
 
         $validatedData['end_date'] = $endDate->toDateString();
+        $validatedData['current_academic_year'] = date('Y');
+
 
         $stop = Stop::findOrFail($validatedData['stop_id']);
         $validatedData['fee'] = $stop->fee * $validatedData['duration'];
@@ -136,7 +138,7 @@ class BookingController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Booking created successfully!',
-            'data' => $validatedData,
+            'responseObject' => $validatedData,
         ]);
     }
 
@@ -162,7 +164,7 @@ class BookingController extends Controller
         return response()->json([
             'status'=> true,
             'message' => 'Booking history of student!',
-            'report' => $report
+            'responseObject' => $report
         ], 200);
     }
 
@@ -195,7 +197,7 @@ class BookingController extends Controller
 
         if (!$user || !$student) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Student ID not found for authenticated user.',
             ], 400);
         }
@@ -211,13 +213,14 @@ class BookingController extends Controller
             'start_date' => 'required|date|after_or_equal:'.$today,
             'duration' => 'required|in:1,6,12',
             'class' => 'required|in:First,Second,Third,Forth,Fifth,Sixth,Seventh',
-            'current_academic_year' => 'required|numeric|max:' . date('Y'),
+            // 'current_academic_year' => 'required|numeric|max:' . date('Y'),
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
+                'status' => false,
+                "message" => "Error in booking input",
+                'error' => $validator->errors(),
             ], 422);
         }
 
@@ -228,6 +231,7 @@ class BookingController extends Controller
         $endDate = $startDate->addMonths($duration);
 
         $validatedData['end_date'] = $endDate->toDateString();
+        $validatedData['current_academic_year'] = date('Y');
 
         $stop = Stop::findOrFail($validatedData['stop_id']);
         $validatedData['fee'] = $stop->fee * $duration;
@@ -235,9 +239,9 @@ class BookingController extends Controller
         Booking::create($validatedData);
 
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => 'Booking created successfully!',
-            'data' => $validatedData,
+            'responseObject' => $validatedData,
         ]);
     }
 }

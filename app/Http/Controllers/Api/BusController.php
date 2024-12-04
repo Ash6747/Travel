@@ -24,7 +24,11 @@ class BusController extends Controller
             ->get();
 
         // Output the result
-        return response()->json($busCounts);
+        return response()->json([
+            'status'=> true,
+            'message'=> 'Feedbacks not exist for student',
+            'busCount'=> $busCounts
+        ]);
     }
 
     /**
@@ -72,7 +76,7 @@ class BusController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Buses found',
-            'stops-buses' => $stops->routes[0]->buses,
+            'responseObject' => $stops->routes[0]->buses,
         ], 200); // Return 200 OK
     }
 

@@ -20,7 +20,7 @@ class CheckDriverExist
 
         if (!$user->driver) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Driver ID not found for authenticated user.',
             ], 400);
         }

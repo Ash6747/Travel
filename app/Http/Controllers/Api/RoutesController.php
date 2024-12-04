@@ -53,7 +53,7 @@ class RoutesController extends Controller
         return response()->json([
             'status'=> true,
             'message'=> 'buses found for route',
-            'routes-buses'=> $routes->buses,
+            'responseObject'=> $routes->buses,
         ], 200);
     }
 

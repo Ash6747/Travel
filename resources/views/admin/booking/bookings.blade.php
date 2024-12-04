@@ -33,42 +33,45 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <h5 class="card-title">Bookings</h5>
-                    <a class="ms-2" href="{{ route('booking.table') }}">
-                      <button class="btn btn-primary rounded-pill ">
-                          <i class="bi bi-info-circle"></i>
-                          All Type Bookings
-                      </button>
-                    </a>
-                    <a class="ms-2" href="{{ route('booking.pending') }}">
-                      <button class="btn btn-warning rounded-pill ">
-                          <i class="bi bi-exclamation-triangle"></i>
-                          Pending
-                      </button>
-                    </a>
-                    <a class="ms-2" href="{{ route('booking.active') }}">
-                      <button class="btn btn-success rounded-pill ">
-                          <i class="bi bi-check-circle"></i>
-                          Active
-                      </button>
-                    </a>
-                    <a class="ms-2" href="{{ route('booking.rejected') }}">
-                      <button class="btn btn-danger rounded-pill ">
-                          <i class="bi bi-exclamation-octagon"></i>
-                          Rejected
-                      </button>
-                    </a>
-                    <a class="ms-2" href="{{ route('booking.leave') }}">
-                      <button class="btn btn-info rounded-pill ">
-                          <i class="bi bi-hourglass-split"></i>
-                          Leave
-                      </button>
-                    </a>
-                    <a class="ms-2" href="{{ route('booking.expired') }}">
-                      <button class="btn btn-secondary rounded-pill ">
-                          <i class="bi bi-collection"></i>
-                          Expired
-                      </button>
-                    </a>
+                    <details class="ms-2">
+                        <summary>Filter</summary>
+                        <a class="ms-2" href="{{ route('booking.table') }}">
+                        <button class="btn btn-primary rounded-pill ">
+                            <i class="bi bi-info-circle"></i>
+                            All Type Bookings
+                        </button>
+                        </a>
+                        <a class="ms-2" href="{{ route('booking.pending', ['start'=> 2024-11-23,'end'=> '2024-11-25', ]) }}">
+                        <button class="btn btn-warning rounded-pill ">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            Pending
+                        </button>
+                        </a>
+                        <a class="ms-2" href="{{ route('booking.active') }}">
+                        <button class="btn btn-success rounded-pill ">
+                            <i class="bi bi-check-circle"></i>
+                            Active
+                        </button>
+                        </a>
+                        <a class="ms-2" href="{{ route('booking.rejected') }}">
+                        <button class="btn btn-danger rounded-pill ">
+                            <i class="bi bi-exclamation-octagon"></i>
+                            Rejected
+                        </button>
+                        </a>
+                        <a class="ms-2" href="{{ route('booking.leave') }}">
+                        <button class="btn btn-info rounded-pill ">
+                            <i class="bi bi-hourglass-split"></i>
+                            Leave
+                        </button>
+                        </a>
+                        <a class="ms-2" href="{{ route('booking.expired') }}">
+                        <button class="btn btn-secondary rounded-pill ">
+                            <i class="bi bi-collection"></i>
+                            Expired
+                        </button>
+                        </a>
+                    </details>
 
                     <a class="ms-auto" href="{{ route('bookings.export', ['status' => $status]) }}" title="Download Excel">
                         <button class="btn btn-dark rounded-pill">

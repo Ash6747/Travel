@@ -25,7 +25,7 @@ class CancelBookingController extends Controller
             return response()->json([
                 'status'=> true,
                 'message'=> 'Booking cancel request of student',
-                'cancelBooking'=> $cancel
+                'responseObject'=> $cancel
             ]);
         }
 
@@ -51,7 +51,7 @@ class CancelBookingController extends Controller
             return response()->json([
                 'status'=> true,
                 'message'=> 'Booking cancel request of student',
-                'cancelBooking'=> $cancel
+                'responseObject'=> $cancel
             ]);
         }
 
@@ -97,7 +97,11 @@ class CancelBookingController extends Controller
         ]);
         // Handle validation failure
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'status'=> false,
+                'message'=> 'Error in booking cancellation request',
+                'error'=>$validator->errors()
+            ], 422);
         }
 
         $validatedData = $validator->validated();

@@ -28,7 +28,7 @@ class CheckBookingExpired
 
         if (!$booking) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Student not booked bus.',
             ], 400);
         }

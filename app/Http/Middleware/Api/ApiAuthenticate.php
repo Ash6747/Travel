@@ -19,7 +19,10 @@ class ApiAuthenticate
         // Check if the user is authenticated
         if (!Auth::guard('api')->check()) {
             // If not authenticated, return a 401 Unauthorized response
-            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized',
+            ], Response::HTTP_UNAUTHORIZED);
         }
 
         return $next($request);

@@ -30,7 +30,7 @@ class TransactionController extends Controller
             return response()->json([
                 'status'=> true,
                 'message'=> 'Transactions for students',
-                'trasactions'=> $transactions
+                'responseObject'=> $transactions
             ]);
         }
 
@@ -91,7 +91,11 @@ class TransactionController extends Controller
 
         // Handle validation failure
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'status'=> false,
+                'message' => 'Error in input',
+                'error'=> $validator->errors()
+            ], 422);
         }
 
         // Store receipt file
@@ -135,9 +139,9 @@ class TransactionController extends Controller
 
             if(isset($transaction)){
                 return response()->json([
-                    'status'=> false,
+                    'status'=> true,
                     'message'=> 'Transaction for students',
-                    'trasaction'=> $transaction
+                    'responseObject'=> $transaction
                 ]);
             }
         } catch (\Throwable $th) {

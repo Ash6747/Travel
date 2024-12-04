@@ -18,29 +18,24 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
         $bookings = Booking::with(['student', 'bus'=> function($query){
             $query->with('route');
         }, 'stop'])->get();
         // dd($bookings);
-        // echo "<pre>";
-        // print_r($bookings->toArray());
-        // echo "</pre>";
-        $status = '';
+
+        $status = null;
         $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
     }
 
     public function pending()
     {
-        //
+        // dd(request()->query());
         $bookings = Booking::with(['student', 'bus'=> function($query){
             $query->with('route');
         }, 'stop'])->where('status', 'pending')->get();
         // dd($bookings);
-        // echo "<pre>";
-        // print_r($bookings->toArray());
-        // echo "</pre>";
+
         $status = 'pending';
         $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
@@ -57,9 +52,7 @@ class BookingController extends Controller
         ->where('end_date', '>', $today)
         ->get();
         // dd($bookings);
-        // echo "<pre>";
-        // print_r($bookings->toArray());
-        // echo "</pre>";
+
         $status = 'active';
         $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
@@ -72,9 +65,7 @@ class BookingController extends Controller
             $query->with('route');
         }, 'stop'])->where('status', 'rejected')->get();
         // dd($bookings);
-        // echo "<pre>";
-        // print_r($bookings->toArray());
-        // echo "</pre>";
+
         $status = 'rejected';
         $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
@@ -106,10 +97,7 @@ class BookingController extends Controller
         ->where('status', 'approved')
         ->where('end_date', '<', $today)
         ->get();
-        // dd($bookings);
-        // echo "<pre>";
-        // print_r($bookings->toArray());
-        // echo "</pre>";
+
         $status = 'expired';
         $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
@@ -203,17 +191,27 @@ class BookingController extends Controller
             $query->with('route');
         }, 'stop']);
 
-        if ($status === 'pending') {
-            $bookings = $query->where('status', 'pending')->get();
+        if (is_null($status)) {
+            $bookings = $query->get(); // Default to all bookings if null status is provided
         } elseif ($status === 'active') {
             $bookings = $query->where('status', 'approved')->where('end_date', '>', $today)->get();
-        } elseif ($status === 'rejected') {
-            $bookings = $query->where('status', 'rejected')->get();
         } elseif ($status === 'expired') {
-            $bookings = $query->where('end_date', '<', $today)->get();
+            $bookings = $query->where('status', 'approved')->where('end_date', '<', $today)->get();
         } else {
-            $bookings = $query->get(); // Default to all bookings if no status is provided
+            $bookings = $query->where('status', $status)->get();
         }
+
+        // if ($status === 'pending') {
+        //     $bookings = $query->where('status', 'pending')->get();
+        // } elseif ($status === 'active') {
+        //     $bookings = $query->where('status', 'approved')->where('end_date', '>', $today)->get();
+        // } elseif ($status === 'rejected') {
+        //     $bookings = $query->where('status', 'rejected')->get();
+        // } elseif ($status === 'expired') {
+        //     $bookings = $query->where('end_date', '<', $today)->get();
+        // } else {
+        //     $bookings = $query->get(); // Default to all bookings if no status is provided
+        // }
 
         return Excel::download(new BookingsExport($bookings), 'bookings.xlsx');
     }

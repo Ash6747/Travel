@@ -24,7 +24,10 @@ class Handletoken
         // Check if the Bearer token is present
         if (is_null($authHeader) || !preg_match('/^Bearer\s+(\S+)$/', $authHeader)) {
             // Return a 401 Unauthorized response if the Bearer token is not present
-            return response()->json(['error' => 'Bearer token is required'], Response::HTTP_UNAUTHORIZED);
+            return response()->json([
+                'status' => false,
+                'message' => 'Bearer token is required',
+            ], Response::HTTP_UNAUTHORIZED);
         }
         return $next($request);
     }

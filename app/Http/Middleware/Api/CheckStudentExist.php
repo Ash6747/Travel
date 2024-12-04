@@ -21,7 +21,7 @@ class CheckStudentExist
 
         if (!$student) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Student ID not found for authenticated user.',
             ], 400);
         }

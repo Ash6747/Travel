@@ -27,11 +27,11 @@ class TripController extends Controller
             return response()->json([
                 'status'=> true,
                 'message'=> 'Trip assigned to driver',
-                'trip'=> $trip
+                'responseObject'=> $trip
             ]);
         };
         return response()->json([
-            'status'=> true,
+            'status'=> false,
             'message'=> 'Trip is not assigned to driver',
         ]);
     }
