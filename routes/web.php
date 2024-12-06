@@ -157,10 +157,7 @@ Route::prefix('admin')->middleware(['check.site.access', 'auth', 'verified', 'ad
         //Admin Booking cancelation Controller
         Route::prefix('cancellation')->controller(CancelBookingController::class)->group(function () {
             Route::get('/', 'index')->name('cancellation.table');
-            // Route::get('/approved', 'approved')->name('cancellation.approved');
-            // Route::get('pending', 'pending')->name('cancellation.pending');
             Route::get('/filter', 'filter')->name('cancellation.filter');
-            // Route::get('rejected', 'rejected')->name('cancellation.rejected');
 
             Route::get('export','export')->name('cancellation.export');
             // Route::get('pdf/{id}','pdf')->name('cancellation.pdf');

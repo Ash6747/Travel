@@ -1,18 +1,18 @@
 @extends('admin.layouts.main')
 
 @push('header')
-    <title>Bookings Cancelation</title>
+    <title>Bookings Cancellation</title>
 @endpush
 
 @section('admin-main')
 
     <div class="pagetitle">
-      <h1>Booking Cancelation Table</h1>
+      <h1>Booking Cancellation Table</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Home</li>
           <li class="breadcrumb-item">Bookings</li>
-          <li class="breadcrumb-item active">Cancelation</li>
+          <li class="breadcrumb-item active">Cancellation</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -32,7 +32,7 @@
           <div class="card">
             <div class="card-body">
                 <div class="p-2 d-flex align-items-center">
-                    <h5 class="card-title d-block">Bookings Cancelation</h5>
+                    <h5 class="card-title d-block" style="width: 125px">Bookings Cancellation</h5>
                     <form class="gap-2 p-2 border border-black rounded-3 flex-grow-1 row ms-2 text-bg-secondary bg-gradient" action="{{ route('cancellation.filter') }}" method="get">
                         <div class="p-0 mb-2 col-12 col-md-2 mb-md-0">
                             <select id="inputState" class="text-white bg-dark form-select" name="status">
@@ -65,14 +65,14 @@
                             </div>
                         </div>
 
-                        <div class="p-0 mx-2 mb-2 col-12 col-md-1 me-2 mb-md-0">
+                        <div class="p-0 mb-2 ms-auto col-12 col-md-1 me-2 mb-md-0">
                             <button type="submit" class="btn btn-light fw-bold">
                                 Filter
                             </button>
                         </div>
                     </form>
 
-                    <a class="ms-3" href="{{ route('cancellation.export', ['status' => $status, 'fdate' => $fdate, 'tdate' => $tdate]) }}" title="Download Excel">
+                    <a class="ms-3" href="{{ route('cancellation.export', ['status' => $status, 'fdate' => $fdate ?? '', 'tdate' => $tdate ?? '']) }}" title="Download Excel">
                         <button class="btn btn-dark rounded-pill">
                             <i class="ri ri-download-line"></i>
                             <i class="ri ri-file-excel-2-line"></i>
