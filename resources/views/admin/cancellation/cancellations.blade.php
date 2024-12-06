@@ -32,7 +32,7 @@
           <div class="card">
             <div class="card-body">
                 <div class="p-2 d-flex align-items-center">
-                    <h5 class="card-title">Bookings Cancelation</h5>
+                    <h5 class="card-title d-block">Bookings Cancelation</h5>
                     <form class="gap-2 p-2 border border-black rounded-3 flex-grow-1 row ms-2 text-bg-secondary bg-gradient" action="{{ route('cancellation.filter') }}" method="get">
                         <div class="p-0 mb-2 col-12 col-md-2 mb-md-0">
                             <select id="inputState" class="text-white bg-dark form-select" name="status">
