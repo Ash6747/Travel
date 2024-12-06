@@ -100,11 +100,7 @@
                 || Route::currentRouteName() == 'cancellation.rejected'
 
                 || Route::currentRouteName() == 'booking.edit'
-                || Route::currentRouteName() == 'booking.pending'
-                || Route::currentRouteName() == 'booking.active'
-                || Route::currentRouteName() == 'booking.rejected'
-                || Route::currentRouteName() == 'booking.leave'
-                || Route::currentRouteName() == 'booking.expired') ? '' : 'collapsed' }}" data-bs-target="#Bookings-nav" data-bs-toggle="collapse" href="#">
+                || Route::currentRouteName() == 'booking.filter') ? '' : 'collapsed' }}" data-bs-target="#Bookings-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri ri-ticket-2-line"></i><span>Bookings</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -124,19 +120,11 @@
                 || Route::currentRouteName() == 'cancellation.rejected'
 
                 || Route::currentRouteName() == 'booking.edit'
-                || Route::currentRouteName() == 'booking.pending'
-                || Route::currentRouteName() == 'booking.active'
-                || Route::currentRouteName() == 'booking.rejected'
-                || Route::currentRouteName() == 'booking.leave'
-                || Route::currentRouteName() == 'booking.expired') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+                || Route::currentRouteName() == 'booking.filter') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
                     <li>
                         <a class="{{ (Route::currentRouteName() == 'booking.table'
                             || Route::currentRouteName() == 'booking.edit'
-                            || Route::currentRouteName() == 'booking.pending'
-                            || Route::currentRouteName() == 'booking.active'
-                            || Route::currentRouteName() == 'booking.rejected'
-                            || Route::currentRouteName() == 'booking.leave'
-                            || Route::currentRouteName() == 'booking.expired') ? 'active' : '' }}"
+                            || Route::currentRouteName() == 'booking.filter') ? 'active' : '' }}"
                             href="{{ route('booking.table') }}">
                             <i class="bi bi-circle"></i><span>Bookings</span>
                         </a>

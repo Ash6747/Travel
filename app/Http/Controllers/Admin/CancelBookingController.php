@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\CancellationBookingExport;
 use App\Http\Controllers\Controller;
 use App\Models\CancelBooking;
 use App\Models\Student;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CancelBookingController extends Controller
 {
@@ -29,72 +31,46 @@ class CancelBookingController extends Controller
         return view('admin.cancellation.cancellations')->with($data);
     }
 
-    public function pending()
+    /**
+     * Display a listing of the resource.
+     */
+    public function filter(Request $request)
     {
-        $cancellations = CancelBooking::with(['student', 'bus', 'driver', 'booking'=>function($query){
-            $query->with(['student', 'bus'=> function($query){
-                    $query->with('route');
+        $today = Carbon::today();
+        $status = $request->query('status');
+        $fdate = $request->query('fdate');
+        $tdate = $request->query('tdate');
+
+        // Filter based on status
+        $query = CancelBooking::with(['student', 'bus', 'driver', 'booking'=>function($query){
+            $query->with(['student', 'bus.route'=> function($query){
+                    // $query->with('route');
                 }, 'stop']);
-        }])
-        ->where('status', 'pending')
-        ->get();
+        }]);
 
-        $status = 'pending';
-        $data = compact('cancellations', 'status');
+        switch ($status) {
+            case 'all':
+                // $bookings = $query;
+                break;
+
+            default:
+                $query->where('status', $status);
+                break;
+        }
+
+        if($fdate){
+            $query->where('created_at', '>=', $fdate);
+        }
+
+        if($tdate){
+            $query->where('created_at', '<=', $tdate);
+        }
+
+        $cancellations = $query->get();
+
+        $data = compact('cancellations', 'status', 'fdate', 'tdate');
         return view('admin.cancellation.cancellations')->with($data);
     }
-
-    public function approved()
-    {
-        // $today = Carbon::today(); // Current date without time
-        $cancellations = CancelBooking::with(['student', 'bus', 'driver', 'booking'=>function($query){
-
-            $query->with(['student', 'bus'=> function($query){
-                $query->with('route');
-            }, 'stop']);
-        }])
-        ->where('status', 'approved')
-        ->get();
-
-        $status = 'approved';
-        $data = compact('cancellations', 'status');
-        return view('admin.cancellation.cancellations')->with($data);
-    }
-
-    public function rejected()
-    {
-        $cancellations = CancelBooking::with(['student', 'bus', 'driver', 'booking'=>function($query){
-            $query->with(['student', 'bus'=> function($query){
-                    $query->with('route');
-                }, 'stop']);
-        }])
-        ->where('status', 'rejected')
-        ->get();
-
-        $status = 'rejected';
-        $data = compact('cancellations', 'status');
-        return view('admin.cancellation.cancellations')->with($data);
-    }
-
-    // public function expired()
-    // {
-    //     //
-    //     $today = Carbon::today(); // Current date without time
-
-    //     $bookings = Booking::with(['student', 'bus'=> function($query){
-    //         $query->with('route');
-    //     }, 'stop'])
-    //     ->where('status', 'approved')
-    //     ->where('end_date', '<', $today)
-    //     ->get();
-    //     // dd($bookings);
-    //     // echo "<pre>";
-    //     // print_r($bookings->toArray());
-    //     // echo "</pre>";
-    //     $status = 'expired';
-    //     $data = compact('bookings', 'status');
-    //     return view('admin.booking.bookings')->with($data);
-    // }
 
     /**
      * Show the form for creating a new resource.
@@ -270,6 +246,44 @@ class CancelBookingController extends Controller
 
         // Return a response
         return redirect()->route('student.edit', ['id'=>$id])->with('status', 'bookings updated successfully.');
+    }
+
+    public function export(Request $request)
+    {
+        $today = Carbon::today();
+        $status = $request->query('status');
+        $fdate = $request->query('fdate');
+        $tdate = $request->query('tdate');
+
+        // Filter based on status
+        $query = CancelBooking::with(['student', 'bus', 'admin', 'driver', 'booking'=>function($query){
+            $query->with(['student', 'stop', 'bus.route'=> function($query){
+                    // $query->with('route');
+                }]);
+        }]);
+
+        switch ($status) {
+            case 'all':
+                // $bookings = $query;
+                break;
+
+            default:
+                $query->where('status', $status);
+                break;
+        }
+
+        if($fdate){
+            $query->where('created_at', '>=', $fdate);
+        }
+
+        if($tdate){
+            $query->where('created_at', '<=', $tdate);
+        }
+
+        $cancellations = $query->get();
+        // dd($cancellations);
+
+        return Excel::download(new CancellationBookingExport($cancellations), 'cancellations.xlsx');
     }
 
     /**

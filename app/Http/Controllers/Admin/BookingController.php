@@ -23,83 +23,56 @@ class BookingController extends Controller
         }, 'stop'])->get();
         // dd($bookings);
 
-        $status = null;
+        $status = 'all';
         $data = compact('bookings', 'status');
         return view('admin.booking.bookings')->with($data);
     }
 
-    public function pending()
+    /**
+     * Display a listing of the resource.
+     */
+    public function filter(Request $request)
     {
-        // dd(request()->query());
-        $bookings = Booking::with(['student', 'bus'=> function($query){
-            $query->with('route');
-        }, 'stop'])->where('status', 'pending')->get();
-        // dd($bookings);
-
-        $status = 'pending';
-        $data = compact('bookings', 'status');
-        return view('admin.booking.bookings')->with($data);
-    }
-
-    public function active()
-    {
-        //
+        // dd($request);
         $today = Carbon::today();
-        $bookings = Booking::with(['student', 'bus'=> function($query){
+        $status = $request->query('status');
+        $fdate = $request->query('fdate');
+        $tdate = $request->query('tdate');
+
+        // Filter based on status
+        $query = Booking::with(['student', 'bus' => function($query) {
             $query->with('route');
-        }, 'stop'])
-        ->where('status', 'approved')
-        ->where('end_date', '>', $today)
-        ->get();
-        // dd($bookings);
+        }, 'stop']);
 
-        $status = 'active';
-        $data = compact('bookings', 'status');
-        return view('admin.booking.bookings')->with($data);
-    }
+        switch ($status) {
+            case 'all':
+                // $bookings = $query;
+                break;
 
-    public function rejected()
-    {
-        //
-        $bookings = Booking::with(['student', 'bus'=> function($query){
-            $query->with('route');
-        }, 'stop'])->where('status', 'rejected')->get();
-        // dd($bookings);
+            case 'active':
+                $query->where('status', 'approved')->where('end_date', '>', $today);
+                break;
 
-        $status = 'rejected';
-        $data = compact('bookings', 'status');
-        return view('admin.booking.bookings')->with($data);
-    }
+            case 'expired':
+                $query->where('status', 'approved')->where('end_date', '<', $today);
+                break;
 
-    public function leave()
-    {
-        //
-        $bookings = Booking::with(['student', 'bus'=> function($query){
-            $query->with('route');
-        }, 'stop'])->where('status', 'leave')->get();
-        // dd($bookings);
-        // echo "<pre>";
-        // print_r($bookings->toArray());
-        // echo "</pre>";
-        $status = 'leave';
-        $data = compact('bookings', 'status');
-        return view('admin.booking.bookings')->with($data);
-    }
+            default:
+                $query->where('status', $status);
+                break;
+        }
 
-    public function expired()
-    {
-        //
-        $today = Carbon::today(); // Current date without time
+        if($fdate){
+            $query->where('created_at', '>=', $fdate);
+        }
 
-        $bookings = Booking::with(['student', 'bus'=> function($query){
-            $query->with('route');
-        }, 'stop'])
-        ->where('status', 'approved')
-        ->where('end_date', '<', $today)
-        ->get();
+        if($tdate){
+            $query->where('created_at', '<=', $tdate);
+        }
 
-        $status = 'expired';
-        $data = compact('bookings', 'status');
+        $bookings = $query->get();
+
+        $data = compact('bookings', 'status', 'fdate', 'tdate');
         return view('admin.booking.bookings')->with($data);
     }
 
@@ -185,33 +158,53 @@ class BookingController extends Controller
     {
         $today = Carbon::today();
         $status = $request->query('status');
+        $fdate = $request->query('fdate');
+        $tdate = $request->query('tdate');
 
         // Filter based on status
         $query = Booking::with(['student', 'bus' => function($query) {
             $query->with('route');
         }, 'stop']);
 
-        if (is_null($status)) {
-            $bookings = $query->get(); // Default to all bookings if null status is provided
-        } elseif ($status === 'active') {
-            $bookings = $query->where('status', 'approved')->where('end_date', '>', $today)->get();
-        } elseif ($status === 'expired') {
-            $bookings = $query->where('status', 'approved')->where('end_date', '<', $today)->get();
-        } else {
-            $bookings = $query->where('status', $status)->get();
-        }
-
-        // if ($status === 'pending') {
-        //     $bookings = $query->where('status', 'pending')->get();
+        // if (is_null($status)) {
+        //     $bookings = $query->get(); // Default to all bookings if null status is provided
         // } elseif ($status === 'active') {
         //     $bookings = $query->where('status', 'approved')->where('end_date', '>', $today)->get();
-        // } elseif ($status === 'rejected') {
-        //     $bookings = $query->where('status', 'rejected')->get();
         // } elseif ($status === 'expired') {
-        //     $bookings = $query->where('end_date', '<', $today)->get();
+        //     $bookings = $query->where('status', 'approved')->where('end_date', '<', $today)->get();
         // } else {
-        //     $bookings = $query->get(); // Default to all bookings if no status is provided
+        //     $bookings = $query->where('status', $status)->get();
         // }
+        // $status = all;
+        switch ($status) {
+            case 'all':
+                // $bookings = $query;
+                break;
+
+            case 'active':
+                $query->where('status', 'approved')->where('end_date', '>', $today);
+                break;
+
+            case 'expired':
+                $query->where('status', 'approved')->where('end_date', '<', $today);
+                break;
+
+            default:
+                $query->where('status', $status);
+                break;
+        }
+
+        if($fdate){
+            $query->where('created_at', '>=', $fdate);
+        }
+
+        if($tdate){
+            $query->where('created_at', '<=', $tdate);
+        }
+
+        $bookings = $query->get();
+
+        // $data = compact('bookings', 'status', 'fdate', 'tdate');
 
         return Excel::download(new BookingsExport($bookings), 'bookings.xlsx');
     }

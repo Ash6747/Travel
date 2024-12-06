@@ -64,7 +64,7 @@ class CancelBooking extends Model
     // Relationship with Student
     public function admin()
     {
-        return $this->belongsTo(Admin::class, 'admin_id');
+        return $this->belongsTo(Admin::class, 'verified_by');
     }
 
 }

@@ -31,49 +31,97 @@
 
           <div class="card">
             <div class="card-body">
-                <div class="d-flex align-items-center">
+                <div class="gap-2 p-2 d-flex align-items-center">
                     <h5 class="card-title">Bookings</h5>
-                    <details class="ms-2">
-                        <summary>Filter</summary>
-                        <a class="ms-2" href="{{ route('booking.table') }}">
-                        <button class="btn btn-primary rounded-pill ">
-                            <i class="bi bi-info-circle"></i>
-                            All Type Bookings
-                        </button>
-                        </a>
-                        <a class="ms-2" href="{{ route('booking.pending', ['start'=> 2024-11-23,'end'=> '2024-11-25', ]) }}">
-                        <button class="btn btn-warning rounded-pill ">
-                            <i class="bi bi-exclamation-triangle"></i>
-                            Pending
-                        </button>
-                        </a>
-                        <a class="ms-2" href="{{ route('booking.active') }}">
-                        <button class="btn btn-success rounded-pill ">
-                            <i class="bi bi-check-circle"></i>
-                            Active
-                        </button>
-                        </a>
-                        <a class="ms-2" href="{{ route('booking.rejected') }}">
-                        <button class="btn btn-danger rounded-pill ">
-                            <i class="bi bi-exclamation-octagon"></i>
-                            Rejected
-                        </button>
-                        </a>
-                        <a class="ms-2" href="{{ route('booking.leave') }}">
-                        <button class="btn btn-info rounded-pill ">
-                            <i class="bi bi-hourglass-split"></i>
-                            Leave
-                        </button>
-                        </a>
-                        <a class="ms-2" href="{{ route('booking.expired') }}">
-                        <button class="btn btn-secondary rounded-pill ">
-                            <i class="bi bi-collection"></i>
-                            Expired
-                        </button>
-                        </a>
-                    </details>
+                    <form class="gap-2 p-2 border border-black rounded-3 flex-grow-1 row ms-2 text-bg-secondary bg-gradient" action="{{ route('booking.filter') }}" method="get">
+                        <div class="p-0 mb-2 col-12 col-md-2 mb-md-0">
+                            <select id="inputState" class="text-white bg-dark form-select" name="status">
+                                <option class="text-primary fw-bold fs-6" value="all" {{ $status == 'all' ? 'selected' : '' }}>
+                                    All
+                                </option>
+                                <option class="fw-bold fs-6 text-warning" value="pending" {{ $status == 'pending' ? 'selected' : '' }}>
+                                    Pending
+                                </option>
+                                <option class="fw-bold fs-6 text-success" value="active" {{ $status == 'active' ? 'selected' : '' }}>
+                                    Active
+                                </option>
+                                <option class="fw-bold fs-6 text-danger" value="rejected" {{ $status == 'rejected' ? 'selected' : '' }}>
+                                    Rejected
+                                </option>
+                                <option class="fw-bold fs-6 text-info" value="leave" {{ $status == 'leave' ? 'selected' : '' }}>
+                                    Leave
+                                </option>
+                                <option class="fw-bold fs-6 text-primary" value="expired" {{ $status == 'expired' ? 'selected' : '' }}>
+                                    Expired
+                                </option>
+                            </select>
+                        </div>
 
-                    <a class="ms-auto" href="{{ route('bookings.export', ['status' => $status]) }}" title="Download Excel">
+                        <div class="p-0 mb-2 ms-2 row col-12 col-md-4 mb-md-0">
+                            <label for="inputEmail3" class="col-md-4 col-form-label">From:</label>
+                            <div class="p-0 col-md-8">
+                                <input type="date" value="{{ $fdate ?? '' }}" name="fdate" placeholder="from" class="form-control text-bg-dark">
+                            </div>
+                        </div>
+
+                        <div class="p-0 mb-2 ms-2 row col-12 col-md-4 mb-md-0">
+                            <label for="inputEmail3" class="col-md-3 col-form-label">To:</label>
+                            <div class="p-0 col-md-9">
+                                <input type="date" value="{{ $tdate ?? '' }}" name="tdate" class="form-control text-bg-dark">
+                            </div>
+                        </div>
+
+                        <div class="p-0 mb-2 ms-auto col-12 col-md-1 me-2 mb-md-0">
+                            <button type="submit" class="btn btn-light fw-bold">
+                                Filter
+                            </button>
+                        </div>
+                    </form>
+
+                    {{-- <form class="gap-2 p-2 border border-black rounded flex-grow-1 row ms-2 text-bg-secondary bg-gradient" action="{{ route('booking.filter') }}" method="get">
+                        <div class="p-0 col-md-2">
+                            <select id="inputState" class="text-white bg-dark form-select" name="status">
+                                <option class="text-primary fw-bold fs-6" value="all" {{ $status == 'all' ? 'selected' : '' }}>
+                                    All
+                                </option>
+                                <option class="fw-bold fs-6 text-warning" value="pending" {{ $status == 'pending' ? 'selected' : '' }}>
+                                    Pending
+                                </option>
+                                <option class="fw-bold fs-6 text-success" value="active" {{ $status == 'active' ? 'selected' : '' }}>
+                                    Active
+                                </option>
+                                <option class="fw-bold fs-6 text-danger" value="rejected" {{ $status == 'rejected' ? 'selected' : '' }}>
+                                    Rejected
+                                </option>
+                                <option class="fw-bold fs-6 text-info" value="leave" {{ $status == 'leave' ? 'selected' : '' }}>
+                                    Leave
+                                </option>
+                                <option class="fw-bold fs-6 text-primary" value="expired" {{ $status == 'expired' ? 'selected' : '' }}>
+                                    Expired
+                                </option>
+                            </select>
+                        </div>
+                        <div class="p-0 ms-2 row col-md-4 border-start">
+                            <label for="inputEmail3" class="col-md-4 col-form-label">From:</label>
+                            <div class="p-0 col-md-8">
+                                <input type="date" value="{{ $fdate ?? '' }}" name="fdate" placeholder="from" class="form-control text-bg-secondary">
+                            </div>
+                        </div>
+
+                        <div class="p-0 ms-2 row col-md-4">
+                            <label for="inputEmail3" class="col-md-3 col-form-label">To:</label>
+                            <div class="p-0 col-md-9">
+                                <input type="date" value="{{ $tdate ?? '' }}" name="tdate" class="form-control text-bg-secondary">
+                            </div>
+                        </div>
+                        <div class="p-0 ms-auto col-md-1 me-2">
+                            <button type="submit" class="btn btn-light fw-bold">
+                                Filter
+                            </button>
+                        </div>
+                    </form> --}}
+
+                    <a class="ms-3" href="{{ route('bookings.export', ['status' => $status, 'fdate' => $fdate ?? '', 'tdate' => $tdate ?? '']) }}" title="Download Excel">
                         <button class="btn btn-dark rounded-pill">
                             <i class="ri ri-download-line"></i>
                             <i class="ri ri-file-excel-2-line"></i>
@@ -81,6 +129,7 @@
                     </a>
 
                 </div>
+                <hr>
               <!-- Table with stripped rows -->
               <table
                id="multi-filter-select"

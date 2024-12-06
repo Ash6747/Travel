@@ -141,12 +141,7 @@ Route::prefix('admin')->middleware(['check.site.access', 'auth', 'verified', 'ad
     //Admin Booking Controller
     Route::prefix('booking')->controller(BookingController::class)->group(function () {
         Route::get('/', 'index')->name('booking.table');
-        // Route::get('/approved', 'index')->name('booking.approved');
-        Route::get('pending', 'pending')->name('booking.pending');
-        Route::get('approved', 'active')->name('booking.active');
-        Route::get('rejected', 'rejected')->name('booking.rejected');
-        Route::get('leave', 'leave')->name('booking.leave');
-        Route::get('expired', 'expired')->name('booking.expired');
+        Route::get('/filter', 'filter')->name('booking.filter');
 
         Route::get('export','export')->name('bookings.export');
         Route::get('pdf/{id}','pdf')->name('bookings.pdf');
@@ -162,12 +157,12 @@ Route::prefix('admin')->middleware(['check.site.access', 'auth', 'verified', 'ad
         //Admin Booking cancelation Controller
         Route::prefix('cancellation')->controller(CancelBookingController::class)->group(function () {
             Route::get('/', 'index')->name('cancellation.table');
-            Route::get('/approved', 'approved')->name('cancellation.approved');
-            Route::get('pending', 'pending')->name('cancellation.pending');
-            // Route::get('approved', 'active')->name('cancellation.active');
-            Route::get('rejected', 'rejected')->name('cancellation.rejected');
+            // Route::get('/approved', 'approved')->name('cancellation.approved');
+            // Route::get('pending', 'pending')->name('cancellation.pending');
+            Route::get('/filter', 'filter')->name('cancellation.filter');
+            // Route::get('rejected', 'rejected')->name('cancellation.rejected');
 
-            // Route::get('export','export')->name('cancellation.export');
+            Route::get('export','export')->name('cancellation.export');
             // Route::get('pdf/{id}','pdf')->name('cancellation.pdf');
 
             // Route::get('status/{id}', 'active')->name('cancellation.status');

@@ -65,6 +65,7 @@
                       </button>
                     </a>
                 </div>
+                <hr>
               <!-- Table with stripped rows -->
               <table
                id="multi-filter-select"
